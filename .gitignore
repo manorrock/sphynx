@@ -1,0 +1,6 @@
+dependency-reduced-pom.xml
+HueBridge.properties
+nbactions.xml
+nb-configuration.xml
+nbproject/
+target/
