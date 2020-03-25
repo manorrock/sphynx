@@ -33,21 +33,33 @@ import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
 
 /**
- * The executor to get the full configuration from the Hue Bridge.
+ * The executor that establishes a link with the Hue Bridge.
  *
  * <pre>
- * 
- * co device huebridge get-full-config --base-url BASE_URL --username USERNAME
+ *
+ * co device huebridge set-light-state --base-url BASE_URL --username USERNAME
+ * --id ID --on ON
  * </pre>
  * <p>
- * where BASE_URL is the URL of the Hue Bridge API endpoint and USERNAME is the
- * username to be used for authentication.
+ * where BASE_URL is the URL of the Hue Bridge API endpoint, USERNAME is the
+ * username to be used for authentication, ID is the ID of the light and ON is
+ * the boolean 'on' state for the light.
  * </p>
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class GetFullConfigExecutor extends AbstractAuthenticatedExecutor {
-    
+class SetLightStateExecutor extends AbstractAuthenticatedExecutor {
+
+    /**
+     * Stores the light id.
+     */
+    private String id;
+
+    /**
+     * Stores the on state.
+     */
+    private boolean on;
+
     /**
      * Execute.
      *
@@ -60,9 +72,11 @@ public class GetFullConfigExecutor extends AbstractAuthenticatedExecutor {
         JsonbConfig config = new JsonbConfig();
         config.withFormatting(true);
         Jsonb jsonb = JsonbBuilder.create(config);
+        HueBridgeLightState state = new HueBridgeLightState();
+        state.setOn(on);
         HueBridge bridge = new HueBridge(baseUrl);
         bridge.setUsername(username);
-        return jsonb.toJson(bridge.getFullConfig());
+        return jsonb.toJson(bridge.setLightState(id, state));
     }
 
     /**
@@ -72,12 +86,13 @@ public class GetFullConfigExecutor extends AbstractAuthenticatedExecutor {
      */
     @Override
     protected void parseArguments(List<String> arguments) {
+        super.parseArguments(arguments);
         for (int i = 0; i < arguments.size(); i++) {
-            if (arguments.get(i).equals("--base-url")) {
-                baseUrl = arguments.get(i + 1);
+            if (arguments.get(i).equals("--id")) {
+                id = arguments.get(i + 1);
             }
-            if (arguments.get(i).equals("--username")) {
-                username = arguments.get(i + 1);
+            if (arguments.get(i).equals("--on")) {
+                on = Boolean.parseBoolean(arguments.get(i + 1));
             }
         }
     }
