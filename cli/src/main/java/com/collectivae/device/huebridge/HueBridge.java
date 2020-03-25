@@ -90,13 +90,13 @@ public class HueBridge implements Device {
      *
      * @return the full configuration.
      */
-    public HueBridgeConfig getFullConfig() {
-        HueBridgeConfig result = null;
+    public HueBridgeFullConfig getFullConfig() {
+        HueBridgeFullConfig result = null;
         try {
             Jsonb jsonb = JsonbBuilder.create();
             String body = Request.get(baseUrl + "/" + username)
                     .execute().returnContent().asString();
-            result = jsonb.fromJson(body, HueBridgeConfig.class);
+            result = jsonb.fromJson(body, HueBridgeFullConfig.class);
         } catch (IOException ioe) {
         }
         return result;

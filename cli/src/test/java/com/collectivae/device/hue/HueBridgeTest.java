@@ -29,13 +29,17 @@ package com.collectivae.device.hue;
 
 import com.collectivae.device.huebridge.HueBridge;
 import com.collectivae.device.huebridge.HueBridgeBaseConfig;
+import com.collectivae.device.huebridge.HueBridgeFullConfig;
+import com.collectivae.device.huebridge.HueBridgeLight;
+import com.collectivae.device.huebridge.HueBridgeLightState;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.junit.Ignore;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -76,6 +80,11 @@ public class HueBridgeTest {
     private static HueBridge bridge;
     
     /**
+     * Stores the username.
+     */
+    private String username;
+    
+    /**
      * Setup before testing.
      */
     @BeforeAll
@@ -86,6 +95,7 @@ public class HueBridgeTest {
             baseUrl = properties.getProperty("baseUrl");
             LOGGER.log(Level.INFO, "HueBridge base URL: {0}", baseUrl);
             bridge = new HueBridge(baseUrl);
+            bridge.setUsername(properties.getProperty("username"));
         } catch (IOException ioe) {
         }
     }
@@ -104,7 +114,31 @@ public class HueBridgeTest {
      */
     @Test
     public void testGetFullConfig() {
-//        HueBridgeFullConfig config = bridge.getFullConfig();
-//        assertNotNull(config);
+        HueBridgeFullConfig config = bridge.getFullConfig();
+        assertNotNull(config);
+    }
+
+    /**
+     * Test setLightState method - turn the light on.
+     */
+    @Test
+    public void testSetLightStateOn() {
+        HueBridgeLightState state = new HueBridgeLightState(true);
+        bridge.setLightState("1", state);
+        HueBridgeFullConfig config = bridge.getFullConfig();
+        HueBridgeLight light = config.getLights().get("1");
+        assertTrue(light.getState().isOn());
+    }
+
+    /**
+     * Test setLightState method - turn the light off.
+     */
+    @Test
+    public void testSetLightStateOff() {
+        HueBridgeLightState state = new HueBridgeLightState(false);
+        bridge.setLightState("1", state);
+        HueBridgeFullConfig config = bridge.getFullConfig();
+        HueBridgeLight light = config.getLights().get("1");
+        assertFalse(light.getState().isOn());
     }
 }

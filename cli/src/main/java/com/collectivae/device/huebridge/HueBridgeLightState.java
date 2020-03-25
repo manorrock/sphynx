@@ -32,12 +32,12 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
 
 /**
  * The state of Hue light.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @JsonbPropertyOrder({"on"})
 public class HueBridgeLightState {
-    
+
     /**
      * Stores the on state.
      */
@@ -45,8 +45,23 @@ public class HueBridgeLightState {
     private boolean on;
 
     /**
+     * Constructor.
+     */
+    public HueBridgeLightState() {
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param on the 'on' state.
+     */
+    public HueBridgeLightState(boolean on) {
+        this.on = on;
+    }
+
+    /**
      * Is the light on?
-     * 
+     *
      * @return true if it is, false otherwise.
      */
     public boolean isOn() {
@@ -55,7 +70,7 @@ public class HueBridgeLightState {
 
     /**
      * Turn the light on.
-     * 
+     *
      * @param on the on state.
      */
     public void setOn(boolean on) {

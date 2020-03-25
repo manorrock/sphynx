@@ -37,7 +37,7 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @JsonbPropertyOrder({"lights", "config"})
-public class HueBridgeConfig {
+public class HueBridgeFullConfig {
 
     /**
      * Stores the config.
@@ -54,7 +54,7 @@ public class HueBridgeConfig {
     /**
      * Constructor.
      */
-    public HueBridgeConfig() {
+    public HueBridgeFullConfig() {
     }
 
     /**
