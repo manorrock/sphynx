@@ -38,13 +38,14 @@ import javax.json.bind.JsonbConfig;
  * <pre>
  *
  * co device huebridge set-light-state --base-url BASE_URL --username USERNAME
- * --id ID [--on ON] [--brightness BRIGHTNESS]
+ * --id ID [--on ON] [--brightness BRIGHTNESS] [--colorTemperature 
+ * COLOR_TEMPERATURE]
  * </pre>
  * <p>
  * where BASE_URL is the URL of the Hue Bridge API endpoint, USERNAME is the
  * username to be used for authentication, ID is the ID of the light, ON is the
- * boolean 'on' state for the light and BRIGHTNESS is the brightness of the
- * light.
+ * boolean 'on' state for the light, BRIGHTNESS is the brightness of the
+ * light and COLOR_TEMPERATURE is the color temperature of the light.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -55,6 +56,11 @@ class SetLightStateExecutor extends AbstractAuthenticatedExecutor {
      * Stores the brightness.
      */
     private Integer brightness;
+    
+    /**
+     * Stores the color temperature.
+     */
+    private Integer colorTemperature;
 
     /**
      * Stores the light id.
@@ -85,6 +91,9 @@ class SetLightStateExecutor extends AbstractAuthenticatedExecutor {
         if (brightness != null) {
             state.setBrightness(brightness);
         }
+        if (colorTemperature != null) {
+            state.setColorTemperature(colorTemperature);
+        }
         HueBridge bridge = new HueBridge(baseUrl);
         bridge.setUsername(username);
         return jsonb.toJson(bridge.setLightState(id, state));
@@ -107,6 +116,9 @@ class SetLightStateExecutor extends AbstractAuthenticatedExecutor {
             }
             if (arguments.get(i).equals("--brightness")) {
                 brightness = Integer.parseInt(arguments.get(i + 1));
+            }
+            if (arguments.get(i).equals("--colorTemperature")) {
+                colorTemperature = Integer.parseInt(arguments.get(i + 1));
             }
         }
     }
