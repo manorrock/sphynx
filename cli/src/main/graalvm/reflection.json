@@ -18,7 +18,7 @@
         "allPublicFields": true
     }, 
     {
-        "name": "com.collectivae.device.huebridge.HueBridgeConfig",
+        "name": "com.collectivae.device.huebridge.HueBridgeFullConfig",
         "allDeclaredConstructors": true,
         "allPublicConstructors": true,
         "allDeclaredMethods": true,

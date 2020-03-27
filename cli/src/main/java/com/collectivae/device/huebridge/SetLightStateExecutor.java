@@ -33,22 +33,28 @@ import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
 
 /**
- * The executor that establishes a link with the Hue Bridge.
+ * The executor that sets the state of a light.
  *
  * <pre>
  *
  * co device huebridge set-light-state --base-url BASE_URL --username USERNAME
- * --id ID --on ON
+ * --id ID [--on ON] [--brightness BRIGHTNESS]
  * </pre>
  * <p>
  * where BASE_URL is the URL of the Hue Bridge API endpoint, USERNAME is the
- * username to be used for authentication, ID is the ID of the light and ON is
- * the boolean 'on' state for the light.
+ * username to be used for authentication, ID is the ID of the light, ON is the
+ * boolean 'on' state for the light and BRIGHTNESS is the brightness of the
+ * light.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class SetLightStateExecutor extends AbstractAuthenticatedExecutor {
+
+    /**
+     * Stores the brightness.
+     */
+    private Integer brightness;
 
     /**
      * Stores the light id.
@@ -58,7 +64,7 @@ class SetLightStateExecutor extends AbstractAuthenticatedExecutor {
     /**
      * Stores the on state.
      */
-    private boolean on;
+    private Boolean on;
 
     /**
      * Execute.
@@ -73,7 +79,12 @@ class SetLightStateExecutor extends AbstractAuthenticatedExecutor {
         config.withFormatting(true);
         Jsonb jsonb = JsonbBuilder.create(config);
         HueBridgeLightState state = new HueBridgeLightState();
-        state.setOn(on);
+        if (on != null) {
+            state.setOn(on);
+        }
+        if (brightness != null) {
+            state.setBrightness(brightness);
+        }
         HueBridge bridge = new HueBridge(baseUrl);
         bridge.setUsername(username);
         return jsonb.toJson(bridge.setLightState(id, state));
@@ -93,6 +104,9 @@ class SetLightStateExecutor extends AbstractAuthenticatedExecutor {
             }
             if (arguments.get(i).equals("--on")) {
                 on = Boolean.parseBoolean(arguments.get(i + 1));
+            }
+            if (arguments.get(i).equals("--brightness")) {
+                brightness = Integer.parseInt(arguments.get(i + 1));
             }
         }
     }

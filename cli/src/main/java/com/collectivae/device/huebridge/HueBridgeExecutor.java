@@ -29,9 +29,6 @@ package com.collectivae.device.huebridge;
 
 import com.collectivae.cli.CliExecutor;
 import java.util.List;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
-import javax.json.bind.JsonbConfig;
 
 /**
  * The executor for the Hue Bridge (aka "huebridge").
@@ -107,7 +104,12 @@ public class HueBridgeExecutor implements CliExecutor {
                     arguments.remove(0);
                     result = executor.execute(arguments);
                 } break;
-                case "set-light-state": result = setLightState(); break;
+                case "set-light-state": {                    
+                    SetLightStateExecutor executor = new SetLightStateExecutor();
+                    arguments.remove(0);
+                    result = executor.execute(arguments);
+                    
+                } break;
             }
         }
         return result;
@@ -126,27 +128,6 @@ public class HueBridgeExecutor implements CliExecutor {
             if (arguments.get(i).equals("--username")) {
                 username = arguments.get(i+1);
             }
-            if (arguments.get(i).equals("--id")) {
-                id = arguments.get(i+1);
-            }
-            if (arguments.get(i).equals("--on")) {
-                on = Boolean.parseBoolean(arguments.get(i+1));
-            }
         }
-    }
-    
-    /**
-     * Set the light state.
-     * 
-     * @return the response.
-     */
-    public String setLightState() {
-        JsonbConfig config = new JsonbConfig();
-        config.withFormatting(true);
-        Jsonb jsonb = JsonbBuilder.create(config);
-        HueBridgeLightState state = new HueBridgeLightState();
-        state.setOn(on);
-        bridge.setUsername(username);
-        return jsonb.toJson(bridge.setLightState(id, state));
     }
 }

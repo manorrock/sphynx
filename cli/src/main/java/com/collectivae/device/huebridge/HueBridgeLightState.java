@@ -35,14 +35,20 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"on"})
+@JsonbPropertyOrder({"on", "brightness"})
 public class HueBridgeLightState {
 
+    /**
+     * Stores the brightness.
+     */
+    @JsonbProperty("bri")
+    private Integer brightness;
+    
     /**
      * Stores the on state.
      */
     @JsonbProperty("on")
-    private boolean on;
+    private Boolean on;
 
     /**
      * Constructor.
@@ -51,12 +57,12 @@ public class HueBridgeLightState {
     }
 
     /**
-     * Constructor.
-     *
-     * @param on the 'on' state.
+     * Get the brightness.
+     * 
+     * @return the brightness.
      */
-    public HueBridgeLightState(boolean on) {
-        this.on = on;
+    public Integer getBrightness() {
+        return brightness;
     }
 
     /**
@@ -64,8 +70,17 @@ public class HueBridgeLightState {
      *
      * @return true if it is, false otherwise.
      */
-    public boolean isOn() {
+    public Boolean isOn() {
         return on;
+    }
+
+    /**
+     * Set the brightness.
+     * 
+     * @param brightness the brightness.
+     */
+    public void setBrightness(Integer brightness) {
+        this.brightness = brightness;
     }
 
     /**
@@ -73,7 +88,7 @@ public class HueBridgeLightState {
      *
      * @param on the on state.
      */
-    public void setOn(boolean on) {
+    public void setOn(Boolean on) {
         this.on = on;
     }
 }

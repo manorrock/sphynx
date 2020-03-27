@@ -123,7 +123,8 @@ public class HueBridgeTest {
      */
     @Test
     public void testSetLightStateOn() {
-        HueBridgeLightState state = new HueBridgeLightState(true);
+        HueBridgeLightState state = new HueBridgeLightState();
+        state.setOn(true);
         bridge.setLightState("1", state);
         HueBridgeFullConfig config = bridge.getFullConfig();
         HueBridgeLight light = config.getLights().get("1");
@@ -135,7 +136,8 @@ public class HueBridgeTest {
      */
     @Test
     public void testSetLightStateOff() {
-        HueBridgeLightState state = new HueBridgeLightState(false);
+        HueBridgeLightState state = new HueBridgeLightState();
+        state.setOn(false);
         bridge.setLightState("1", state);
         HueBridgeFullConfig config = bridge.getFullConfig();
         HueBridgeLight light = config.getLights().get("1");

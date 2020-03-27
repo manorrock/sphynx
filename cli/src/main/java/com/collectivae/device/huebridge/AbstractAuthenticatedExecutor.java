@@ -27,6 +27,8 @@
  */
 package com.collectivae.device.huebridge;
 
+import java.util.List;
+
 /**
  * An abstract authenticated executor.
  * 
@@ -38,4 +40,21 @@ public abstract class AbstractAuthenticatedExecutor extends AbstractBaseUrlExecu
      * Stores the username.
      */
     protected String username;
+    
+    
+
+    /**
+     * Parse the arguments.
+     *
+     * @param arguments the arguments.
+     */
+    @Override
+    protected void parseArguments(List<String> arguments) {
+        super.parseArguments(arguments);
+        for (int i = 0; i < arguments.size(); i++) {
+            if (arguments.get(i).equals("--username")) {
+                username = arguments.get(i + 1);
+            }
+        }
+    }
 }
