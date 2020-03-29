@@ -50,6 +50,12 @@ public class HueBridge implements Device {
      * Stores the username.
      */
     private String username;
+    
+    /**
+     * Constructor.
+     */
+    public HueBridge() {
+    }
 
     /**
      * Constructor.
@@ -58,6 +64,17 @@ public class HueBridge implements Device {
      */
     public HueBridge(String baseUrl) {
         this.baseUrl = baseUrl;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param baseUrl the base URL.
+     * @param username the username.
+     */
+    public HueBridge(String baseUrl, String username) {
+        this.baseUrl = baseUrl;
+        this.username = username;
     }
 
     /**
@@ -119,6 +136,14 @@ public class HueBridge implements Device {
         } catch (IOException ioe) {
         }
         return result;
+    }
+    /**
+     * Set the base URL.
+     * 
+     * @param baseUrl the base URL.
+     */
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
 
     /**

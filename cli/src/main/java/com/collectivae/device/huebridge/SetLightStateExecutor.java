@@ -38,16 +38,16 @@ import javax.json.bind.JsonbConfig;
  *
  * <pre>
  *
- * co device huebridge set-light-state [--alert ALERT] --base-url BASE_URL 
- * [--brightness BRIGHTNESS] [--colorTemperature COLOR_TEMPERATURE] 
- *  --id ID [--on ON] --username USERNAME
+ * co device huebridge set-light-state [--alert ALERT] --base-url BASE_URL
+ * [--brightness BRIGHTNESS] [--colorMode COLOR_MODE]
+ * [--colorTemperature COLOR_TEMPERATURE] --id ID [--on ON] --username USERNAME
  * </pre>
  * <p>
- * where ALERT is the alert mode, BASE_URL is the URL of the Hue Bridge API 
- * endpoint, BRIGHTNESS is the brightness of the light, COLOR_TEMPERATURE is the 
- * color temperature of the light, ID is the ID of the light, ON is the
- * boolean 'on' state for the light and USERNAME is the username to be used for
- * authentication,  
+ * where ALERT is the alert mode, BASE_URL is the URL of the Hue Bridge API
+ * endpoint, BRIGHTNESS is the brightness of the light, COLOR_MODE is the color
+ * mode of the light, COLOR_TEMPERATURE is the color temperature of the light,
+ * ID is the ID of the light, ON is the boolean 'on' state for the light and
+ * USERNAME is the username to be used for authentication,
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -68,6 +68,11 @@ class SetLightStateExecutor implements CliExecutor {
      * Stores the brightness.
      */
     private Integer brightness;
+    
+    /**
+     * Stores the color mode.
+     */
+    private String colorMode;
 
     /**
      * Stores the color temperature.
@@ -78,7 +83,7 @@ class SetLightStateExecutor implements CliExecutor {
      * Stores the light id.
      */
     private String id;
-    
+
     /**
      * Stores the on state.
      */
@@ -131,6 +136,9 @@ class SetLightStateExecutor implements CliExecutor {
             }
             if (arguments.get(i).equals("--brightness")) {
                 brightness = Integer.parseInt(arguments.get(i + 1));
+            }
+            if (arguments.get(i).equals("--colorMode")) {
+                colorMode = arguments.get(i + 1);
             }
             if (arguments.get(i).equals("--colorTemperature")) {
                 colorTemperature = Integer.parseInt(arguments.get(i + 1));

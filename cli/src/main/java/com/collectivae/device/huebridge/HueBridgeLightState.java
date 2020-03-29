@@ -35,9 +35,9 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"on", "brightness", "colorTemperature", "alert"})
+@JsonbPropertyOrder({"on", "brightness", "colorTemperature", "alert", "colorMode"})
 public class HueBridgeLightState {
-    
+
     /**
      * Stores the alert.
      */
@@ -49,13 +49,19 @@ public class HueBridgeLightState {
      */
     @JsonbProperty("bri")
     private Integer brightness;
-    
+
+    /**
+     * Stores the color mode.
+     */
+    @JsonbProperty("colormode")
+    private String colorMode;
+
     /**
      * Stores the color temperature.
      */
     @JsonbProperty("ct")
     private Integer colorTemperature;
-    
+
     /**
      * Stores the on state.
      */
@@ -67,10 +73,10 @@ public class HueBridgeLightState {
      */
     public HueBridgeLightState() {
     }
-    
+
     /**
      * Get the alert.
-     * 
+     *
      * @return the alert.
      */
     public String getAlert() {
@@ -79,7 +85,7 @@ public class HueBridgeLightState {
 
     /**
      * Get the brightness.
-     * 
+     *
      * @return the brightness.
      */
     public Integer getBrightness() {
@@ -87,8 +93,17 @@ public class HueBridgeLightState {
     }
 
     /**
+     * Get the color mode.
+     *
+     * @return the color mode.
+     */
+    public String getColorMode() {
+        return colorMode;
+    }
+
+    /**
      * Get the color temperature.
-     * 
+     *
      * @return the color temperature.
      */
     public Integer getColorTemperature() {
@@ -103,10 +118,10 @@ public class HueBridgeLightState {
     public Boolean isOn() {
         return on;
     }
-    
+
     /**
      * Set the alert.
-     * 
+     *
      * @param alert the alert.
      */
     public void setAlert(String alert) {
@@ -115,7 +130,7 @@ public class HueBridgeLightState {
 
     /**
      * Set the brightness.
-     * 
+     *
      * @param brightness the brightness.
      */
     public void setBrightness(Integer brightness) {
@@ -123,8 +138,17 @@ public class HueBridgeLightState {
     }
 
     /**
+     * Set the color mode.
+     *
+     * @param colorMode the color mode.
+     */
+    public void setColorMode(String colorMode) {
+        this.colorMode = colorMode;
+    }
+
+    /**
      * Set the color temperature.
-     * 
+     *
      * @param colorTemperature the color temperature.
      */
     public void setColorTemperature(Integer colorTemperature) {

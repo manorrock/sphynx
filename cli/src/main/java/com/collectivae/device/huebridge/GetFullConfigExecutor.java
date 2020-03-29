@@ -27,6 +27,7 @@
  */
 package com.collectivae.device.huebridge;
 
+import com.collectivae.cli.CliExecutor;
 import java.util.List;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -46,7 +47,17 @@ import javax.json.bind.JsonbConfig;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class GetFullConfigExecutor extends AbstractAuthenticatedExecutor {
+public class GetFullConfigExecutor implements CliExecutor {
+    
+    /**
+     * Stores the base URL.
+     */
+    private String baseUrl;
+    
+    /**
+     * Stores the username.
+     */
+    private String username;
     
     /**
      * Execute.
@@ -60,7 +71,8 @@ public class GetFullConfigExecutor extends AbstractAuthenticatedExecutor {
         JsonbConfig config = new JsonbConfig();
         config.withFormatting(true);
         Jsonb jsonb = JsonbBuilder.create(config);
-        HueBridge bridge = new HueBridge(baseUrl);
+        HueBridge bridge = new HueBridge();
+        bridge.setBaseUrl(baseUrl);
         bridge.setUsername(username);
         return jsonb.toJson(bridge.getFullConfig());
     }
@@ -70,8 +82,7 @@ public class GetFullConfigExecutor extends AbstractAuthenticatedExecutor {
      *
      * @param arguments the arguments.
      */
-    @Override
-    protected void parseArguments(List<String> arguments) {
+    private void parseArguments(List<String> arguments) {
         for (int i = 0; i < arguments.size(); i++) {
             if (arguments.get(i).equals("--base-url")) {
                 baseUrl = arguments.get(i + 1);
