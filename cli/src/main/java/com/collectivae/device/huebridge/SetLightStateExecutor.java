@@ -27,6 +27,7 @@
  */
 package com.collectivae.device.huebridge;
 
+import com.collectivae.cli.CliExecutor;
 import java.util.List;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -37,26 +38,37 @@ import javax.json.bind.JsonbConfig;
  *
  * <pre>
  *
- * co device huebridge set-light-state --base-url BASE_URL --username USERNAME
- * --id ID [--on ON] [--brightness BRIGHTNESS] [--colorTemperature 
- * COLOR_TEMPERATURE]
+ * co device huebridge set-light-state [--alert ALERT] --base-url BASE_URL 
+ * [--brightness BRIGHTNESS] [--colorTemperature COLOR_TEMPERATURE] 
+ *  --id ID [--on ON] --username USERNAME
  * </pre>
  * <p>
- * where BASE_URL is the URL of the Hue Bridge API endpoint, USERNAME is the
- * username to be used for authentication, ID is the ID of the light, ON is the
- * boolean 'on' state for the light, BRIGHTNESS is the brightness of the
- * light and COLOR_TEMPERATURE is the color temperature of the light.
+ * where ALERT is the alert mode, BASE_URL is the URL of the Hue Bridge API 
+ * endpoint, BRIGHTNESS is the brightness of the light, COLOR_TEMPERATURE is the 
+ * color temperature of the light, ID is the ID of the light, ON is the
+ * boolean 'on' state for the light and USERNAME is the username to be used for
+ * authentication,  
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class SetLightStateExecutor extends AbstractAuthenticatedExecutor {
+class SetLightStateExecutor implements CliExecutor {
+
+    /**
+     * Stores the alert.
+     */
+    private String alert;
+
+    /**
+     * Stores the alert.
+     */
+    private String baseUrl;
 
     /**
      * Stores the brightness.
      */
     private Integer brightness;
-    
+
     /**
      * Stores the color temperature.
      */
@@ -66,11 +78,16 @@ class SetLightStateExecutor extends AbstractAuthenticatedExecutor {
      * Stores the light id.
      */
     private String id;
-
+    
     /**
      * Stores the on state.
      */
     private Boolean on;
+
+    /**
+     * Stores the username.
+     */
+    protected String username;
 
     /**
      * Execute.
@@ -104,21 +121,28 @@ class SetLightStateExecutor extends AbstractAuthenticatedExecutor {
      *
      * @param arguments the arguments.
      */
-    @Override
-    protected void parseArguments(List<String> arguments) {
-        super.parseArguments(arguments);
+    private void parseArguments(List<String> arguments) {
         for (int i = 0; i < arguments.size(); i++) {
-            if (arguments.get(i).equals("--id")) {
-                id = arguments.get(i + 1);
+            if (arguments.get(i).equals("--alert")) {
+                alert = arguments.get(i + 1);
             }
-            if (arguments.get(i).equals("--on")) {
-                on = Boolean.parseBoolean(arguments.get(i + 1));
+            if (arguments.get(i).equals("--base-url")) {
+                baseUrl = arguments.get(i + 1);
             }
             if (arguments.get(i).equals("--brightness")) {
                 brightness = Integer.parseInt(arguments.get(i + 1));
             }
             if (arguments.get(i).equals("--colorTemperature")) {
                 colorTemperature = Integer.parseInt(arguments.get(i + 1));
+            }
+            if (arguments.get(i).equals("--id")) {
+                id = arguments.get(i + 1);
+            }
+            if (arguments.get(i).equals("--on")) {
+                on = Boolean.parseBoolean(arguments.get(i + 1));
+            }
+            if (arguments.get(i).equals("--username")) {
+                username = arguments.get(i + 1);
             }
         }
     }
