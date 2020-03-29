@@ -40,14 +40,16 @@ import javax.json.bind.JsonbConfig;
  *
  * co device huebridge set-light-state [--alert ALERT] --base-url BASE_URL
  * [--brightness BRIGHTNESS] [--colorMode COLOR_MODE]
- * [--colorTemperature COLOR_TEMPERATURE] --id ID [--on ON] --username USERNAME
+ * [--colorTemperature COLOR_TEMPERATURE] --id ID [--on ON] [--mode MODE]
+ * --username USERNAME
  * </pre>
  * <p>
  * where ALERT is the alert mode, BASE_URL is the URL of the Hue Bridge API
  * endpoint, BRIGHTNESS is the brightness of the light, COLOR_MODE is the color
  * mode of the light, COLOR_TEMPERATURE is the color temperature of the light,
- * ID is the ID of the light, ON is the boolean 'on' state for the light and
- * USERNAME is the username to be used for authentication,
+ * ID is the ID of the light, ON is the boolean 'on' state for the light, MODE
+ * is the mode of the light, and USERNAME is the username to be used for
+ * authentication,
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -68,7 +70,7 @@ class SetLightStateExecutor implements CliExecutor {
      * Stores the brightness.
      */
     private Integer brightness;
-    
+
     /**
      * Stores the color mode.
      */
