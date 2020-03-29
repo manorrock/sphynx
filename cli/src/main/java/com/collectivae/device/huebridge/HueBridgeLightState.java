@@ -35,7 +35,8 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"on", "brightness", "colorTemperature", "alert", "colorMode", "mode"})
+@JsonbPropertyOrder({"on", "brightness", "colorTemperature", "alert", "colorMode",
+    "mode", "reachable"})
 public class HueBridgeLightState {
 
     /**
@@ -61,7 +62,7 @@ public class HueBridgeLightState {
      */
     @JsonbProperty("ct")
     private Integer colorTemperature;
-    
+
     /**
      * Stores the mode.
      */
@@ -73,6 +74,12 @@ public class HueBridgeLightState {
      */
     @JsonbProperty("on")
     private Boolean on;
+
+    /**
+     * Stores the reachable state.
+     */
+    @JsonbProperty("reachable")
+    private Boolean reachable;
 
     /**
      * Constructor.
@@ -118,7 +125,7 @@ public class HueBridgeLightState {
 
     /**
      * Get the mode.
-     * 
+     *
      * @return the mode.
      */
     public String getMode() {
@@ -132,6 +139,15 @@ public class HueBridgeLightState {
      */
     public Boolean isOn() {
         return on;
+    }
+
+    /**
+     * Is the light reachable.
+     *
+     * @return true if it is, false otherwise.
+     */
+    public Boolean isReachable() {
+        return reachable;
     }
 
     /**
@@ -169,10 +185,10 @@ public class HueBridgeLightState {
     public void setColorTemperature(Integer colorTemperature) {
         this.colorTemperature = colorTemperature;
     }
-    
+
     /**
      * Set the mode.
-     * 
+     *
      * @param mode the mode.
      */
     public void setMode(String mode) {
@@ -186,5 +202,14 @@ public class HueBridgeLightState {
      */
     public void setOn(Boolean on) {
         this.on = on;
+    }
+
+    /**
+     * Set the reachable flag.
+     * 
+     * @param reachable true if reachable, false otherwise.
+     */
+    public void setReachable(Boolean reachable) {
+        this.reachable = reachable;
     }
 }

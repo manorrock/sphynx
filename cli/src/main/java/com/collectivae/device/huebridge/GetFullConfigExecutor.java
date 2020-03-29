@@ -28,37 +28,25 @@
 package com.collectivae.device.huebridge;
 
 import com.collectivae.cli.CliExecutor;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 /**
  * The executor to get the full configuration from the Hue Bridge.
  *
- * <pre>
- * 
- * co device huebridge get-full-config --base-url BASE_URL --username USERNAME
- * </pre>
- * <p>
- * where BASE_URL is the URL of the Hue Bridge API endpoint and USERNAME is the
- * username to be used for authentication.
- * </p>
- * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class GetFullConfigExecutor implements CliExecutor {
-    
-    /**
-     * Stores the base URL.
-     */
-    private String baseUrl;
-    
-    /**
-     * Stores the username.
-     */
-    private String username;
-    
+
     /**
      * Execute.
      *
@@ -67,29 +55,33 @@ public class GetFullConfigExecutor implements CliExecutor {
      */
     @Override
     public String execute(List<String> arguments) {
-        parseArguments(arguments);
-        JsonbConfig config = new JsonbConfig();
-        config.withFormatting(true);
-        Jsonb jsonb = JsonbBuilder.create(config);
-        HueBridge bridge = new HueBridge();
-        bridge.setBaseUrl(baseUrl);
-        bridge.setUsername(username);
-        return jsonb.toJson(bridge.getFullConfig());
-    }
-
-    /**
-     * Parse the arguments.
-     *
-     * @param arguments the arguments.
-     */
-    private void parseArguments(List<String> arguments) {
-        for (int i = 0; i < arguments.size(); i++) {
-            if (arguments.get(i).equals("--base-url")) {
-                baseUrl = arguments.get(i + 1);
-            }
-            if (arguments.get(i).equals("--username")) {
-                username = arguments.get(i + 1);
-            }
+        String result;
+        Options options = new Options();
+        options.addOption(null, "help", false, "Print this message");
+        options.addRequiredOption(null, "base-url", true, "The URL of the bridge");
+        options.addRequiredOption(null, "username", true, "The username to authenticate with");
+        DefaultParser parser = new DefaultParser();
+        CommandLine commandLine = null;
+        try {
+            commandLine = parser.parse(options, arguments.toArray(new String[0]));
+        } catch (ParseException pe) {
         }
+        if (commandLine == null || commandLine.hasOption("help")) {
+            HelpFormatter formatter = new HelpFormatter();
+            StringWriter stringWriter = new StringWriter();
+            formatter.printUsage(new PrintWriter(stringWriter), 80,
+                    "co device huebridge get-full-config", options);
+            formatter.printOptions(new PrintWriter(stringWriter), 80, options, 1, 1);
+            result = stringWriter.toString();
+        } else {
+            JsonbConfig config = new JsonbConfig();
+            config.withFormatting(true);
+            Jsonb jsonb = JsonbBuilder.create(config);
+            HueBridge bridge = new HueBridge();
+            bridge.setBaseUrl(commandLine.getOptionValue("base-url"));
+            bridge.setUsername(commandLine.getOptionValue("username"));
+            result = jsonb.toJson(bridge.getFullConfig());
+        }
+        return result;
     }
 }

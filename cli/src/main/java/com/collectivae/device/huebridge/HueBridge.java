@@ -137,6 +137,7 @@ public class HueBridge implements Device {
         }
         return result;
     }
+    
     /**
      * Set the base URL.
      * 

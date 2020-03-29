@@ -35,8 +35,8 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"state", "type", "name", "manufacturerName", "productName",
-    "softwareConfigId", "productId"})
+@JsonbPropertyOrder({"state", "softwareUpdate", "type", "name", 
+    "manufacturerName", "productName", "softwareConfigId", "productId"})
 public class HueBridgeLight {
 
     /**
@@ -68,6 +68,12 @@ public class HueBridgeLight {
      */
     @JsonbProperty("swconfigid")
     private String softwareConfigId;
+    
+    /**
+     * Stores the software update.
+     */
+    @JsonbProperty("swupdate")
+    private HueBridgeLightSoftwareUpdate softwareUpdate;
 
     /**
      * Stores the state.
@@ -124,6 +130,15 @@ public class HueBridgeLight {
      */
     public String getSoftwareConfigId() {
         return softwareConfigId;
+    }
+    
+    /**
+     * Get the software update.
+     * 
+     * @return the software update.
+     */
+    public HueBridgeLightSoftwareUpdate getSoftwareUpdate() {
+        return this.softwareUpdate;
     }
 
     /**
@@ -186,6 +201,15 @@ public class HueBridgeLight {
      */
     public void setSoftwareConfigId(String softwareConfigId) {
         this.softwareConfigId = softwareConfigId;
+    }
+
+    /**
+     * Set the software update.
+     * 
+     * @param softwareUpdate the software update.
+     */
+    public void setSoftwareUpdate(HueBridgeLightSoftwareUpdate softwareUpdate) {
+        this.softwareUpdate = softwareUpdate;
     }
 
     /**

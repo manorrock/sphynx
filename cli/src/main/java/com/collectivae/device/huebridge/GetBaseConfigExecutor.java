@@ -27,39 +27,59 @@
  */
 package com.collectivae.device.huebridge;
 
+import com.collectivae.cli.CliExecutor;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 /**
  * The executor that gets the base configuration for the Hue Bridge.
- * 
- * <pre>
- * 
- * co device huebridge get-base-config --base-url BASE_URL
- * </pre>
- * <p>
- *  where BASE_URL is the URL of the Hue Bridge API endpoint.
- * </p>
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class GetBaseConfigExecutor extends AbstractBaseUrlExecutor {
-    
+class GetBaseConfigExecutor implements CliExecutor {
+
     /**
      * Execute.
-     * 
+     *
      * @param arguments the arguments.
      * @return the result.
      */
     @Override
     public String execute(List<String> arguments) {
-        parseArguments(arguments);
-        JsonbConfig config = new JsonbConfig();
-        config.withFormatting(true);
-        Jsonb jsonb = JsonbBuilder.create(config);
-        HueBridge bridge = new HueBridge(baseUrl);
-        return jsonb.toJson(bridge.getBaseConfig());
+        String result;
+        Options options = new Options();
+        options.addOption(null, "help", false, "Print this message");
+        options.addRequiredOption(null, "base-url", true, "The URL of the bridge");
+        DefaultParser parser = new DefaultParser();
+        CommandLine commandLine = null;
+        try {
+            commandLine = parser.parse(options, arguments.toArray(new String[0]));
+        } catch (ParseException pe) {
+        }
+        if (commandLine == null || commandLine.hasOption("help")) {
+            HelpFormatter formatter = new HelpFormatter();
+            StringWriter stringWriter = new StringWriter();
+            formatter.printUsage(new PrintWriter(stringWriter), 80,
+                    "co device huebridge get-base-config", options);
+            formatter.printOptions(new PrintWriter(stringWriter), 80, options, 1, 1);
+            result = stringWriter.toString();
+        } else {
+            JsonbConfig config = new JsonbConfig();
+            config.withFormatting(true);
+            Jsonb jsonb = JsonbBuilder.create(config);
+            HueBridge bridge = new HueBridge();
+            bridge.setBaseUrl(commandLine.getOptionValue("base-url"));
+            result = jsonb.toJson(bridge.getBaseConfig());
+        }
+        return result;
     }
 }

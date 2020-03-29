@@ -27,31 +27,25 @@
  */
 package com.collectivae.device.huebridge;
 
+import com.collectivae.cli.CliExecutor;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 /**
  * The executor that establishes a link with the Hue Bridge.
  *
- * <pre>
- * 
- * co device huebridge link --base-url BASE_URL --device-type MY_DEVICE
- * </pre>
- * <p>
- * where BASE_URL is the URL of the Hue Bridge API endpoint and MY_DEVICE is the
- * identifier to use for your registration.
- * </p>
- *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class LinkExecutor extends AbstractBaseUrlExecutor {
-
-    /**
-     * Stores the device type.
-     */
-    private String deviceType;
+class LinkExecutor implements CliExecutor {
 
     /**
      * Execute.
@@ -61,30 +55,34 @@ class LinkExecutor extends AbstractBaseUrlExecutor {
      */
     @Override
     public String execute(List<String> arguments) {
-        parseArguments(arguments);
-        JsonbConfig config = new JsonbConfig();
-        config.withFormatting(true);
-        Jsonb jsonb = JsonbBuilder.create(config);
-        HueBridgeLinkRequest linkRequest = new HueBridgeLinkRequest();
-        linkRequest.setDeviceType(deviceType);
-        HueBridge bridge = new HueBridge(baseUrl);
-        return jsonb.toJson(bridge.link(linkRequest));
-    }
-
-    /**
-     * Parse the arguments.
-     *
-     * @param arguments the arguments.
-     */
-    @Override
-    protected void parseArguments(List<String> arguments) {
-        for (int i = 0; i < arguments.size(); i++) {
-            if (arguments.get(i).equals("--base-url")) {
-                baseUrl = arguments.get(i + 1);
-            }
-            if (arguments.get(i).equals("--device-type")) {
-                deviceType = arguments.get(i + 1);
-            }
+        String result;
+        Options options = new Options();
+        options.addOption(null, "help", false, "Print this message");
+        options.addRequiredOption(null, "base-url", true, "The URL of the bridge");
+        options.addRequiredOption(null, "device-type", true, "The device type");
+        DefaultParser parser = new DefaultParser();
+        CommandLine commandLine = null;
+        try {
+            commandLine = parser.parse(options, arguments.toArray(new String[0]));
+        } catch (ParseException pe) {
         }
+        if (commandLine == null || commandLine.hasOption("help")) {
+            HelpFormatter formatter = new HelpFormatter();
+            StringWriter stringWriter = new StringWriter();
+            formatter.printUsage(new PrintWriter(stringWriter), 80,
+                    "co device huebridge link", options);
+            formatter.printOptions(new PrintWriter(stringWriter), 80, options, 1, 1);
+            result = stringWriter.toString();
+        } else {
+            JsonbConfig config = new JsonbConfig();
+            config.withFormatting(true);
+            Jsonb jsonb = JsonbBuilder.create(config);
+            HueBridge bridge = new HueBridge();
+            bridge.setBaseUrl(commandLine.getOptionValue("base-url"));
+            HueBridgeLinkRequest linkRequest = new HueBridgeLinkRequest();
+            linkRequest.setDeviceType(commandLine.getOptionValue("device-type"));
+            result = jsonb.toJson(bridge.link(linkRequest));
+        }
+        return result;
     }
 }
