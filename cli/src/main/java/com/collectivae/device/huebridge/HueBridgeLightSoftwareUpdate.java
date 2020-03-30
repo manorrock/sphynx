@@ -27,10 +27,38 @@
  */
 package com.collectivae.device.huebridge;
 
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbPropertyOrder;
+
 /**
  * The software update state of a Hue light.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@JsonbPropertyOrder({"state"})
 public class HueBridgeLightSoftwareUpdate {
+
+    /**
+     * Stores the state.
+     */
+    @JsonbProperty("state")
+    private String state;
+
+    /**
+     * Get the state.
+     * 
+     * @return the state.
+     */
+    public String getState() {
+        return state;
+    }
+
+    /**
+     * Set the state.
+     * 
+     * @param state the state. 
+     */
+    public void setState(String state) {
+        this.state = state;
+    }
 }
