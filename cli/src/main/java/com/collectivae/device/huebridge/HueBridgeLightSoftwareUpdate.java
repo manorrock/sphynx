@@ -27,6 +27,7 @@
  */
 package com.collectivae.device.huebridge;
 
+import java.util.Date;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbPropertyOrder;
 
@@ -35,8 +36,14 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"state"})
+@JsonbPropertyOrder({"state", "lastInstallDate"})
 public class HueBridgeLightSoftwareUpdate {
+    
+    /**
+     * Stores the last install date.
+     */
+    @JsonbProperty("lastinstall")
+    private Date lastInstallDate;
 
     /**
      * Stores the state.
@@ -45,12 +52,30 @@ public class HueBridgeLightSoftwareUpdate {
     private String state;
 
     /**
+     * Get the last install date.
+     * 
+     * @return the last install date.
+     */
+    public Date getLastInstallDate() {
+        return lastInstallDate;
+    }
+
+    /**
      * Get the state.
      * 
      * @return the state.
      */
     public String getState() {
         return state;
+    }
+
+    /**
+     * Set the last install date.
+     * 
+     * @param lastInstallDate the last install date.
+     */
+    public void setLastInstallDate(Date lastInstallDate) {
+        this.lastInstallDate = lastInstallDate;
     }
 
     /**
