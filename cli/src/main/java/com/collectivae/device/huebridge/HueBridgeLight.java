@@ -29,6 +29,7 @@ package com.collectivae.device.huebridge;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbPropertyOrder;
+import org.apache.hc.core5.http.nio.CapacityChannel;
 
 /**
  * A Philips Hue light.
@@ -36,8 +37,14 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @JsonbPropertyOrder({"state", "softwareUpdate", "type", "name", 
-    "manufacturerName", "productName", "softwareConfigId", "productId"})
+    "manufacturerName", "productName", "capabilities", "softwareConfigId", "productId"})
 public class HueBridgeLight {
+    
+    /**
+     * Stores the capabilities.
+     */
+    @JsonbProperty("capabilities")
+    private HueBridgeLightCapabilities capabilities;
 
     /**
      * Stores the manufacturer name.
@@ -86,6 +93,15 @@ public class HueBridgeLight {
      */
     @JsonbProperty("type")
     private String type;
+
+    /**
+     * Get the capabilities.
+     * 
+     * @return the capabilities.
+     */
+    public HueBridgeLightCapabilities getCapabilities() {
+        return capabilities;
+    }
 
     /**
      * Get the manufacturer name.
@@ -157,6 +173,15 @@ public class HueBridgeLight {
      */
     public String getType() {
         return type;
+    }
+    
+    /**
+     * Set the capabilities.
+     * 
+     * @param capabilities the capabilities.
+     */
+    public void setCapabilities(HueBridgeLightCapabilities capabilities) {
+        this.capabilities = capabilities;
     }
 
     /**
