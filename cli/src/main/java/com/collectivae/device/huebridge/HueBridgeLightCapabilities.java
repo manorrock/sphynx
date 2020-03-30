@@ -27,10 +27,38 @@
  */
 package com.collectivae.device.huebridge;
 
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbPropertyOrder;
+
 /**
  * The capabilities of a Hue light.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@JsonbPropertyOrder({"certified"})
 public class HueBridgeLightCapabilities {
+    
+    /**
+     * Stores the certified flag.
+     */
+    @JsonbProperty("certified")
+    public Boolean certified;
+
+    /**
+     * Is the light certified.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    public Boolean isCertified() {
+        return certified;
+    }
+
+    /**
+     * Set the certified flag.
+     * 
+     * @param certified the certified flag.
+     */
+    public void setCertified(Boolean certified) {
+        this.certified = certified;
+    }
 }
