@@ -25,13 +25,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device.hue;
+package com.collectivae.device.huebridge;
 
-import com.collectivae.device.huebridge.HueBridge;
-import com.collectivae.device.huebridge.HueBridgeBaseConfig;
-import com.collectivae.device.huebridge.HueBridgeFullConfig;
-import com.collectivae.device.huebridge.HueBridgeLight;
-import com.collectivae.device.huebridge.HueBridgeLightState;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -40,7 +35,7 @@ import java.util.logging.Logger;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -72,23 +67,18 @@ public class HueBridgeTest {
     /**
      * Stores the base URL
      */
-    private static String baseUrl;
+    private String baseUrl;
     
     /**
      * Stores the Hue bridge.
      */
-    private static HueBridge bridge;
-    
-    /**
-     * Stores the username.
-     */
-    private String username;
+    private HueBridge bridge;
     
     /**
      * Setup before testing.
      */
-    @BeforeAll
-    public static void beforeAll() {
+    @BeforeEach
+    public void beforeEach() {
         try {
             Properties properties = new Properties();
             properties.load(new FileInputStream("HueBridge.properties"));
@@ -114,7 +104,7 @@ public class HueBridgeTest {
      */
     @Test
     public void testGetFullConfig() {
-        HueBridgeFullConfig config = bridge.getFullConfig();
+        String config = bridge.getFullConfig();
         assertNotNull(config);
     }
 
@@ -126,8 +116,7 @@ public class HueBridgeTest {
         HueBridgeLightState state = new HueBridgeLightState();
         state.setOn(true);
         bridge.setLightState("1", state);
-        HueBridgeFullConfig config = bridge.getFullConfig();
-        HueBridgeLight light = config.getLights().get("1");
+        HueBridgeLight light = bridge.getLightAsObject("1");
         assertTrue(light.getState().isOn());
     }
 
@@ -139,8 +128,7 @@ public class HueBridgeTest {
         HueBridgeLightState state = new HueBridgeLightState();
         state.setOn(false);
         bridge.setLightState("1", state);
-        HueBridgeFullConfig config = bridge.getFullConfig();
-        HueBridgeLight light = config.getLights().get("1");
+        HueBridgeLight light = bridge.getLightAsObject("1");
         assertFalse(light.getState().isOn());
     }
 }

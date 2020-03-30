@@ -29,11 +29,15 @@ package com.collectivae.device.huebridge;
 
 import com.collectivae.cli.CliExecutor;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.List;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
-import javax.json.bind.JsonbConfig;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonWriter;
+import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -74,13 +78,18 @@ public class GetFullConfigExecutor implements CliExecutor {
             formatter.printOptions(new PrintWriter(stringWriter), 80, options, 1, 1);
             result = stringWriter.toString();
         } else {
-            JsonbConfig config = new JsonbConfig();
-            config.withFormatting(true);
-            Jsonb jsonb = JsonbBuilder.create(config);
             HueBridge bridge = new HueBridge();
             bridge.setBaseUrl(commandLine.getOptionValue("base-url"));
             bridge.setUsername(commandLine.getOptionValue("username"));
-            result = jsonb.toJson(bridge.getFullConfig());
+            JsonParser jsonParser = Json.createParser(new StringReader(bridge.getFullConfig()));
+            jsonParser.next();
+            JsonObject jsonObject = jsonParser.getObject();
+            StringWriter stringWriter = new StringWriter();
+            HashMap<String, String> config = new HashMap<>();
+            config.put(JsonGenerator.PRETTY_PRINTING, "");
+            JsonWriter jsonWriter = Json.createWriterFactory(config).createWriter(stringWriter);
+            jsonWriter.writeObject(jsonObject);
+            result = stringWriter.toString();
         }
         return result;
     }

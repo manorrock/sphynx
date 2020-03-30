@@ -50,7 +50,7 @@ public class HueBridge implements Device {
      * Stores the username.
      */
     private String username;
-    
+
     /**
      * Constructor.
      */
@@ -102,18 +102,46 @@ public class HueBridge implements Device {
      * Get the full configuration.
      *
      * <p>
-     * This method does not require you to be logged in as a user.
+     * This method requires you to be logged in as a user.
      * </p>
      *
      * @return the full configuration.
      */
-    public HueBridgeFullConfig getFullConfig() {
-        HueBridgeFullConfig result = null;
+    public String getFullConfig() {
+        String result = null;
         try {
-            Jsonb jsonb = JsonbBuilder.create();
-            String body = Request.get(baseUrl + "/" + username)
+            result = Request.get(baseUrl + "/" + username)
                     .execute().returnContent().asString();
-            result = jsonb.fromJson(body, HueBridgeFullConfig.class);
+        } catch (IOException ioe) {
+        }
+        return result;
+    }
+
+    /**
+     * Get the light.
+     *
+     * @param id the ID of the light.
+     * @return the light.
+     */
+    public HueBridgeLight getLightAsObject(String id) {
+        HueBridgeLight result;
+        Jsonb jsonb = JsonbBuilder.create();
+        String body = getLight(id);
+        result = jsonb.fromJson(body, HueBridgeLight.class);
+        return result;
+    }
+
+    /**
+     * Get the light.
+     *
+     * @param id the ID of the light.
+     * @return the JSON.
+     */
+    public String getLight(String id) {
+        String result = null;
+        try {
+            result = Request.get(baseUrl + "/" + username + "/lights/"
+                    + id).execute().returnContent().asString();
         } catch (IOException ioe) {
         }
         return result;
@@ -137,10 +165,10 @@ public class HueBridge implements Device {
         }
         return result;
     }
-    
+
     /**
      * Set the base URL.
-     * 
+     *
      * @param baseUrl the base URL.
      */
     public void setBaseUrl(String baseUrl) {
@@ -149,7 +177,7 @@ public class HueBridge implements Device {
 
     /**
      * Set the light state.
-     * 
+     *
      * @param id the id of the light.
      * @param state the light state.
      * @return the response.
