@@ -112,6 +112,26 @@ public class HueLightStripPlusTest {
             lightStrip.off();
         }
     }
+    
+    /**
+     * Test hue method.
+     */
+    @Test
+    public void testHue() {
+        HueLightStripPlus lightStrip = new HueLightStripPlus().
+                baseUrl(baseUrl).username(username).id(id);
+        boolean on = lightStrip.isOn();
+        lightStrip.on();
+        int hue = lightStrip.getHue();
+        lightStrip.hue(254);
+        assertEquals(254, lightStrip.getHue());
+        lightStrip.hue(2540);
+        assertEquals(2540, lightStrip.getHue());
+        lightStrip.hue(hue);
+        if (!on) {
+            lightStrip.off();
+        }
+    }
 
     /**
      * Test off method.

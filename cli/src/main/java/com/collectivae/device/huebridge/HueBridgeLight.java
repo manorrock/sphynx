@@ -29,7 +29,6 @@ package com.collectivae.device.huebridge;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbPropertyOrder;
-import org.apache.hc.core5.http.nio.CapacityChannel;
 
 /**
  * A Philips Hue light.

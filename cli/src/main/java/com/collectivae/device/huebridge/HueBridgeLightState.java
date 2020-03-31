@@ -35,7 +35,7 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"on", "brightness", "colorTemperature", "alert", "colorMode",
+@JsonbPropertyOrder({"on", "brightness", "hue", "colorTemperature", "alert", "colorMode",
     "mode", "reachable"})
 public class HueBridgeLightState {
 
@@ -62,6 +62,12 @@ public class HueBridgeLightState {
      */
     @JsonbProperty("ct")
     private Integer colorTemperature;
+    
+    /**
+     * Stores the hue.
+     */
+    @JsonbProperty("hue")
+    private Integer hue;
 
     /**
      * Stores the mode.
@@ -211,5 +217,23 @@ public class HueBridgeLightState {
      */
     public void setReachable(Boolean reachable) {
         this.reachable = reachable;
+    }
+
+    /**
+     * Set the hue.
+     * 
+     * @param hue the hue.
+     */
+    public void setHue(Integer hue) {
+        this.hue = hue;
+    }
+
+    /**
+     * Get the hue.
+     * 
+     * @return the hue.
+     */
+    public Integer getHue() {
+        return hue;
     }
 }

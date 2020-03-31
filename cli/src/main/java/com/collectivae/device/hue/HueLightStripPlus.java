@@ -27,48 +27,10 @@
  */
 package com.collectivae.device.hue;
 
-import com.collectivae.device.huebridge.HueBridge;
-import com.collectivae.device.huebridge.HueBridgeLight;
-import com.collectivae.device.huebridge.HueBridgeLightState;
-
 /**
  * A Hue light strip plus.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HueLightStripPlus extends HueLight<HueLightStripPlus> {
-    
-    /**
-     * Set the color temperature.
-     * 
-     * @param colorTemperature the color temperature.
-     * @return the light strip.
-     */
-    public HueLightStripPlus colorTemperature(int colorTemperature) {
-        HueBridgeLightState state = new HueBridgeLightState();
-        state.setColorTemperature(colorTemperature);
-        HueBridge bridge = new HueBridge(baseUrl, username);
-        bridge.setLightState(id, state);
-        return this;
-    }
-    
-    /**
-     * Get the color temperature.
-     * 
-     * @return the color temperature.
-     */
-    public int getColorTemperature() {
-        HueBridge bridge = new HueBridge(baseUrl, username);
-        HueBridgeLight light = bridge.getLightAsObject(id);
-        return light.getState().getColorTemperature();
-    }
-    
-    /**
-     * Set the color temperature.
-     * 
-     * @param colorTemperature.
-     */
-    public void setColorTemperature(int colorTemperature) {
-        colorTemperature(colorTemperature);
-    }
+public class HueLightStripPlus extends HueColorLight<HueLightStripPlus> {
 }

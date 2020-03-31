@@ -61,6 +61,7 @@ public class HueLight<T> {
      * @return the light.
      */
     public T baseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
         return (T) this;
     }
 
