@@ -38,25 +38,29 @@ import com.collectivae.device.huebridge.HueBridgeLightState;
  * @param <T> the sub type.
  */
 public class HueLight<T> {
-
+    
     /**
-     * Stores the Hue bridge.
+     * Stores the base URL.
      */
-    protected HueBridge bridge;
+    protected String baseUrl;
+    
     /**
      * Stores the id.
      */
     protected String id;
 
     /**
+     * Stores the username.
+     */
+    protected String username;
+
+    /**
      * Set the base URL.
      *
      * @param baseUrl the base URL.
-     * @param username the username.
      * @return the light.
      */
-    public T bridge(String baseUrl, String username) {
-        bridge = new HueBridge(baseUrl, username);
+    public T baseUrl(String baseUrl) {
         return (T) this;
     }
 
@@ -69,17 +73,18 @@ public class HueLight<T> {
     public T brightness(int brightness) {
         HueBridgeLightState state = new HueBridgeLightState();
         state.setBrightness(brightness);
+        HueBridge bridge = new HueBridge(baseUrl, username);
         bridge.setLightState(id, state);
         return (T) this;
     }
 
     /**
-     * Get the bridge.
+     * Get the base URL.
      *
-     * @return the bridge.
+     * @return the base URL.
      */
-    public HueBridge getBridge() {
-        return bridge;
+    public String getBaseUrl() {
+        return baseUrl;
     }
 
     /**
@@ -88,6 +93,7 @@ public class HueLight<T> {
      * @return the brightness.
      */
     public int getBrightness() {
+        HueBridge bridge = new HueBridge(baseUrl, username);
         HueBridgeLight light = bridge.getLightAsObject(id);
         return light.getState().getBrightness();
     }
@@ -118,6 +124,7 @@ public class HueLight<T> {
      * @return true if it is, false otherwise.
      */
     public boolean isOn() {
+        HueBridge bridge = new HueBridge(baseUrl, username);
         HueBridgeLight light = bridge.getLightAsObject(id);
         return light.getState().isOn();
     }
@@ -130,6 +137,7 @@ public class HueLight<T> {
     public T off() {
         HueBridgeLightState state = new HueBridgeLightState();
         state.setOn(false);
+        HueBridge bridge = new HueBridge(baseUrl, username);
         bridge.setLightState(id, state);
         return (T) this;
     }
@@ -142,7 +150,68 @@ public class HueLight<T> {
     public T on() {
         HueBridgeLightState state = new HueBridgeLightState();
         state.setOn(true);
+        HueBridge bridge = new HueBridge(baseUrl, username);
         bridge.setLightState(id, state);
+        return (T) this;
+    }
+
+    /**
+     * Set the base url.
+     *
+     * @param baseUrl the base URL.
+     */
+    public void setBaseUrl(String baseUrl) {
+        baseUrl(baseUrl);
+    }
+    
+    /**
+     * Set the brightness.
+     * 
+     * @param brightness the brightness.
+     */
+    public void setBrightness(int brightness) {
+        brightness(brightness);
+    }
+
+    /**
+     * Set the id.
+     * 
+     * @param id the id.
+     */
+    public void setId(String id) {
+        id(id);
+    }
+    
+    /**
+     * Set the light on or off.
+     * 
+     * @param on true for on, false for off.
+     */
+    public void setOn(boolean on) {
+        if (on) {
+            on();
+        } else {
+            off();
+        }
+    }
+
+    /**
+     * Set the username.
+     * 
+     * @param username the username.
+     */
+    public void setUsername(String username) {
+        username(username);
+    }
+    
+    /**
+     * Set the username.
+     * 
+     * @param username the username.
+     * @return the light.
+     */
+    public T username(String username) {
+        this.username = username;
         return (T) this;
     }
 }

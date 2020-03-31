@@ -79,7 +79,7 @@ public class HueLightStripPlusTest {
     @Test
     public void testBrightness() {
         HueLightStripPlus lightStrip = new HueLightStripPlus().
-                bridge(baseUrl, username).id(id);
+                baseUrl(baseUrl).username(username).id(id);
         boolean on = lightStrip.isOn();
         lightStrip.on();
         int brightness = lightStrip.getBrightness();
@@ -99,7 +99,7 @@ public class HueLightStripPlusTest {
     @Test
     public void testColorTemperature() {
         HueLightStripPlus lightStrip = new HueLightStripPlus().
-                bridge(baseUrl, username).id(id);
+                baseUrl(baseUrl).username(username).id(id);
         boolean on = lightStrip.isOn();
         lightStrip.on();
         int colorTemperature = lightStrip.getColorTemperature();
@@ -119,7 +119,7 @@ public class HueLightStripPlusTest {
     @Test
     public void testOff() {
         HueLightStripPlus lightStrip = new HueLightStripPlus().
-                bridge(baseUrl, username).id(id);
+                baseUrl(baseUrl).username(username).id(id);
         boolean on = lightStrip.isOn();
         lightStrip.off();
         assertFalse(lightStrip.isOn());
@@ -134,7 +134,7 @@ public class HueLightStripPlusTest {
     @Test
     public void testOn() {
         HueLightStripPlus lightStrip = new HueLightStripPlus().
-                bridge(baseUrl, username).id(id);
+                baseUrl(baseUrl).username(username).id(id);
         boolean on = lightStrip.isOn();
         lightStrip.on();
         assertTrue(lightStrip.isOn());

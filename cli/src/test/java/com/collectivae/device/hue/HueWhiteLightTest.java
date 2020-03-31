@@ -38,21 +38,21 @@ import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the HueWhiteLight class.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HueWhiteLightTest {
-    
+
     /**
      * Stores the base URL.
      */
     private String baseUrl;
-    
+
     /**
      * Stores the ID of the white light.
      */
     private String id;
-    
+
     /**
      * Stores the username.
      */
@@ -78,7 +78,8 @@ public class HueWhiteLightTest {
      */
     @Test
     public void testOn() {
-        HueWhiteLight light = new HueWhiteLight().bridge(baseUrl, username).id(id);
+        HueWhiteLight light = new HueWhiteLight().
+                baseUrl(baseUrl).username(username).id(id);
         boolean on = light.isOn();
         light.on();
         assertTrue(light.isOn());
@@ -92,7 +93,8 @@ public class HueWhiteLightTest {
      */
     @Test
     public void testOff() {
-        HueWhiteLight light = new HueWhiteLight().bridge(baseUrl, username).id(id);
+        HueWhiteLight light = new HueWhiteLight().
+                baseUrl(baseUrl).username(username).id(id);
         boolean on = light.isOn();
         light.off();
         assertFalse(light.isOn());
@@ -106,7 +108,8 @@ public class HueWhiteLightTest {
      */
     @Test
     public void testBrightness() {
-        HueWhiteLight light = new HueWhiteLight().bridge(baseUrl, username).id(id);
+        HueWhiteLight light = new HueWhiteLight().
+                baseUrl(baseUrl).username(username).id(id);
         boolean on = light.isOn();
         light.on();
         light.brightness(100);
