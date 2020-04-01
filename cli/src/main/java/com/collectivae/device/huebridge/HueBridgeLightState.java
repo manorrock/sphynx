@@ -35,8 +35,8 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"on", "brightness", "hue", "colorTemperature", "alert", "colorMode",
-    "mode", "reachable"})
+@JsonbPropertyOrder({"on", "brightness", "hue", "saturation", "colorTemperature",
+    "alert", "colorMode", "mode", "reachable"})
 public class HueBridgeLightState {
 
     /**
@@ -62,7 +62,7 @@ public class HueBridgeLightState {
      */
     @JsonbProperty("ct")
     private Integer colorTemperature;
-    
+
     /**
      * Stores the hue.
      */
@@ -86,6 +86,12 @@ public class HueBridgeLightState {
      */
     @JsonbProperty("reachable")
     private Boolean reachable;
+    
+    /**
+     * Stores the saturation.
+     */
+    @JsonbProperty("sat")
+    private Integer saturation;
 
     /**
      * Constructor.
@@ -130,12 +136,30 @@ public class HueBridgeLightState {
     }
 
     /**
+     * Get the hue.
+     *
+     * @return the hue.
+     */
+    public Integer getHue() {
+        return hue;
+    }
+
+    /**
      * Get the mode.
      *
      * @return the mode.
      */
     public String getMode() {
         return mode;
+    }
+
+    /**
+     * Get the saturation.
+     *
+     * @return the saturation.
+     */
+    public Integer getSaturation() {
+        return saturation;
     }
 
     /**
@@ -212,7 +236,7 @@ public class HueBridgeLightState {
 
     /**
      * Set the reachable flag.
-     * 
+     *
      * @param reachable true if reachable, false otherwise.
      */
     public void setReachable(Boolean reachable) {
@@ -221,7 +245,7 @@ public class HueBridgeLightState {
 
     /**
      * Set the hue.
-     * 
+     *
      * @param hue the hue.
      */
     public void setHue(Integer hue) {
@@ -229,11 +253,11 @@ public class HueBridgeLightState {
     }
 
     /**
-     * Get the hue.
+     * Set the saturation.
      * 
-     * @return the hue.
+     * @param saturation the saturation.
      */
-    public Integer getHue() {
-        return hue;
+    public void setSaturation(Integer saturation) {
+        this.saturation = saturation;
     }
 }

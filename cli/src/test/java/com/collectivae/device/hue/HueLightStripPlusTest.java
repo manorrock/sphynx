@@ -162,4 +162,24 @@ public class HueLightStripPlusTest {
             lightStrip.off();
         }
     }
+    
+    /**
+     * Test saturation method.
+     */
+    @Test
+    public void testSaturation() {
+        HueLightStripPlus lightStrip = new HueLightStripPlus().
+                baseUrl(baseUrl).username(username).id(id);
+        boolean on = lightStrip.isOn();
+        lightStrip.on();
+        int saturation = lightStrip.getSaturation();
+        lightStrip.saturation(254);
+        assertEquals(254, lightStrip.getSaturation());
+        lightStrip.saturation(100);
+        assertEquals(100, lightStrip.getSaturation());
+        lightStrip.saturation(saturation);
+        if (!on) {
+            lightStrip.off();
+        }
+    }
 }

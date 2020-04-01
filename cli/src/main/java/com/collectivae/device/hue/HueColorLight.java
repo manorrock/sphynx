@@ -33,7 +33,7 @@ import com.collectivae.device.huebridge.HueBridgeLightState;
 
 /**
  * A Hue color light.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  * @param <T> the type of color light.
  */
@@ -48,20 +48,6 @@ public class HueColorLight<T> extends HueLight<T> {
     public T colorTemperature(int colorTemperature) {
         HueBridgeLightState state = new HueBridgeLightState();
         state.setColorTemperature(colorTemperature);
-        HueBridge bridge = new HueBridge(baseUrl, username);
-        bridge.setLightState(id, state);
-        return (T) this;
-    }
-
-    /**
-     * Set the hue.
-     *
-     * @param hue the hue.
-     * @return the light strip.
-     */
-    public T hue(int hue) {
-        HueBridgeLightState state = new HueBridgeLightState();
-        state.setHue(hue);
         HueBridge bridge = new HueBridge(baseUrl, username);
         bridge.setLightState(id, state);
         return (T) this;
@@ -88,6 +74,45 @@ public class HueColorLight<T> extends HueLight<T> {
         HueBridgeLight light = bridge.getLightAsObject(id);
         return light.getState().getHue();
     }
+    
+    /**
+     * Get the saturation.
+     * 
+     * @return saturation.
+     */
+    public int getSaturation() {
+        HueBridge bridge = new HueBridge(baseUrl, username);
+        HueBridgeLight light = bridge.getLightAsObject(id);
+        return light.getState().getSaturation();
+    }
+
+    /**
+     * Set the hue.
+     *
+     * @param hue the hue.
+     * @return the light.
+     */
+    public T hue(int hue) {
+        HueBridgeLightState state = new HueBridgeLightState();
+        state.setHue(hue);
+        HueBridge bridge = new HueBridge(baseUrl, username);
+        bridge.setLightState(id, state);
+        return (T) this;
+    }
+    
+    /**
+     * Set the saturation.
+     * 
+     * @param saturation the saturation.
+     * @return the light.
+     */
+    public T saturation(int saturation) {
+        HueBridgeLightState state = new HueBridgeLightState();
+        state.setSaturation(saturation);
+        HueBridge bridge = new HueBridge(baseUrl, username);
+        bridge.setLightState(id, state);
+        return (T) this;
+    }
 
     /**
      * Set the color temperature.
@@ -105,5 +130,14 @@ public class HueColorLight<T> extends HueLight<T> {
      */
     public void setHue(int hue) {
         hue(hue);
+    }
+    
+    /**
+     * Set the saturation.
+     * 
+     * @param saturation the saturation.
+     */
+    public void setSaturation(int saturation) {
+        saturation(saturation);
     }
 }
