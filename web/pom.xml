@@ -8,7 +8,7 @@
     <parent>
         <artifactId>project</artifactId>
         <groupId>collectivae</groupId>
-        <version>20.4.0-SNAPSHOT</version>
+        <version>20.4.0</version>
     </parent>
     <artifactId>web</artifactId>
     <packaging>war</packaging>
