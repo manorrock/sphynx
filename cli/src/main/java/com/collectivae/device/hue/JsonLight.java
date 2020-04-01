@@ -25,26 +25,20 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device.huebridge;
+package com.collectivae.device.hue;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbPropertyOrder;
 
 /**
- * A Philips Hue light.
+ * A light (JSON).
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"state", "softwareUpdate", "type", "name", 
+@JsonbPropertyOrder({"state", "type", "name", 
     "manufacturerName", "productName", "capabilities", "softwareConfigId", "productId"})
-public class HueBridgeLight {
+public class JsonLight {
     
-    /**
-     * Stores the capabilities.
-     */
-    @JsonbProperty("capabilities")
-    private HueBridgeLightCapabilities capabilities;
-
     /**
      * Stores the manufacturer name.
      */
@@ -74,33 +68,18 @@ public class HueBridgeLight {
      */
     @JsonbProperty("swconfigid")
     private String softwareConfigId;
-    
-    /**
-     * Stores the software update.
-     */
-    @JsonbProperty("swupdate")
-    private HueBridgeLightSoftwareUpdate softwareUpdate;
 
     /**
      * Stores the state.
      */
     @JsonbProperty("state")
-    private HueBridgeLightState state;
+    private JsonLightState state;
 
     /**
      * Stores the type.
      */
     @JsonbProperty("type")
     private String type;
-
-    /**
-     * Get the capabilities.
-     * 
-     * @return the capabilities.
-     */
-    public HueBridgeLightCapabilities getCapabilities() {
-        return capabilities;
-    }
 
     /**
      * Get the manufacturer name.
@@ -146,22 +125,13 @@ public class HueBridgeLight {
     public String getSoftwareConfigId() {
         return softwareConfigId;
     }
-    
-    /**
-     * Get the software update.
-     * 
-     * @return the software update.
-     */
-    public HueBridgeLightSoftwareUpdate getSoftwareUpdate() {
-        return this.softwareUpdate;
-    }
 
     /**
      * Get the light state.
      *
      * @return the light state.
      */
-    public HueBridgeLightState getState() {
+    public JsonLightState getState() {
         return state;
     }
 
@@ -172,15 +142,6 @@ public class HueBridgeLight {
      */
     public String getType() {
         return type;
-    }
-    
-    /**
-     * Set the capabilities.
-     * 
-     * @param capabilities the capabilities.
-     */
-    public void setCapabilities(HueBridgeLightCapabilities capabilities) {
-        this.capabilities = capabilities;
     }
 
     /**
@@ -228,20 +189,11 @@ public class HueBridgeLight {
     }
 
     /**
-     * Set the software update.
-     * 
-     * @param softwareUpdate the software update.
-     */
-    public void setSoftwareUpdate(HueBridgeLightSoftwareUpdate softwareUpdate) {
-        this.softwareUpdate = softwareUpdate;
-    }
-
-    /**
      * Set the light state.
      *
      * @param state the state.
      */
-    public void setState(HueBridgeLightState state) {
+    public void setState(JsonLightState state) {
         this.state = state;
     }
 

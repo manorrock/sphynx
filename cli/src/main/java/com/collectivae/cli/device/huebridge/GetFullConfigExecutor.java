@@ -25,15 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device.huebridge;
+package com.collectivae.cli.device.huebridge;
 
 import com.collectivae.cli.CliExecutor;
+import com.collectivae.device.hue.HueBridge;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
-import javax.json.bind.JsonbConfig;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -41,67 +39,11 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 /**
- * The executor that sets the state of a light.
- *
- * <pre>
- *
- * co device huebridge set-light-state [--alert ALERT] --base-url BASE_URL
- * [--brightness BRIGHTNESS] [--colorMode COLOR_MODE]
- * [--colorTemperature COLOR_TEMPERATURE] --id ID [--on ON] [--mode MODE]
- * --username USERNAME
- * </pre>
- * <p>
- * where ALERT is the alert mode, BASE_URL is the URL of the Hue Bridge API
- * endpoint, BRIGHTNESS is the brightness of the light, COLOR_MODE is the color
- * mode of the light, COLOR_TEMPERATURE is the color temperature of the light,
- * ID is the ID of the light, ON is the boolean 'on' state for the light, MODE
- * is the mode of the light, and USERNAME is the username to be used for
- * authentication,
- * </p>
+ * The executor to get the full configuration from the Hue Bridge.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class SetLightStateExecutor implements CliExecutor {
-
-    /**
-     * Stores the alert.
-     */
-    private String alert;
-
-    /**
-     * Stores the alert.
-     */
-    private String baseUrl;
-
-    /**
-     * Stores the brightness.
-     */
-    private Integer brightness;
-
-    /**
-     * Stores the color mode.
-     */
-    private String colorMode;
-
-    /**
-     * Stores the color temperature.
-     */
-    private Integer colorTemperature;
-
-    /**
-     * Stores the light id.
-     */
-    private String id;
-
-    /**
-     * Stores the on state.
-     */
-    private Boolean on;
-
-    /**
-     * Stores the username.
-     */
-    protected String username;
+public class GetFullConfigExecutor implements CliExecutor {
 
     /**
      * Execute.
@@ -115,12 +57,7 @@ class SetLightStateExecutor implements CliExecutor {
         Options options = new Options();
         options.addOption(null, "help", false, "Print this message");
         options.addRequiredOption(null, "base-url", true, "The URL of the bridge");
-        options.addRequiredOption(null, "id", true, "The ID of the light");
-        options.addOption(null, "on", true, "The on state (true/false)");
         options.addRequiredOption(null, "username", true, "The username to authenticate with");
-        options.addOption(null, "color-temperature", true, "The color temperature");
-        options.addOption(null, "brightness", true, "The brightness");
-        options.addOption(null, "alert", true, "The alert mode");
         DefaultParser parser = new DefaultParser();
         CommandLine commandLine = null;
         try {
@@ -131,30 +68,14 @@ class SetLightStateExecutor implements CliExecutor {
             HelpFormatter formatter = new HelpFormatter();
             StringWriter stringWriter = new StringWriter();
             formatter.printUsage(new PrintWriter(stringWriter), 80,
-                    "co device huebridge set-light-state", options);
+                    "co device huebridge get-full-config", options);
             formatter.printOptions(new PrintWriter(stringWriter), 80, options, 1, 1);
             result = stringWriter.toString();
         } else {
-            JsonbConfig config = new JsonbConfig();
-            config.withFormatting(true);
-            Jsonb jsonb = JsonbBuilder.create(config);
             HueBridge bridge = new HueBridge();
             bridge.setBaseUrl(commandLine.getOptionValue("base-url"));
             bridge.setUsername(commandLine.getOptionValue("username"));
-            HueBridgeLightState state = new HueBridgeLightState();
-            if (commandLine.hasOption("on")) {
-                state.setOn(Boolean.parseBoolean(commandLine.getOptionValue("on")));
-            }
-            if (commandLine.hasOption("brightness")) {
-                state.setBrightness(Integer.parseInt(commandLine.getOptionValue("brightness")));
-            }
-            if (commandLine.hasOption("color-temperature")) {
-                state.setColorTemperature(Integer.parseInt(commandLine.getOptionValue("color-temperature")));
-            }
-            if (commandLine.hasOption("alert")) {
-                state.setAlert(commandLine.getOptionValue("alert"));
-            }
-            result = jsonb.toJson(bridge.setLightState(commandLine.getOptionValue("id"), state));
+            result = JsonUtil.prettyPrint(bridge.getFullConfig());
         }
         return result;
     }

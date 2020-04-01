@@ -44,19 +44,9 @@ import org.junit.jupiter.api.Test;
 public class HueWhiteLightTest {
 
     /**
-     * Stores the base URL.
+     * Stores the light.
      */
-    private String baseUrl;
-
-    /**
-     * Stores the ID of the white light.
-     */
-    private String id;
-
-    /**
-     * Stores the username.
-     */
-    private String username;
+    private HueWhiteLight light;
 
     /**
      * Setup before testing.
@@ -66,9 +56,13 @@ public class HueWhiteLightTest {
         try {
             Properties properties = new Properties();
             properties.load(new FileInputStream("HueBridge.properties"));
-            baseUrl = properties.getProperty("baseUrl");
-            username = properties.getProperty("username");
-            id = properties.getProperty("whiteLightId");
+            String id = properties.getProperty("whiteLightId");
+            HueBridge bridge = new HueBridge();
+            bridge.setBaseUrl(properties.getProperty("baseUrl"));
+            bridge.setUsername(properties.getProperty("username"));
+            light = new HueWhiteLight();
+            light.setParentDevice(bridge);
+            light.setId(id);
         } catch (IOException ioe) {
         }
     }
@@ -78,13 +72,11 @@ public class HueWhiteLightTest {
      */
     @Test
     public void testOn() {
-        HueWhiteLight light = new HueWhiteLight().
-                baseUrl(baseUrl).username(username).id(id);
         boolean on = light.isOn();
-        light.on();
+        light.setOn(true);
         assertTrue(light.isOn());
         if (!on) {
-            light.off();
+            light.setOn(false);
         }
     }
 
@@ -93,13 +85,11 @@ public class HueWhiteLightTest {
      */
     @Test
     public void testOff() {
-        HueWhiteLight light = new HueWhiteLight().
-                baseUrl(baseUrl).username(username).id(id);
         boolean on = light.isOn();
-        light.off();
+        light.setOn(false);
         assertFalse(light.isOn());
         if (on) {
-            light.on();
+            light.setOn(true);
         }
     }
 
@@ -108,16 +98,14 @@ public class HueWhiteLightTest {
      */
     @Test
     public void testBrightness() {
-        HueWhiteLight light = new HueWhiteLight().
-                baseUrl(baseUrl).username(username).id(id);
         boolean on = light.isOn();
-        light.on();
-        light.brightness(100);
+        light.setOn(true);
+        light.setBrightness(100);
         assertEquals(100, light.getBrightness());
-        light.brightness(254);
+        light.setBrightness(254);
         assertEquals(254, light.getBrightness());
         if (!on) {
-            light.off();
+            light.setOn(false);
         }
     }
 }

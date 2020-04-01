@@ -25,15 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device.huebridge;
+package com.collectivae.cli.device.huebridge;
 
 import com.collectivae.cli.CliExecutor;
+import com.collectivae.device.hue.HueBridge;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
-import javax.json.bind.JsonbConfig;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -41,11 +39,11 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 /**
- * The executor that establishes a link with the Hue Bridge.
+ * The executor that gets the base configuration for the Hue Bridge.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class LinkExecutor implements CliExecutor {
+class GetBaseConfigExecutor implements CliExecutor {
 
     /**
      * Execute.
@@ -59,7 +57,6 @@ class LinkExecutor implements CliExecutor {
         Options options = new Options();
         options.addOption(null, "help", false, "Print this message");
         options.addRequiredOption(null, "base-url", true, "The URL of the bridge");
-        options.addRequiredOption(null, "device-type", true, "The device type");
         DefaultParser parser = new DefaultParser();
         CommandLine commandLine = null;
         try {
@@ -70,18 +67,13 @@ class LinkExecutor implements CliExecutor {
             HelpFormatter formatter = new HelpFormatter();
             StringWriter stringWriter = new StringWriter();
             formatter.printUsage(new PrintWriter(stringWriter), 80,
-                    "co device huebridge link", options);
+                    "co device huebridge get-base-config", options);
             formatter.printOptions(new PrintWriter(stringWriter), 80, options, 1, 1);
             result = stringWriter.toString();
         } else {
-            JsonbConfig config = new JsonbConfig();
-            config.withFormatting(true);
-            Jsonb jsonb = JsonbBuilder.create(config);
             HueBridge bridge = new HueBridge();
             bridge.setBaseUrl(commandLine.getOptionValue("base-url"));
-            HueBridgeLinkRequest linkRequest = new HueBridgeLinkRequest();
-            linkRequest.setDeviceType(commandLine.getOptionValue("device-type"));
-            result = jsonb.toJson(bridge.link(linkRequest));
+            result = JsonUtil.prettyPrint(bridge.getBaseConfig());
         }
         return result;
     }

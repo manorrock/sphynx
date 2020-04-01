@@ -25,18 +25,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device.huebridge;
+package com.collectivae.device.hue;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbPropertyOrder;
 
 /**
- * The link request to send to the bridge.
+ * The link request to send to the bridge (JSON).
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @JsonbPropertyOrder({"deviceType"})
-public class HueBridgeLinkRequest {
+public class JsonLinkRequest {
 
     /**
      * Stores the device type.

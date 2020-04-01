@@ -28,7 +28,7 @@
 package com.collectivae.device.hue;
 
 /**
- * A Hue light strip plus.
+ * A Hue LightStrip Plus (aka. model LST002).
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

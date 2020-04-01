@@ -7,9 +7,9 @@
         "allPublicMethods": true,
         "allDeclaredClasses": true,
         "allPublicClasses": true
-    }, 
+    },
     {
-        "name": "com.collectivae.device.huebridge.HueBridgeBaseConfig",
+        "name": "com.collectivae.device.hue.JsonLight",
         "allDeclaredConstructors": true,
         "allPublicConstructors": true,
         "allDeclaredMethods": true,
@@ -18,7 +18,7 @@
         "allPublicFields": true
     }, 
     {
-        "name": "com.collectivae.device.huebridge.HueBridgeFullConfig",
+        "name": "com.collectivae.device.hue.JsonLightState",
         "allDeclaredConstructors": true,
         "allPublicConstructors": true,
         "allDeclaredMethods": true,
@@ -27,25 +27,7 @@
         "allPublicFields": true
     }, 
     {
-        "name": "com.collectivae.device.huebridge.HueBridgeLight",
-        "allDeclaredConstructors": true,
-        "allPublicConstructors": true,
-        "allDeclaredMethods": true,
-        "allPublicMethods": true,
-        "allDeclaredFields": true,
-        "allPublicFields": true
-    }, 
-    {
-        "name": "com.collectivae.device.huebridge.HueBridgeLightState",
-        "allDeclaredConstructors": true,
-        "allPublicConstructors": true,
-        "allDeclaredMethods": true,
-        "allPublicMethods": true,
-        "allDeclaredFields": true,
-        "allPublicFields": true
-    }, 
-    {
-        "name": "com.collectivae.device.huebridge.HueBridgeLinkRequest",
+        "name": "com.collectivae.device.hue.JsonLinkRequest",
         "allDeclaredConstructors": true,
         "allPublicConstructors": true,
         "allDeclaredMethods": true,

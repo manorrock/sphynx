@@ -28,7 +28,7 @@
 package com.collectivae.device.hue;
 
 /**
- * A Hue white light (aka. a Philips Hue A19 bulb).
+ * A Hue White light A19 (aka. model LWB014).
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

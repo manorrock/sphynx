@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.util.Properties;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,19 +45,9 @@ import org.junit.jupiter.api.Test;
 public class HueLightStripPlusTest {
 
     /**
-     * Stores the base URL.
+     * Stores the light strip.
      */
-    private String baseUrl;
-
-    /**
-     * Stores the ID of the white light.
-     */
-    private String id;
-
-    /**
-     * Stores the username.
-     */
-    private String username;
+    private HueLightStripPlus lightStrip;
 
     /**
      * Setup before testing.
@@ -66,120 +57,109 @@ public class HueLightStripPlusTest {
         try {
             Properties properties = new Properties();
             properties.load(new FileInputStream("HueBridge.properties"));
-            baseUrl = properties.getProperty("baseUrl");
-            username = properties.getProperty("username");
-            id = properties.getProperty("lightStripPlusId");
+            String id = properties.getProperty("lightStripPlusId");
+            HueBridge bridge = new HueBridge();
+            bridge.setBaseUrl(properties.getProperty("baseUrl"));
+            bridge.setUsername(properties.getProperty("username"));
+            lightStrip = new HueLightStripPlus();
+            lightStrip.setParentDevice(bridge);
+            lightStrip.setId(id);
         } catch (IOException ioe) {
         }
     }
-
+    
     /**
-     * Test brightness method.
+     * Test getJson method.
      */
     @Test
-    public void testBrightness() {
-        HueLightStripPlus lightStrip = new HueLightStripPlus().
-                baseUrl(baseUrl).username(username).id(id);
+    public void testGetJson() {
+        assertNotNull(lightStrip.getJson());
+    }
+
+    /**
+     * Test setBrightness method.
+     */
+    @Test
+    public void testSetBrightness() {
         boolean on = lightStrip.isOn();
-        lightStrip.on();
+        lightStrip.setOn(true);
         int brightness = lightStrip.getBrightness();
-        lightStrip.brightness(100);
+        lightStrip.setBrightness(100);
         assertEquals(100, lightStrip.getBrightness());
-        lightStrip.brightness(254);
+        lightStrip.setBrightness(254);
         assertEquals(254, lightStrip.getBrightness());
-        lightStrip.brightness(brightness);
+        lightStrip.setBrightness(brightness);
         if (!on) {
-            lightStrip.off();
+            lightStrip.setOn(false);
         }
     }
-    
+
     /**
-     * Test colorTemperature method.
+     * Test setColorTemperature method.
      */
     @Test
-    public void testColorTemperature() {
-        HueLightStripPlus lightStrip = new HueLightStripPlus().
-                baseUrl(baseUrl).username(username).id(id);
+    public void testSetColorTemperature() {
         boolean on = lightStrip.isOn();
-        lightStrip.on();
+        lightStrip.setOn(true);
         int colorTemperature = lightStrip.getColorTemperature();
-        lightStrip.colorTemperature(254);
+        lightStrip.setColorTemperature(254);
         assertEquals(254, lightStrip.getColorTemperature());
-        lightStrip.colorTemperature(153);
+        lightStrip.setColorTemperature(153);
         assertEquals(153, lightStrip.getColorTemperature());
-        lightStrip.colorTemperature(colorTemperature);
+        lightStrip.setColorTemperature(colorTemperature);
         if (!on) {
-            lightStrip.off();
+            lightStrip.setOn(false);
         }
     }
-    
+
     /**
-     * Test hue method.
+     * Test setHue method.
      */
     @Test
-    public void testHue() {
-        HueLightStripPlus lightStrip = new HueLightStripPlus().
-                baseUrl(baseUrl).username(username).id(id);
+    public void testSetHue() {
         boolean on = lightStrip.isOn();
-        lightStrip.on();
+        lightStrip.setOn(true);
         int hue = lightStrip.getHue();
-        lightStrip.hue(254);
+        lightStrip.setHue(254);
         assertEquals(254, lightStrip.getHue());
-        lightStrip.hue(2540);
+        lightStrip.setHue(2540);
         assertEquals(2540, lightStrip.getHue());
-        lightStrip.hue(hue);
+        lightStrip.setHue(hue);
         if (!on) {
-            lightStrip.off();
+            lightStrip.setOn(false);
         }
     }
 
     /**
-     * Test off method.
+     * Test setOn method.
      */
     @Test
-    public void testOff() {
-        HueLightStripPlus lightStrip = new HueLightStripPlus().
-                baseUrl(baseUrl).username(username).id(id);
+    public void testSetOn() {
         boolean on = lightStrip.isOn();
-        lightStrip.off();
+        lightStrip.setOn(false);
         assertFalse(lightStrip.isOn());
-        if (on) {
-            lightStrip.on();
-        }
-    }
-
-    /**
-     * Test on method.
-     */
-    @Test
-    public void testOn() {
-        HueLightStripPlus lightStrip = new HueLightStripPlus().
-                baseUrl(baseUrl).username(username).id(id);
-        boolean on = lightStrip.isOn();
-        lightStrip.on();
+        lightStrip.setOn(true);
         assertTrue(lightStrip.isOn());
         if (!on) {
-            lightStrip.off();
+            lightStrip.setOn(false);
         }
     }
-    
+
     /**
-     * Test saturation method.
+     * Test setSaturation method.
      */
     @Test
-    public void testSaturation() {
-        HueLightStripPlus lightStrip = new HueLightStripPlus().
-                baseUrl(baseUrl).username(username).id(id);
+    public void testSetSaturation() {
         boolean on = lightStrip.isOn();
-        lightStrip.on();
+        lightStrip.setOn(true);
         int saturation = lightStrip.getSaturation();
-        lightStrip.saturation(254);
+        lightStrip.setSaturation(254);
         assertEquals(254, lightStrip.getSaturation());
-        lightStrip.saturation(100);
+        lightStrip.setSaturation(100);
         assertEquals(100, lightStrip.getSaturation());
-        lightStrip.saturation(saturation);
+        lightStrip.setSaturation(saturation);
         if (!on) {
-            lightStrip.off();
+            lightStrip.setOn(false);
         }
     }
 }

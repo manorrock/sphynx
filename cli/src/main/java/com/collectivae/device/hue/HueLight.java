@@ -27,66 +27,31 @@
  */
 package com.collectivae.device.hue;
 
-import com.collectivae.device.huebridge.HueBridge;
-import com.collectivae.device.huebridge.HueBridgeLight;
-import com.collectivae.device.huebridge.HueBridgeLightState;
+import com.collectivae.device.ChildDevice;
+import com.collectivae.device.Device;
 
 /**
  * A Hue light.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  * @param <T> the sub type.
  */
-public class HueLight<T> {
-    
+public class HueLight<T> implements ChildDevice {
+
     /**
-     * Stores the base URL.
+     * Stores the parent device (aka the bridge).
      */
-    protected String baseUrl;
-    
+    protected HueBridge bridge;
+
+    /**
+     * Stores the device id.
+     */
+    protected String deviceId;
+
     /**
      * Stores the id.
      */
     protected String id;
-
-    /**
-     * Stores the username.
-     */
-    protected String username;
-
-    /**
-     * Set the base URL.
-     *
-     * @param baseUrl the base URL.
-     * @return the light.
-     */
-    public T baseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
-        return (T) this;
-    }
-
-    /**
-     * Set the brightness.
-     *
-     * @param brightness the brightness.
-     * @return the light.
-     */
-    public T brightness(int brightness) {
-        HueBridgeLightState state = new HueBridgeLightState();
-        state.setBrightness(brightness);
-        HueBridge bridge = new HueBridge(baseUrl, username);
-        bridge.setLightState(id, state);
-        return (T) this;
-    }
-
-    /**
-     * Get the base URL.
-     *
-     * @return the base URL.
-     */
-    public String getBaseUrl() {
-        return baseUrl;
-    }
 
     /**
      * Get the brightness.
@@ -94,8 +59,7 @@ public class HueLight<T> {
      * @return the brightness.
      */
     public int getBrightness() {
-        HueBridge bridge = new HueBridge(baseUrl, username);
-        HueBridgeLight light = bridge.getLightAsObject(id);
+        JsonLight light = bridge.getLightAsObject(id);
         return light.getState().getBrightness();
     }
 
@@ -107,16 +71,14 @@ public class HueLight<T> {
     public String getId() {
         return id;
     }
-
+    
     /**
-     * Set the id.
-     *
-     * @param id the id.
-     * @return the light.
+     * Get the JSON.
+     * 
+     * @return the JSON.
      */
-    public T id(String id) {
-        this.id = id;
-        return (T) this;
+    public String getJson() {
+        return bridge.getLight(id);
     }
 
     /**
@@ -125,94 +87,78 @@ public class HueLight<T> {
      * @return true if it is, false otherwise.
      */
     public boolean isOn() {
-        HueBridge bridge = new HueBridge(baseUrl, username);
-        HueBridgeLight light = bridge.getLightAsObject(id);
+        JsonLight light = bridge.getLightAsObject(id);
         return light.getState().isOn();
     }
 
     /**
-     * Turn off.
-     *
-     * @return the light.
-     */
-    public T off() {
-        HueBridgeLightState state = new HueBridgeLightState();
-        state.setOn(false);
-        HueBridge bridge = new HueBridge(baseUrl, username);
-        bridge.setLightState(id, state);
-        return (T) this;
-    }
-
-    /**
-     * Turn on.
-     *
-     * @return the light.
-     */
-    public T on() {
-        HueBridgeLightState state = new HueBridgeLightState();
-        state.setOn(true);
-        HueBridge bridge = new HueBridge(baseUrl, username);
-        bridge.setLightState(id, state);
-        return (T) this;
-    }
-
-    /**
-     * Set the base url.
-     *
-     * @param baseUrl the base URL.
-     */
-    public void setBaseUrl(String baseUrl) {
-        baseUrl(baseUrl);
-    }
-    
-    /**
      * Set the brightness.
-     * 
+     *
      * @param brightness the brightness.
      */
     public void setBrightness(int brightness) {
-        brightness(brightness);
+        JsonLightState state = new JsonLightState();
+        state.setBrightness(brightness);
+        bridge.setLightState(id, state);
     }
 
     /**
      * Set the id.
-     * 
+     *
      * @param id the id.
      */
     public void setId(String id) {
-        id(id);
-    }
-    
-    /**
-     * Set the light on or off.
-     * 
-     * @param on true for on, false for off.
-     */
-    public void setOn(boolean on) {
-        if (on) {
-            on();
-        } else {
-            off();
-        }
+        this.id = id;
     }
 
     /**
-     * Set the username.
-     * 
-     * @param username the username.
+     * Set the light on or off.
+     *
+     * @param on true for on, false for off.
      */
-    public void setUsername(String username) {
-        username(username);
+    public void setOn(boolean on) {
+        JsonLightState state = new JsonLightState();
+        state.setOn(on);
+        bridge.setLightState(id, state);
     }
-    
+
     /**
-     * Set the username.
-     * 
-     * @param username the username.
-     * @return the light.
+     * Get the parent device.
+     *
+     * @return the parent device.
      */
-    public T username(String username) {
-        this.username = username;
-        return (T) this;
+    @Override
+    public Device getParentDevice() {
+        return bridge;
+    }
+
+    /**
+     * Set the parent device.
+     *
+     * @param parentDevice the parent device.
+     */
+    @Override
+    public void setParentDevice(Device parentDevice) {
+        this.bridge = (HueBridge) parentDevice;
+    }
+
+    /**
+     * Get the device id.
+     *
+     * @return the device id.
+     */
+    @Override
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    /**
+     * Set the device id.
+     *
+     * @param deviceId the device id.
+     */
+    @Override
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 }

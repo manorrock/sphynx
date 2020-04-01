@@ -25,65 +25,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device.huebridge;
-
-import java.util.Date;
-import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbPropertyOrder;
+package com.collectivae.device;
 
 /**
- * The software update state of a Hue light.
- *
+ * A child device (which is a device that has a parent device).
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"state", "lastInstallDate"})
-public class HueBridgeLightSoftwareUpdate {
+public interface ChildDevice extends Device {
     
     /**
-     * Stores the last install date.
-     */
-    @JsonbProperty("lastinstall")
-    private Date lastInstallDate;
-
-    /**
-     * Stores the state.
-     */
-    @JsonbProperty("state")
-    private String state;
-
-    /**
-     * Get the last install date.
+     * Get the parent device.
      * 
-     * @return the last install date.
+     * @return the parent device.
      */
-    public Date getLastInstallDate() {
-        return lastInstallDate;
-    }
-
+    Device getParentDevice();
+   
     /**
-     * Get the state.
+     * Set the parent device.
      * 
-     * @return the state.
+     * @param parentDevice the parent device.
      */
-    public String getState() {
-        return state;
-    }
-
-    /**
-     * Set the last install date.
-     * 
-     * @param lastInstallDate the last install date.
-     */
-    public void setLastInstallDate(Date lastInstallDate) {
-        this.lastInstallDate = lastInstallDate;
-    }
-
-    /**
-     * Set the state.
-     * 
-     * @param state the state. 
-     */
-    public void setState(String state) {
-        this.state = state;
-    }
+    void setParentDevice(Device parentDevice);
 }

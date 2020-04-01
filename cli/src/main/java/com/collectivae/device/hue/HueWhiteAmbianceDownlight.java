@@ -28,78 +28,9 @@
 package com.collectivae.device.hue;
 
 /**
- * A Hue color light.
- *
+ * A Hue White Ambiance BR30 (aka. product id Philips-LTW011-1-BR30CTv1).
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
- * @param <T> the type of color light.
  */
-public class HueColorLight<T> extends HueLight<T> {
-
-    /**
-     * Stores the saturation.
-     */
-    protected int saturation;
-
-    /**
-     * Get the color temperature.
-     *
-     * @return the color temperature.
-     */
-    public int getColorTemperature() {
-        JsonLight light = bridge.getLightAsObject(id);
-        return light.getState().getColorTemperature();
-    }
-
-    /**
-     * Get the hue.
-     *
-     * @return the hue.
-     */
-    public int getHue() {
-        JsonLight light = bridge.getLightAsObject(id);
-        return light.getState().getHue();
-    }
-
-    /**
-     * Get the saturation.
-     *
-     * @return saturation.
-     */
-    public int getSaturation() {
-        JsonLight light = bridge.getLightAsObject(id);
-        return light.getState().getSaturation();
-    }
-
-    /**
-     * Set the color temperature.
-     *
-     * @param colorTemperature.
-     */
-    public void setColorTemperature(int colorTemperature) {
-        JsonLightState state = new JsonLightState();
-        state.setColorTemperature(colorTemperature);
-        bridge.setLightState(id, state);
-    }
-
-    /**
-     * Set the hue.
-     *
-     * @param hue the hue.
-     */
-    public void setHue(int hue) {
-        JsonLightState state = new JsonLightState();
-        state.setHue(hue);
-        bridge.setLightState(id, state);
-    }
-
-    /**
-     * Set the saturation.
-     *
-     * @param saturation the saturation.
-     */
-    public void setSaturation(int saturation) {
-        JsonLightState state = new JsonLightState();
-        state.setSaturation(saturation);
-        bridge.setLightState(id, state);
-    }
+public class HueWhiteAmbianceDownlight extends HueLight<HueWhiteAmbianceDownlight> {
 }

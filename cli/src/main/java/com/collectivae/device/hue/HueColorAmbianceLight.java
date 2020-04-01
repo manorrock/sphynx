@@ -25,71 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device.huebridge;
-
-import java.util.Map;
-import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbPropertyOrder;
+package com.collectivae.device.hue;
 
 /**
- * The full configuration of the Hue Bridge.
- *
+ * A Hue Color Ambiance A19 (aka. model LCA002, LCT016)
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"lights", "config"})
-public class HueBridgeFullConfig {
-
-    /**
-     * Stores the config.
-     */
-    @JsonbProperty("config")
-    private HueBridgeBaseConfig config;
-    
-    /**
-     * Stores the lights.
-     */
-    @JsonbProperty("lights")
-    private Map<String, HueBridgeLight> lights;
-    
-    /**
-     * Constructor.
-     */
-    public HueBridgeFullConfig() {
-    }
-
-    /**
-     * Get the config.
-     * 
-     * @return the config.
-     */
-    public HueBridgeBaseConfig getConfig() {
-        return config;
-    }
-
-    /**
-     * Get the lights.
-     *
-     * @return the lights.
-     */
-    public Map<String, HueBridgeLight> getLights() {
-        return lights;
-    }
-
-    /**
-     * Set the config.
-     * 
-     * @param config the config.
-     */
-    public void setConfig(HueBridgeBaseConfig config) {
-        this.config = config;
-    }
-
-    /**
-     * Set the lights.
-     *
-     * @param lights the lights.
-     */
-    public void setLights(Map<String, HueBridgeLight> lights) {
-        this.lights = lights;
-    }
+public class HueColorAmbianceLight extends HueColorLight<HueColorAmbianceLight> {
 }

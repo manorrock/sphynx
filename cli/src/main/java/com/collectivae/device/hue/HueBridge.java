@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device.huebridge;
+package com.collectivae.device.hue;
 
 import com.collectivae.device.Device;
 import java.io.IOException;
@@ -45,6 +45,11 @@ public class HueBridge implements Device {
      * Stores the base URL.
      */
     private String baseUrl;
+    
+    /**
+     * Storesd the device id.
+     */
+    private String deviceId;
 
     /**
      * Stores the username.
@@ -86,16 +91,24 @@ public class HueBridge implements Device {
      *
      * @return the base configuration.
      */
-    public HueBridgeBaseConfig getBaseConfig() {
-        HueBridgeBaseConfig result = null;
+    public String getBaseConfig() {
+        String result = null;
         try {
-            Jsonb jsonb = JsonbBuilder.create();
-            String body = Request.get(baseUrl + "/config")
+            result = Request.get(baseUrl + "/config")
                     .execute().returnContent().asString();
-            result = jsonb.fromJson(body, HueBridgeBaseConfig.class);
         } catch (IOException ioe) {
         }
         return result;
+    }
+
+    /**
+     * Get the device id.
+     * 
+     * @return the device id.
+     */
+    @Override
+    public String getDeviceId() {
+        return deviceId;
     }
 
     /**
@@ -123,11 +136,11 @@ public class HueBridge implements Device {
      * @param id the ID of the light.
      * @return the light.
      */
-    public HueBridgeLight getLightAsObject(String id) {
-        HueBridgeLight result;
+    public JsonLight getLightAsObject(String id) {
+        JsonLight result;
         Jsonb jsonb = JsonbBuilder.create();
         String body = getLight(id);
-        result = jsonb.fromJson(body, HueBridgeLight.class);
+        result = jsonb.fromJson(body, JsonLight.class);
         return result;
     }
 
@@ -153,7 +166,7 @@ public class HueBridge implements Device {
      * @param linkRequest the link request.
      * @return the response.
      */
-    public String link(HueBridgeLinkRequest linkRequest) {
+    public String link(JsonLinkRequest linkRequest) {
         String result = "";
         try {
             Jsonb jsonb = JsonbBuilder.create();
@@ -176,13 +189,23 @@ public class HueBridge implements Device {
     }
 
     /**
+     * Set the device id.
+     * 
+     * @param deviceId the device id.
+     */
+    @Override
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    /**
      * Set the light state.
      *
      * @param id the id of the light.
      * @param state the light state.
      * @return the response.
      */
-    public String setLightState(String id, HueBridgeLightState state) {
+    public String setLightState(String id, JsonLightState state) {
         String result = "";
         try {
             Jsonb jsonb = JsonbBuilder.create();

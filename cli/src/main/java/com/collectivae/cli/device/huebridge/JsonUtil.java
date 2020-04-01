@@ -25,40 +25,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device.huebridge;
+package com.collectivae.cli.device.huebridge;
 
-import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbPropertyOrder;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.HashMap;
+import javax.json.JsonObject;
+import javax.json.JsonWriter;
+import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonParser;
 
 /**
- * The capabilities of a Hue light.
+ * A utility class for JSON.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"certified"})
-public class HueBridgeLightCapabilities {
-    
-    /**
-     * Stores the certified flag.
-     */
-    @JsonbProperty("certified")
-    public Boolean certified;
+class JsonUtil {
 
     /**
-     * Is the light certified.
-     * 
-     * @return true if it is, false otherwise.
+     * Pretty print.
      */
-    public Boolean isCertified() {
-        return certified;
-    }
-
-    /**
-     * Set the certified flag.
-     * 
-     * @param certified the certified flag.
-     */
-    public void setCertified(Boolean certified) {
-        this.certified = certified;
+    public static String prettyPrint(String string) {
+        JsonParser jsonParser = javax.json.Json.createParser(new StringReader(string));
+        jsonParser.next();
+        JsonObject jsonObject = jsonParser.getObject();
+        StringWriter stringWriter = new StringWriter();
+        HashMap<String, String> jsonConfig = new HashMap<>();
+        jsonConfig.put(JsonGenerator.PRETTY_PRINTING, "");
+        JsonWriter jsonWriter = javax.json.Json.createWriterFactory(jsonConfig).
+                createWriter(stringWriter);
+        jsonWriter.writeObject(jsonObject);
+        return stringWriter.toString();
     }
 }

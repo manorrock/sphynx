@@ -27,7 +27,7 @@
  */
 package com.collectivae.cli;
 
-import com.collectivae.device.DeviceExecutor;
+import com.collectivae.cli.device.DeviceExecutor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

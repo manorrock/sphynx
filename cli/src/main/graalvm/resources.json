@@ -9,5 +9,8 @@
     {"pattern":"\\Qorg/apache/hc/client5/version.properties\\E"}, 
     {"pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"}
   ],
-  "bundles":[{"name":"yasson-messages"}]
+  "bundles":[
+    {"name":"yasson-messages"},
+    {"name":"org.glassfish.json.messages"}
+  ]
 }

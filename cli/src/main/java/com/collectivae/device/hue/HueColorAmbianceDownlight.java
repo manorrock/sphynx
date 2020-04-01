@@ -25,40 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device;
-
-import com.collectivae.cli.CliExecutor;
-import com.collectivae.device.huebridge.HueBridgeExecutor;
-import java.util.ArrayList;
-import java.util.List;
+package com.collectivae.device.hue;
 
 /**
- * The executor dealing with 'co device ....'
+ * A Hue Color Ambiance BR30 (aka. model LCB001)
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DeviceExecutor implements CliExecutor {
-
-    /**
-     * Execute.
-     * 
-     * @param arguments the arguments.
-     * @return the result.
-     */
-    @Override
-    public String execute(List<String> arguments) {
-        String result = "";
-        if (arguments.size() > 0) {
-            CliExecutor executor = null;
-            switch(arguments.get(0)) {
-                case "huebridge": executor = new HueBridgeExecutor(); break;
-            }
-            if (executor != null) {
-                List<String> executorArguments = new ArrayList<>(arguments);
-                executorArguments.remove(0);
-                result = executor.execute(executorArguments);
-            }
-        }
-        return result;
-    }
+public class HueColorAmbianceDownlight extends HueColorLight<HueColorAmbianceDownlight> {
 }

@@ -25,13 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device.huebridge;
+package com.collectivae.device.hue;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,35 +37,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the Hue Bridge.
- * 
- * <p>
- *  If you want to enable these tests you need to tell the test the base URL of
- *  the bridge you want to use to validate against. If no base URL is specified
- *  the tests will be skipped.
- * </p>
- * 
- * <p>
- *  Note if you are running these tests for the first time you will need to setup
- *  a link to the bridge before you can access it. This involves pressing the
- *  sync button prior to executing the tests so the tests can setup a username,
- *  which will be stored in the same properties file that is used to specify the
- *  base URL.
- * </p>
+ * The JUnit tests for the HueBridge class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HueBridgeTest {
-    
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = Logger.getLogger(HueBridgeTest.class.getName());
-    
-    /**
-     * Stores the base URL
-     */
-    private String baseUrl;
     
     /**
      * Stores the Hue bridge.
@@ -82,9 +56,8 @@ public class HueBridgeTest {
         try {
             Properties properties = new Properties();
             properties.load(new FileInputStream("HueBridge.properties"));
-            baseUrl = properties.getProperty("baseUrl");
-            LOGGER.log(Level.INFO, "HueBridge base URL: {0}", baseUrl);
-            bridge = new HueBridge(baseUrl);
+            bridge = new HueBridge();
+            bridge.setBaseUrl(properties.getProperty("baseUrl"));
             bridge.setUsername(properties.getProperty("username"));
         } catch (IOException ioe) {
         }
@@ -95,7 +68,7 @@ public class HueBridgeTest {
      */
     @Test
     public void testGetBaseConfig() {
-        HueBridgeBaseConfig config = bridge.getBaseConfig();
+        String config = bridge.getBaseConfig();
         assertNotNull(config);
     }
 
@@ -113,10 +86,10 @@ public class HueBridgeTest {
      */
     @Test
     public void testSetLightStateOn() {
-        HueBridgeLightState state = new HueBridgeLightState();
+        JsonLightState state = new JsonLightState();
         state.setOn(true);
         bridge.setLightState("1", state);
-        HueBridgeLight light = bridge.getLightAsObject("1");
+        JsonLight light = bridge.getLightAsObject("1");
         assertTrue(light.getState().isOn());
     }
 
@@ -125,10 +98,10 @@ public class HueBridgeTest {
      */
     @Test
     public void testSetLightStateOff() {
-        HueBridgeLightState state = new HueBridgeLightState();
+        JsonLightState state = new JsonLightState();
         state.setOn(false);
         bridge.setLightState("1", state);
-        HueBridgeLight light = bridge.getLightAsObject("1");
+        JsonLight light = bridge.getLightAsObject("1");
         assertFalse(light.getState().isOn());
     }
 }

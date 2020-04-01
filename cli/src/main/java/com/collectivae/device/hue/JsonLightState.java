@@ -25,19 +25,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device.huebridge;
+package com.collectivae.device.hue;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbPropertyOrder;
 
 /**
- * The state of Hue light.
+ * The state of Hue light (JSON).
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @JsonbPropertyOrder({"on", "brightness", "hue", "saturation", "colorTemperature",
     "alert", "colorMode", "mode", "reachable"})
-public class HueBridgeLightState {
+public class JsonLightState {
 
     /**
      * Stores the alert.
@@ -96,7 +96,7 @@ public class HueBridgeLightState {
     /**
      * Constructor.
      */
-    public HueBridgeLightState() {
+    public JsonLightState() {
     }
 
     /**

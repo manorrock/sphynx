@@ -29,8 +29,22 @@ package com.collectivae.device;
 
 /**
  * A device.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface Device {
+
+    /**
+     * Get device ID.
+     *
+     * @return the device ID.
+     */
+    String getDeviceId();
+
+    /**
+     * Set the device ID.
+     *
+     * @param deviceId the device ID.
+     */
+    void setDeviceId(String deviceId);
 }

@@ -25,31 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device.huebridge;
+package com.collectivae.cli.device.huebridge;
 
 import com.collectivae.cli.CliExecutor;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.List;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonWriter;
-import javax.json.stream.JsonGenerator;
-import javax.json.stream.JsonParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 
 /**
- * The executor to get the full configuration from the Hue Bridge.
+ * The executor for the Hue Bridge (aka "huebridge").
+ *
+ * <p>
+ * Commands for the Hue Bridge:
+ * </p>
+ * <ul>
+ * <li>get-base-config implemented by {@link GetBaseConfigExecutor}</li>
+ * <li>get-full-config implemented by {@link GetFullConfigExecutor}</li>
+ * <li>link implemented by {@link LinkExecutor}</li>
+ * </ul>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class GetFullConfigExecutor implements CliExecutor {
+public class HueBridgeExecutor implements CliExecutor {
 
     /**
      * Execute.
@@ -59,36 +58,32 @@ public class GetFullConfigExecutor implements CliExecutor {
      */
     @Override
     public String execute(List<String> arguments) {
-        String result;
-        Options options = new Options();
-        options.addOption(null, "help", false, "Print this message");
-        options.addRequiredOption(null, "base-url", true, "The URL of the bridge");
-        options.addRequiredOption(null, "username", true, "The username to authenticate with");
-        DefaultParser parser = new DefaultParser();
-        CommandLine commandLine = null;
-        try {
-            commandLine = parser.parse(options, arguments.toArray(new String[0]));
-        } catch (ParseException pe) {
-        }
-        if (commandLine == null || commandLine.hasOption("help")) {
+        String result = "";
+        if (arguments.size() > 0) {
+            CliExecutor executor = null;
+            switch (arguments.get(0)) {
+                case "get-base-config":
+                    executor = new GetBaseConfigExecutor();
+                    break;
+                case "get-full-config":
+                    executor = new GetFullConfigExecutor();
+                    break;
+                case "link":
+                    executor = new LinkExecutor();
+                    break;
+                case "set-light-state":
+                    executor = new SetLightStateExecutor();
+                    break;
+            }
+            arguments.remove(0);
+            if (executor != null) {
+                result = executor.execute(arguments);
+            }
+        } else {
             HelpFormatter formatter = new HelpFormatter();
             StringWriter stringWriter = new StringWriter();
             formatter.printUsage(new PrintWriter(stringWriter), 80,
-                    "co device huebridge get-full-config", options);
-            formatter.printOptions(new PrintWriter(stringWriter), 80, options, 1, 1);
-            result = stringWriter.toString();
-        } else {
-            HueBridge bridge = new HueBridge();
-            bridge.setBaseUrl(commandLine.getOptionValue("base-url"));
-            bridge.setUsername(commandLine.getOptionValue("username"));
-            JsonParser jsonParser = Json.createParser(new StringReader(bridge.getFullConfig()));
-            jsonParser.next();
-            JsonObject jsonObject = jsonParser.getObject();
-            StringWriter stringWriter = new StringWriter();
-            HashMap<String, String> config = new HashMap<>();
-            config.put(JsonGenerator.PRETTY_PRINTING, "");
-            JsonWriter jsonWriter = Json.createWriterFactory(config).createWriter(stringWriter);
-            jsonWriter.writeObject(jsonObject);
+                    "co device huebridge [get-base-config] [get-full-config] [link] [set-light-state]");
             result = stringWriter.toString();
         }
         return result;
