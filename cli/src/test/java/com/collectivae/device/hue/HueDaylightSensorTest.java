@@ -25,27 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device;
+package com.collectivae.device.hue;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
- * A child device (which is a device that has a parent device).
- * 
+ * The JUnit tests for the HueDaylightSensor class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
- * @param <T> the type of the parent device.
  */
-public interface ChildDevice<T> extends Device {
-    
+public class HueDaylightSensorTest {
+
     /**
-     * Get the parent device.
-     * 
-     * @return the parent device.
+     * Stores the sensor.
      */
-    T getParentDevice();
-   
+    private HueOutdoorDaylightSensor sensor;
+
     /**
-     * Set the parent device.
-     * 
-     * @param parentDevice the parent device.
+     * Setup before testing.
      */
-    void setParentDevice(T parentDevice);
+    @BeforeEach
+    public void beforeEach() {
+        try {
+            Properties properties = new Properties();
+            properties.load(new FileInputStream("HueBridge.properties"));
+            String id = properties.getProperty("outdoorDaylightSensorId");
+            HueBridge bridge = new HueBridge();
+            bridge.setBaseUrl(properties.getProperty("baseUrl"));
+            bridge.setUsername(properties.getProperty("username"));
+            sensor = new HueOutdoorDaylightSensor();
+            sensor.setParentDevice(bridge);
+            sensor.setId(id);
+        } catch (IOException ioe) {
+        }
+    }
+
+    /**
+     * Test getJson method.
+     */
+    @Test
+    public void testGetJson() {
+        assertNotNull(sensor.getJson());
+    }
 }

@@ -30,12 +30,12 @@ package com.collectivae.device.hue;
 import com.collectivae.device.ChildDevice;
 
 /**
- * A Hue light.
+ * A Hue sensor.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  * @param <T> the sub type.
  */
-public class HueLight<T> implements ChildDevice<HueBridge> {
+public class HueSensor<T> implements ChildDevice<HueBridge> {
 
     /**
      * Stores the parent device (aka the bridge).
@@ -53,18 +53,8 @@ public class HueLight<T> implements ChildDevice<HueBridge> {
     protected String id;
 
     /**
-     * Get the brightness.
-     *
-     * @return the brightness.
-     */
-    public int getBrightness() {
-        JsonLight light = bridge.getLightAsObject(id);
-        return light.getState().getBrightness();
-    }
-
-    /**
      * Get the device id.
-     *
+     * 
      * @return the device id.
      */
     @Override
@@ -80,20 +70,20 @@ public class HueLight<T> implements ChildDevice<HueBridge> {
     public String getId() {
         return id;
     }
-
+    
     /**
      * Get the JSON.
-     *
+     * 
      * @return the JSON.
      */
     public String getJson() {
-        return bridge.getLight(id);
+        return bridge.getSensor(id);
     }
 
     /**
-     * Get the parent device.
-     *
-     * @return the parent device.
+     * Get the Hue Bridge.
+     * 
+     * @return the Hue bridge.
      */
     @Override
     public HueBridge getParentDevice() {
@@ -101,29 +91,8 @@ public class HueLight<T> implements ChildDevice<HueBridge> {
     }
 
     /**
-     * Is the light on.
-     *
-     * @return true if it is, false otherwise.
-     */
-    public boolean isOn() {
-        JsonLight light = bridge.getLightAsObject(id);
-        return light.getState().isOn();
-    }
-
-    /**
-     * Set the brightness.
-     *
-     * @param brightness the brightness.
-     */
-    public void setBrightness(int brightness) {
-        JsonLightState state = new JsonLightState();
-        state.setBrightness(brightness);
-        bridge.setLightState(id, state);
-    }
-
-    /**
      * Set the device id.
-     *
+     * 
      * @param deviceId the device id.
      */
     @Override
@@ -141,19 +110,8 @@ public class HueLight<T> implements ChildDevice<HueBridge> {
     }
 
     /**
-     * Set the light on or off.
-     *
-     * @param on true for on, false for off.
-     */
-    public void setOn(boolean on) {
-        JsonLightState state = new JsonLightState();
-        state.setOn(on);
-        bridge.setLightState(id, state);
-    }
-
-    /**
      * Set the parent device.
-     *
+     * 
      * @param parentDevice the parent device.
      */
     @Override

@@ -25,27 +25,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device;
+package com.collectivae.device.hue;
 
 /**
- * A child device (which is a device that has a parent device).
- * 
+ * A Hue outdoor daylight sensor (aka model id PHDL00).
+ *
  * @author Manfred Riem (mriem@manorrock.com)
- * @param <T> the type of the parent device.
  */
-public interface ChildDevice<T> extends Device {
+public class HueOutdoorDaylightSensor extends HueSensor<HueOutdoorDaylightSensor> {
     
     /**
-     * Get the parent device.
+     * Is it daylight.
      * 
-     * @return the parent device.
+     * @return true if it is, false otherwise.
      */
-    T getParentDevice();
-   
-    /**
-     * Set the parent device.
-     * 
-     * @param parentDevice the parent device.
-     */
-    void setParentDevice(T parentDevice);
+    public boolean isDaylight() {
+        JsonSensor sensor = bridge.getSensorAsObject(id);
+        return sensor.getState().isDaylight();
+    }
 }

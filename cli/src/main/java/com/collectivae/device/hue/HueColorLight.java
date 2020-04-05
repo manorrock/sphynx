@@ -36,11 +36,6 @@ package com.collectivae.device.hue;
 public class HueColorLight<T> extends HueLight<T> {
 
     /**
-     * Stores the saturation.
-     */
-    protected int saturation;
-
-    /**
      * Get the color temperature.
      *
      * @return the color temperature.

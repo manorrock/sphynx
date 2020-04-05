@@ -45,7 +45,7 @@ public class HueBridge implements Device {
      * Stores the base URL.
      */
     private String baseUrl;
-    
+
     /**
      * Storesd the device id.
      */
@@ -103,7 +103,7 @@ public class HueBridge implements Device {
 
     /**
      * Get the device id.
-     * 
+     *
      * @return the device id.
      */
     @Override
@@ -134,6 +134,22 @@ public class HueBridge implements Device {
      * Get the light.
      *
      * @param id the ID of the light.
+     * @return the JSON.
+     */
+    public String getLight(String id) {
+        String result = null;
+        try {
+            result = Request.get(baseUrl + "/" + username + "/lights/"
+                    + id).execute().returnContent().asString();
+        } catch (IOException ioe) {
+        }
+        return result;
+    }
+
+    /**
+     * Get the light (as an object).
+     *
+     * @param id the ID of the light.
      * @return the light.
      */
     public JsonLight getLightAsObject(String id) {
@@ -145,19 +161,31 @@ public class HueBridge implements Device {
     }
 
     /**
-     * Get the light.
+     * Get the sensor.
      *
-     * @param id the ID of the light.
+     * @param id the id.
      * @return the JSON.
      */
-    public String getLight(String id) {
+    public String getSensor(String id) {
         String result = null;
         try {
-            result = Request.get(baseUrl + "/" + username + "/lights/"
+            result = Request.get(baseUrl + "/" + username + "/sensors/"
                     + id).execute().returnContent().asString();
         } catch (IOException ioe) {
         }
         return result;
+    }
+
+    /**
+     * Get the sensor (as an object).
+     *
+     * @param id the ID of the light.
+     * @return the sensor.
+     */
+    public JsonSensor getSensorAsObject(String id) {
+        Jsonb jsonb = JsonbBuilder.create();
+        String body = getSensor(id);
+        return jsonb.fromJson(body, JsonSensor.class);
     }
 
     /**
@@ -190,7 +218,7 @@ public class HueBridge implements Device {
 
     /**
      * Set the device id.
-     * 
+     *
      * @param deviceId the device id.
      */
     @Override

@@ -25,27 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device;
+package com.collectivae.device.hue;
+
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbPropertyOrder;
 
 /**
- * A child device (which is a device that has a parent device).
+ * A sensor (JSON).
  * 
  * @author Manfred Riem (mriem@manorrock.com)
- * @param <T> the type of the parent device.
  */
-public interface ChildDevice<T> extends Device {
-    
+@JsonbPropertyOrder({"state"})
+public class JsonSensor {
+
     /**
-     * Get the parent device.
-     * 
-     * @return the parent device.
+     * Stores the state.
      */
-    T getParentDevice();
-   
+    @JsonbProperty("state")
+    private JsonSensorState state;
+
     /**
-     * Set the parent device.
+     * Get the state.
      * 
-     * @param parentDevice the parent device.
+     * @return the state.
      */
-    void setParentDevice(T parentDevice);
+    public JsonSensorState getState() {
+        return state;
+    }
+
+    /**
+     * Set the state.
+     * 
+     * @param state the state.
+     */
+    public void setState(JsonSensorState state) {
+        this.state = state;
+    }
 }

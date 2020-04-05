@@ -25,27 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.collectivae.device;
+package com.collectivae.device.hue;
+
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbPropertyOrder;
 
 /**
- * A child device (which is a device that has a parent device).
+ * The state of a Hue sensor (JSON).
  * 
  * @author Manfred Riem (mriem@manorrock.com)
- * @param <T> the type of the parent device.
  */
-public interface ChildDevice<T> extends Device {
+@JsonbPropertyOrder({"daylight"})
+public class JsonSensorState {
     
     /**
-     * Get the parent device.
-     * 
-     * @return the parent device.
+     * Stores the daylight flag.
      */
-    T getParentDevice();
-   
+    @JsonbProperty("daylight")
+    private Boolean daylight;
+
     /**
-     * Set the parent device.
+     * Is it daylight.
      * 
-     * @param parentDevice the parent device.
+     * @return true if it is, false otherwise.
      */
-    void setParentDevice(T parentDevice);
+    public Boolean isDaylight() {
+        return daylight;
+    }
+
+    /**
+     * Set the daylight flag.
+     * 
+     * @param daylight the daylight flag.
+     */
+    public void setDaylight(Boolean daylight) {
+        this.daylight = daylight;
+    }
 }

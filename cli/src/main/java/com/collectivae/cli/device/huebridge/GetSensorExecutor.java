@@ -28,28 +28,22 @@
 package com.collectivae.cli.device.huebridge;
 
 import com.collectivae.cli.CliExecutor;
+import com.collectivae.device.hue.HueBridge;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 /**
- * The executor for the Hue Bridge (aka "huebridge").
- *
- * <p>
- * Commands for the Hue Bridge:
- * </p>
- * <ul>
- * <li>get-base-config implemented by {@link GetBaseConfigExecutor}</li>
- * <li>get-full-config implemented by {@link GetFullConfigExecutor}</li>
- * <li>get-sensor implemnted by {@link GetSensorExecutor}</li>
- * <li>link implemented by {@link LinkExecutor}</li>
- * <li>set-light-state implemented by {@link LinkExecutor}</li>
- * </ul>
+ * The executor to get configuration of a sensor.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HueBridgeExecutor implements CliExecutor {
+public class GetSensorExecutor implements CliExecutor {
 
     /**
      * Execute.
@@ -59,39 +53,30 @@ public class HueBridgeExecutor implements CliExecutor {
      */
     @Override
     public String execute(List<String> arguments) {
-        String result = "";
-        if (arguments.size() > 0) {
-            CliExecutor executor = null;
-            switch (arguments.get(0)) {
-                case "get-base-config":
-                    executor = new GetBaseConfigExecutor();
-                    break;
-                case "get-full-config":
-                    executor = new GetFullConfigExecutor();
-                    break;
-                case "get-light":
-                    executor = new GetLightExecutor();
-                    break;
-                case "get-sensor":
-                    executor = new GetSensorExecutor();
-                    break;
-                case "link":
-                    executor = new LinkExecutor();
-                    break;
-                case "set-light-state":
-                    executor = new SetLightStateExecutor();
-                    break;
-            }
-            arguments.remove(0);
-            if (executor != null) {
-                result = executor.execute(arguments);
-            }
-        } else {
+        String result;
+        Options options = new Options();
+        options.addOption(null, "help", false, "Print this message");
+        options.addRequiredOption(null, "base-url", true, "The URL of the bridge");
+        options.addRequiredOption(null, "username", true, "The username to authenticate with");
+        options.addRequiredOption(null, "id", true, "The ID of the sensor");
+        DefaultParser parser = new DefaultParser();
+        CommandLine commandLine = null;
+        try {
+            commandLine = parser.parse(options, arguments.toArray(new String[0]));
+        } catch (ParseException pe) {
+        }
+        if (commandLine == null || commandLine.hasOption("help")) {
             HelpFormatter formatter = new HelpFormatter();
             StringWriter stringWriter = new StringWriter();
             formatter.printUsage(new PrintWriter(stringWriter), 80,
-                    "co device huebridge [get-base-config] [get-full-config] [get-light] [get-sensor] [link] [set-light-state]");
+                    "co device huebridge get-sensor", options);
+            formatter.printOptions(new PrintWriter(stringWriter), 80, options, 1, 1);
             result = stringWriter.toString();
+        } else {
+            HueBridge bridge = new HueBridge();
+            bridge.setBaseUrl(commandLine.getOptionValue("base-url"));
+            bridge.setUsername(commandLine.getOptionValue("username"));
+            result = JsonUtil.prettyPrint(bridge.getSensor(commandLine.getOptionValue("id")));
         }
         return result;
     }
