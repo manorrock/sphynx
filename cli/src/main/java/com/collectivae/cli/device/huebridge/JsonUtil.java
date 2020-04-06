@@ -30,7 +30,7 @@ package com.collectivae.cli.device.huebridge;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
-import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.json.JsonWriter;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonParser;
@@ -48,13 +48,13 @@ class JsonUtil {
     public static String prettyPrint(String string) {
         JsonParser jsonParser = javax.json.Json.createParser(new StringReader(string));
         jsonParser.next();
-        JsonObject jsonObject = jsonParser.getObject();
+        JsonValue jsonValue = jsonParser.getValue();
         StringWriter stringWriter = new StringWriter();
         HashMap<String, String> jsonConfig = new HashMap<>();
         jsonConfig.put(JsonGenerator.PRETTY_PRINTING, "");
         JsonWriter jsonWriter = javax.json.Json.createWriterFactory(jsonConfig).
                 createWriter(stringWriter);
-        jsonWriter.writeObject(jsonObject);
+        jsonWriter.write(jsonValue);
         return stringWriter.toString();
     }
 }

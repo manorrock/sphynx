@@ -64,6 +64,16 @@ public class HueColorLight<T> extends HueLight<T> {
         JsonLight light = bridge.getLightAsObject(id);
         return light.getState().getSaturation();
     }
+    
+    /**
+     * Get the XY.
+     * 
+     * @return the XY.
+     */
+    public float[] getXy() {
+        JsonLight light = bridge.getLightAsObject(id);
+        return light.getState().getXy();
+    }
 
     /**
      * Set the color temperature.
@@ -95,6 +105,17 @@ public class HueColorLight<T> extends HueLight<T> {
     public void setSaturation(int saturation) {
         JsonLightState state = new JsonLightState();
         state.setSaturation(saturation);
+        bridge.setLightState(id, state);
+    }
+    
+    /**
+     * Set the XY.
+     * 
+     * @param xy the XY.
+     */
+    public void setXy(float[] xy) {
+        JsonLightState state = new JsonLightState();
+        state.setXy(xy);
         bridge.setLightState(id, state);
     }
 }

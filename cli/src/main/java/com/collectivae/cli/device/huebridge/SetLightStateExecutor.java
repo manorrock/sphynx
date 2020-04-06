@@ -33,6 +33,7 @@ import com.collectivae.device.hue.HueBridge;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
+import javax.json.JsonArray;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
@@ -67,6 +68,7 @@ class SetLightStateExecutor implements CliExecutor {
         options.addOption(null, "color-temperature", true, "The color temperature");
         options.addOption(null, "brightness", true, "The brightness");
         options.addOption(null, "alert", true, "The alert mode");
+        options.addOption(null, "xy", true, "The XY value");
         DefaultParser parser = new DefaultParser();
         CommandLine commandLine = null;
         try {
@@ -99,6 +101,14 @@ class SetLightStateExecutor implements CliExecutor {
             }
             if (commandLine.hasOption("alert")) {
                 state.setAlert(commandLine.getOptionValue("alert"));
+            }
+            if (commandLine.hasOption("xy")) {
+                String xyString = commandLine.getOptionValue("xy");
+                JsonArray jsonArray = jsonb.fromJson(xyString, JsonArray.class);
+                state.setXy(new float[]{
+                    Float.parseFloat(jsonArray.getJsonNumber(0).toString()),
+                    Float.parseFloat(jsonArray.getJsonNumber(1).toString())
+                });
             }
             result = JsonUtil.prettyPrint(
                     bridge.setLightState(commandLine.getOptionValue("id"), state));

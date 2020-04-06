@@ -36,7 +36,7 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @JsonbPropertyOrder({"on", "brightness", "hue", "saturation", "colorTemperature",
-    "alert", "colorMode", "mode", "reachable"})
+    "alert", "colorMode", "mode", "reachable", "xy"})
 public class JsonLightState {
 
     /**
@@ -92,6 +92,12 @@ public class JsonLightState {
      */
     @JsonbProperty("sat")
     private Integer saturation;
+    
+    /**
+     * Stores the XY.
+     */
+    @JsonbProperty("xy")
+    private float[] xy;
 
     /**
      * Constructor.
@@ -160,6 +166,15 @@ public class JsonLightState {
      */
     public Integer getSaturation() {
         return saturation;
+    }
+    
+    /**
+     * Get the XY.
+     * 
+     * @return the XY.
+     */
+    public float[] getXy() {
+        return xy;
     }
 
     /**
@@ -259,5 +274,14 @@ public class JsonLightState {
      */
     public void setSaturation(Integer saturation) {
         this.saturation = saturation;
+    }
+
+    /**
+     * Set the XY.
+     * 
+     * @param xy the XY.
+     */
+    public void setXy(float[] xy) {
+        this.xy = xy;
     }
 }
