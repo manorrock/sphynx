@@ -35,11 +35,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the HueDaylightSensor class.
+ * The JUnit tests for the HueOutdoorMotionSensor class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HueDaylightSensorTest {
+public class HueOutdoorMotionSensorTest {
 
     /**
      * Stores the sensor.
@@ -54,7 +54,7 @@ public class HueDaylightSensorTest {
         try {
             Properties properties = new Properties();
             properties.load(new FileInputStream("HueBridge.properties"));
-            String id = properties.getProperty("outdoorDaylightSensorId");
+            String id = properties.getProperty("outdoorMotionSensorId");
             HueBridge bridge = new HueBridge();
             bridge.setBaseUrl(properties.getProperty("baseUrl"));
             bridge.setUsername(properties.getProperty("username"));

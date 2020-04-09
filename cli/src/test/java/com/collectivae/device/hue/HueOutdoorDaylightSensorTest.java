@@ -27,53 +27,49 @@
  */
 package com.collectivae.device.hue;
 
-import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbPropertyOrder;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
- * The state of a Hue sensor (JSON).
- * 
+ * The JUnit tests for the HueOutdoorDaylightSensor class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"daylight", "presence"})
-public class JsonSensorState {
-    
-    /**
-     * Stores the daylight flag.
-     */
-    @JsonbProperty("daylight")
-    private Boolean daylight;
-    
-    /**
-     * Stores the motion flag.
-     */
-    @JsonbProperty("presence")
-    private Boolean presence;
+public class HueOutdoorDaylightSensorTest {
 
     /**
-     * Is it daylight.
-     * 
-     * @return true if it is, false otherwise.
+     * Stores the sensor.
      */
-    public Boolean isDaylight() {
-        return daylight;
+    private HueOutdoorDaylightSensor sensor;
+
+    /**
+     * Setup before testing.
+     */
+    @BeforeEach
+    public void beforeEach() {
+        try {
+            Properties properties = new Properties();
+            properties.load(new FileInputStream("HueBridge.properties"));
+            String id = properties.getProperty("outdoorDaylightSensorId");
+            HueBridge bridge = new HueBridge();
+            bridge.setBaseUrl(properties.getProperty("baseUrl"));
+            bridge.setUsername(properties.getProperty("username"));
+            sensor = new HueOutdoorDaylightSensor();
+            sensor.setParentDevice(bridge);
+            sensor.setId(id);
+        } catch (IOException ioe) {
+        }
     }
 
     /**
-     * Is presence detected.
-     * 
-     * @return true if it is, false otherwise.
+     * Test getJson method.
      */
-    public Boolean isPresenceDetected() {
-        return presence;
-    }
-
-    /**
-     * Set the daylight flag.
-     * 
-     * @param daylight the daylight flag.
-     */
-    public void setDaylight(Boolean daylight) {
-        this.daylight = daylight;
+    @Test
+    public void testGetJson() {
+        assertNotNull(sensor.getJson());
     }
 }

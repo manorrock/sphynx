@@ -27,53 +27,20 @@
  */
 package com.collectivae.device.hue;
 
-import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbPropertyOrder;
-
 /**
- * The state of a Hue sensor (JSON).
- * 
+ * A Hue outdoor motion sensor (aka model id SML002).
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@JsonbPropertyOrder({"daylight", "presence"})
-public class JsonSensorState {
+public class HueOutdoorMotionSensor extends HueSensor<HueOutdoorMotionSensor> {
     
-    /**
-     * Stores the daylight flag.
-     */
-    @JsonbProperty("daylight")
-    private Boolean daylight;
-    
-    /**
-     * Stores the motion flag.
-     */
-    @JsonbProperty("presence")
-    private Boolean presence;
-
-    /**
-     * Is it daylight.
-     * 
-     * @return true if it is, false otherwise.
-     */
-    public Boolean isDaylight() {
-        return daylight;
-    }
-
     /**
      * Is presence detected.
      * 
      * @return true if it is, false otherwise.
      */
-    public Boolean isPresenceDetected() {
-        return presence;
-    }
-
-    /**
-     * Set the daylight flag.
-     * 
-     * @param daylight the daylight flag.
-     */
-    public void setDaylight(Boolean daylight) {
-        this.daylight = daylight;
+    public boolean isPresenceDetected() {
+        JsonSensor sensor = bridge.getSensorAsObject(id);
+        return sensor.getState().isPresenceDetected();
     }
 }
