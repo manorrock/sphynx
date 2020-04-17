@@ -10,9 +10,9 @@
         <groupId>collectivae</groupId>
         <version>20.4.0-SNAPSHOT</version>
     </parent>
-    <artifactId>web</artifactId>
+    <artifactId>webapp</artifactId>
     <packaging>war</packaging>
-    <name>Collectivae Web</name>
+    <name>Collectivae Web Application</name>
     <build>
         <plugins>
             <plugin>
