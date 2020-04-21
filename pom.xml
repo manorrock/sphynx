@@ -16,7 +16,6 @@
         </dependencies>
     </dependencyManagement>
     <modules>
-        <module>docker</module>
         <module>cli</module>
         <module>webapp</module>
     </modules>
