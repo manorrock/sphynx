@@ -1,0 +1,19 @@
+<project>
+    <custom>
+        <fluidoSkin>
+            <copyrightClass>pull-right</copyrightClass>
+            <navBarStyle>navbar-inverse</navBarStyle>
+            <topBarEnabled>true</topBarEnabled>
+        </fluidoSkin>
+    </custom>
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.9</version>
+    </skin>
+    <body>
+        <menu name="Philips Hue">
+        </menu>
+        <menu ref="reports"/>
+    </body>
+</project>
