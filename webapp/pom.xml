@@ -14,6 +14,7 @@
     <packaging>war</packaging>
     <name>Collectivae Web Application</name>
     <build>
+        <finalName>collectivae</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
