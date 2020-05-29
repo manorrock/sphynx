@@ -21,11 +21,9 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build amd64 image
       run: |
-        cd webapp
         docker build -f src/main/docker/Dockerfile -t collectivae/collectivae:snapshot .
         docker push collectivae/collectivae:snapshot
     - name: Build ARM32v6 image
       run: |
-        cd webapp
         docker build -f src/main/docker/Dockerfile.arm32v6 -t collectivae/collectivae:arm32v6-snapshot .
         docker push collectivae/collectivae:arm32v6-snapshot
