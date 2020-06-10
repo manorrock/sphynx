@@ -27,3 +27,14 @@ jobs:
       run: |
         docker build -f src/main/docker/Dockerfile.arm -t collectivae/collectivae:arm-snapshot .
         docker push collectivae/collectivae:arm-snapshot
+    - name: Push Docker manifest
+      run: |
+        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker manifest create collectivae/collectivae:snapshot \
+          collectivae/collectivae:amd64-snapshot \
+          collectivae/collectivae:arm-snapshot
+        docker manifest annotate collectivae/collectivae:snapshot \
+          collectivae/collectivae:amd64-snapshot --os linux --arch amd64
+        docker manifest annotate collectivae/collectivae:snapshot \
+          collectivae/collectivae:arm-snapshot --os linux --arch arm
+        docker manifest push collectivae/collectivae:snapshot
