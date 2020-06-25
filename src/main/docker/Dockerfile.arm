@@ -1,53 +1,12 @@
 #
-# Use Raspbian
+# Use Manorrock Server
 #
-FROM balenalib/raspberry-pi
+FROM manorrock/server:arm-v20.6.0
 
 #
 # Setup for cross-platform building.
 #
 RUN ["cross-build-start"]
-
-#
-# Update Raspbian and install curl, dnsutils, gnupg2, gzip, 
-# software-properties-common and tar.
-#
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y curl dnsutils gnupg2 gzip software-properties-common tar && \
-    rm -rf /var/lib/apt/lists/*
-
-#
-# Install Zulu 11.
-#
-RUN cd /usr/local && \
-    curl --insecure -L -O https://cdn.azul.com/zulu-embedded/bin/zulu11.37.48-ca-jdk11.0.6-linux_aarch32hf.tar.gz && \
-    tar xfvz zulu11.37.48-ca-jdk11.0.6-linux_aarch32hf.tar.gz && \
-    mv zulu11.37.48-ca-jdk11.0.6-linux_aarch32hf jdk && \
-    rm zulu11.37.48-ca-jdk11.0.6-linux_aarch32hf.tar.gz
-
-#
-# Setup PATH
-#
-ENV PATH=$PATH:/usr/local/jdk/bin
-
-#
-# Install Tomcat 9.
-#
-RUN cd /usr/local && \
-    curl --insecure -L -O https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.35/bin/apache-tomcat-9.0.35.tar.gz && \
-    tar xfvz apache-tomcat-9.0.35.tar.gz && \
-    mv apache-tomcat-9.0.35 tomcat && \
-    rm apache-tomcat-9.0.35.tar.gz && \
-    rm -rf tomcat/webapps/*docs* && \
-    rm -rf tomcat/webapps/*examples* && \
-    rm -rf tomcat/webapps/*manager* && \
-    rm -rf tomcat/webapps/ROOT*
-
-#
-# Set work directory.
-#
-WORKDIR /usr/local/tomcat
 
 #
 # Copy Collectivae into Tomcat 9.
@@ -58,8 +17,3 @@ COPY target/collectivae.war /usr/local/tomcat/webapps/ROOT.war
 # End cross platform building.
 #
 RUN ["cross-build-end"]
-
-#
-# Setup command to start Tomcat with console output.
-#
-CMD ["bin/catalina.sh", "run"]
