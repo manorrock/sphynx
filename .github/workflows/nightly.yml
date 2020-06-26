@@ -1,4 +1,4 @@
-name: docker-snapshot
+name: nightly
 on:
   schedule:
   - cron: "0 12 * * *"
@@ -21,14 +21,17 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build amd64 image
       run: |
+        cd webapp
         docker build -f src/main/docker/Dockerfile.amd64 -t collectivae/collectivae:amd64-snapshot .
         docker push collectivae/collectivae:amd64-snapshot
     - name: Build arm image
       run: |
+        cd webapp
         docker build -f src/main/docker/Dockerfile.arm -t collectivae/collectivae:arm-snapshot .
         docker push collectivae/collectivae:arm-snapshot
     - name: Push Docker manifest
       run: |
+        cd webapp
         export DOCKER_CLI_EXPERIMENTAL=enabled
         docker manifest create collectivae/collectivae:snapshot \
           collectivae/collectivae:amd64-snapshot \
