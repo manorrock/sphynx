@@ -1,0 +1,16 @@
+{
+  "resources":[
+    {"pattern":"\\QMETA-INF/services/javax.json.bind.spi.JsonbProvider\\E"}, 
+    {"pattern":"\\QMETA-INF/services/javax.json.spi.JsonProvider\\E"}, 
+    {"pattern":"\\QMETA-INF/services/jdk.vm.ci.hotspot.HotSpotJVMCIBackendFactory\\E"}, 
+    {"pattern":"\\QMETA-INF/services/jdk.vm.ci.services.JVMCIServiceLocator\\E"}, 
+    {"pattern":"\\Qjava/lang/invoke/MethodHandleImpl$BindCaller$T.class\\E"}, 
+    {"pattern":"\\Qmozilla/public-suffix-list.txt\\E"}, 
+    {"pattern":"\\Qorg/apache/hc/client5/version.properties\\E"}, 
+    {"pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"}
+  ],
+  "bundles":[
+    {"name":"yasson-messages"},
+    {"name":"org.glassfish.json.messages"}
+  ]
+}
