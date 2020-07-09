@@ -5,11 +5,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>collectivae</groupId>
+    <groupId>com.manorrock.sphynx</groupId>
     <artifactId>project</artifactId>
     <version>20.7.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Collectivae - Project</name>
+    <name>Manorrock Sphynx - Project</name>
     <modules>
         <module>webapp</module>
     </modules>
