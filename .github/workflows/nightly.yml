@@ -22,22 +22,22 @@ jobs:
     - name: Build amd64 image
       run: |
         cd webapp
-        docker build -f src/main/docker/Dockerfile.amd64 -t collectivae/collectivae:amd64-snapshot .
-        docker push collectivae/collectivae:amd64-snapshot
+        docker build -f src/main/docker/Dockerfile.amd64 -t manorrock/sphynx:amd64-snapshot .
+        docker push manorrock/sphynx:amd64-snapshot
     - name: Build arm image
       run: |
         cd webapp
-        docker build -f src/main/docker/Dockerfile.arm -t collectivae/collectivae:arm-snapshot .
-        docker push collectivae/collectivae:arm-snapshot
+        docker build -f src/main/docker/Dockerfile.arm -t manorrock/sphynx:arm-snapshot .
+        docker push manorrock/sphynx:arm-snapshot
     - name: Push Docker manifest
       run: |
         cd webapp
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create collectivae/collectivae:snapshot \
-          collectivae/collectivae:amd64-snapshot \
-          collectivae/collectivae:arm-snapshot
-        docker manifest annotate collectivae/collectivae:snapshot \
-          collectivae/collectivae:amd64-snapshot --os linux --arch amd64
-        docker manifest annotate collectivae/collectivae:snapshot \
-          collectivae/collectivae:arm-snapshot --os linux --arch arm
-        docker manifest push collectivae/collectivae:snapshot
+        docker manifest create manorrock/sphynx:snapshot \
+          manorrock/sphynx:amd64-snapshot \
+          manorrock/sphynx:arm-snapshot
+        docker manifest annotate manorrock/sphynx:snapshot \
+          manorrock/sphynx:amd64-snapshot --os linux --arch amd64
+        docker manifest annotate manorrock/sphynx:snapshot \
+          manorrock/sphynx:arm-snapshot --os linux --arch arm
+        docker manifest push manorrock/sphynx:snapshot
