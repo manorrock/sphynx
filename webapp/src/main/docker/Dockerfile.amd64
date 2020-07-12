@@ -4,6 +4,6 @@
 FROM manorrock/server:amd64-v20.6.0
 
 #
-# Copy Collectivae into Tomcat 9.
+# Copy Manorrock Sphynx into Tomcat 9.
 #
-COPY target/collectivae.war /usr/local/tomcat/webapps/ROOT.war
+COPY target/sphynx.war /usr/local/tomcat/webapps/ROOT.war
