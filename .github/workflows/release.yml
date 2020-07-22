@@ -1,0 +1,53 @@
+name: release
+on:
+  push:
+    tags:        
+      - v*
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v1
+    - name: Set up Java 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Build with Maven
+      run: mvn -B -DskipTests=true -f pom.xml install
+    - name: Login to Docker Hub
+      uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Build amd64 image
+      run: |
+        cd webapp
+        TAG=${GITHUB_REF}
+        INDEX=${TAG%v*}
+        VERSION=${TAG:${#INDEX}}
+        docker build -f src/main/docker/Dockerfile.amd64 -t manorrock/sphynx:amd64-$VERSION .
+        docker push manorrock/sphynx:amd64-$VERSION
+    - name: Build arm image
+      run: |
+        cd webapp
+        TAG=${GITHUB_REF}
+        INDEX=${TAG%v*}
+        VERSION=${TAG:${#INDEX}}
+        docker build -f webapp/src/main/docker/Dockerfile.arm -t manorrock/sphynx:arm-$VERSION .
+        docker push manorrock/sphynx:arm-$VERSION
+    - name: Create multi-arch manifest
+      run: | 
+        cd webapp
+        TAG=${GITHUB_REF}
+        INDEX=${TAG%v*}
+        VERSION=${TAG:${#INDEX}}
+        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker manifest create manorrock/sphynx:$VERSION \
+          manorrock/sphynx:amd64-$VERSION \
+          manorrock/sphynx:arm-$VERSION
+        docker manifest annotate manorrock/sphynx:$VERSION \
+          manorrock/sphynx:amd64-$VERSION --os linux --arch amd64
+        docker manifest annotate manorrock/sphynx:$VERSION \
+          manorrock/sphynx:arm-$VERSION --os linux --arch arm
+        docker manifest push manorrock/sphynx:$VERSION
