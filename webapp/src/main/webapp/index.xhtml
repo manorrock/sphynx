@@ -8,6 +8,11 @@
         <title>Manorrock Sphynx</title>
     </h:head>
     <h:body>
-        Manorrock Sphynx
+        <h:panelGroup rendered="#{facesContext.externalContext.remoteUser}">
+            Logged in
+        </h:panelGroup>
+        <h:panelGroup rendered="#{not facesContext.externalContext.remoteUser}">
+            Login
+        </h:panelGroup>
     </h:body>
 </html>
