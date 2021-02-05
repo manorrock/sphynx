@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
     <name>Manorrock Sphynx - Project</name>
     <modules>
+        <module>hue</module>
         <module>webapp</module>
     </modules>
     <properties>
