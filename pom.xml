@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.manorrock.sphynx</groupId>
     <artifactId>project</artifactId>
-    <version>20.8.0-SNAPSHOT</version>
+    <version>21.3.0</version>
     <packaging>pom</packaging>
     <name>Manorrock Sphynx - Project</name>
     <modules>
