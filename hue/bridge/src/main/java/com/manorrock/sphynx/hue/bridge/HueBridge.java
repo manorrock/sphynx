@@ -34,6 +34,7 @@ import java.net.http.HttpClient;
 import static java.net.http.HttpClient.Redirect.ALWAYS;
 import static java.net.http.HttpClient.Version.HTTP_1_1;
 import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import static java.util.logging.Level.WARNING;
@@ -41,24 +42,55 @@ import java.util.logging.Logger;
 
 /**
  * The Philips Hue bridge.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HueBridge {
-    
+
     /**
      * Stores the logger.
      */
     private static final Logger LOGGER = Logger.getLogger(HueBridge.class.getPackageName());
-    
+
     /**
      * Stores the base URL.
      */
     private String baseUrl;
-    
+
+    /**
+     * Authorize the given device/user.
+     *
+     * @param deviceType the device type/user.
+     * @return the JSON response containing the generated username (token).
+     */
+    public String authorize(String deviceType) {
+        String result = null;
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .POST(BodyPublishers.ofString(
+                            "{\"devicetype\":\"" + deviceType + "\"}"))
+                    .uri(new URI(baseUrl))
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            result = client.send(request, BodyHandlers.ofString()).body();
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to authorize device/user: " + deviceType, e);
+        }
+        return result;
+    }
+
     /**
      * Get the base configuration.
-     * 
+     *
      * @return the base configuration.
      */
     public String getBaseConfig() {
@@ -70,13 +102,13 @@ public class HueBridge {
                     .connectTimeout(Duration.ofSeconds(20))
                     .followRedirects(ALWAYS)
                     .build();
-            
+
             HttpRequest request = HttpRequest
                     .newBuilder()
                     .GET()
                     .uri(new URI(baseUrl + "/config"))
                     .build();
-            
+
             result = client.send(request, BodyHandlers.ofString()).body();
         } catch (URISyntaxException | IOException | InterruptedException e) {
             LOGGER.log(WARNING, "Unable to get base configuration", e);
@@ -86,7 +118,7 @@ public class HueBridge {
 
     /**
      * Get the base URL.
-     * 
+     *
      * @return the base URL.
      */
     public String getBaseUrl() {
@@ -95,7 +127,7 @@ public class HueBridge {
 
     /**
      * Set the base URL.
-     * 
+     *
      * @param baseUrl the base URL.
      */
     public void setBaseUrl(String baseUrl) {
