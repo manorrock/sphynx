@@ -34,11 +34,11 @@ import org.junit.Test;
 
 /**
  * The JUnit test for the HueBridge class.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HueBridgeTest {
-    
+
     /**
      * Test getBaseConfig method.
      */
@@ -48,17 +48,19 @@ public class HueBridgeTest {
         bridge.setBaseUrl("http://localhost");
         assertNull(bridge.getBaseConfig());
     }
-    
+
     /**
      * Test getBaseConfig method.
      */
     @Test
     public void testGetBaseConfig2() {
-        HueBridge bridge = new HueBridge();
-        bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
-        assertNotNull(bridge.getBaseConfig());
+        if (System.getProperty("sphynx.hue.bridge.baseUrl") != null) {
+            HueBridge bridge = new HueBridge();
+            bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
+            assertNotNull(bridge.getBaseConfig());
+        }
     }
-    
+
     /**
      * Test getBaseUrl method.
      */
