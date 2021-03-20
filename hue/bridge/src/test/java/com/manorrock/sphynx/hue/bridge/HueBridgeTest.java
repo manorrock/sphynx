@@ -54,7 +54,7 @@ public class HueBridgeTest {
      */
     @Test
     public void testGetBaseConfig2() {
-        if (System.getProperty("sphynx.hue.bridge.baseUrl").equals("")) {
+        if (!System.getProperty("sphynx.hue.bridge.baseUrl").equals("")) {
             HueBridge bridge = new HueBridge();
             bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
             assertNotNull(bridge.getBaseConfig());
