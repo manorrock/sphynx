@@ -12,5 +12,6 @@
     <name>Manorrock Sphynx - Hue - Project</name>
     <modules>
         <module>lct06</module>
+        <module>bridge</module>
     </modules>
 </project>
