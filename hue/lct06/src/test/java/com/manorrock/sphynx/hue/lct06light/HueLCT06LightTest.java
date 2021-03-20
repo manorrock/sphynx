@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without 
  * modification, are permitted provided that the following conditions are met:
@@ -25,21 +25,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.lct06;
+package com.manorrock.sphynx.hue.lct06light;
+
+import com.manorrock.sphynx.hue.bridge.HueBridge;
+import org.junit.Test;
 
 /**
- * The main entry point for the Hue LCT06 light bulb.
- * 
+ * The JUnit test for the HueLCT06Light class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HueLCT06Servlet {
-
+public class HueLCT06LightTest {
+    
     /**
-     * Main entry point.
-     * 
-     * @param arguments the command line arguments.
-     * @throws Exception when an Exception occurs.
+     * Test on method.
      */
-    public static void main(String[] arguments) throws Exception {
-    }    
+    @Test
+    public void testOn() {
+        if (!System.getProperty("sphynx.hue.lct06.id").equals("")) {
+            HueBridge bridge = new HueBridge();
+            bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
+            bridge.setUsername(System.getProperty("sphynx.hue.bridge.username"));
+            HueLCT06Light light = new HueLCT06Light();
+            light.setBridge(bridge);
+            light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lct06.id")));
+            light.on();
+        }
+    }
+    
+    /**
+     * Test off method.
+     */
+    @Test
+    public void testOff() {
+        if (!System.getProperty("sphynx.hue.lct06.id").equals("")) {
+            HueBridge bridge = new HueBridge();
+            bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
+            bridge.setUsername(System.getProperty("sphynx.hue.bridge.username"));
+            HueLCT06Light light = new HueLCT06Light();
+            light.setBridge(bridge);
+            light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lct06.id")));
+            light.off();
+        }
+    }
 }

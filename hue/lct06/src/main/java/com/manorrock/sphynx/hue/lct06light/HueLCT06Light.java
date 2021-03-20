@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2020 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2021 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without 
  * modification, are permitted provided that the following conditions are met:
@@ -25,12 +25,74 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package com.manorrock.sphynx.hue.lct06light;
+
+import com.manorrock.sphynx.hue.bridge.HueBridge;
 
 /**
- * Module information.
+ * A Hue LCT06 light.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module com.manorrock.sphynx.hue.lct06 {
-    exports com.manorrock.sphynx.hue.lct06;
+public class HueLCT06Light {
+    
+    /**
+     * Stores the id of the light.
+     */
+    private int id;
+    
+    /**
+     * Stores the Hue bridge we rely on.
+     */
+    private HueBridge bridge;
+    
+    /**
+     * Get the Hue bridge.
+     * 
+     * @return the Hue bridge.
+     */
+    public HueBridge getBridge() {
+        return bridge;
+    }
+    
+    /**
+     * Get the id.
+     * 
+     * @return the id.
+     */
+    public int getId() {
+        return id;
+    }
+    
+    /**
+     * Turn the light off.
+     */
+    public void off() {
+        bridge.changeLightState(id, "on", "false");
+    }
+    
+    /**
+     * Turn the light on.
+     */
+    public void on() {
+        bridge.changeLightState(id, "on", "true");
+    }
+    
+    /**
+     * Set the Hue bridge.
+     * 
+     * @param bridge the Hue bridge;
+     */
+    public void setBridge(HueBridge bridge) {
+        this.bridge = bridge;
+    }
+
+    /**
+     * Set the id.
+     * 
+     * @param id the id.
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
 }

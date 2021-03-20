@@ -38,7 +38,7 @@ import org.junit.Test;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HueBridgeTest {
-    
+
     /**
      * Test authorize method.
      */
@@ -48,6 +48,22 @@ public class HueBridgeTest {
             HueBridge bridge = new HueBridge();
             bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
             assertNotNull(bridge.authorize("testAuthorize"));
+        }
+    }
+
+    /**
+     * Test changeLightState method.
+     */
+    @Test
+    public void testChangeLightState() {
+        if (!System.getProperty("sphynx.hue.lct06.id").equals("")) {
+            HueBridge bridge = new HueBridge();
+            bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
+            bridge.setUsername(System.getProperty("sphynx.hue.bridge.username"));
+            bridge.changeLightState(
+                    Integer.valueOf(System.getProperty("sphynx.hue.lct06.id")),
+                    "on",
+                    "true");
         }
     }
 

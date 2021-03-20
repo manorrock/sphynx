@@ -56,6 +56,11 @@ public class HueBridge {
      * Stores the base URL.
      */
     private String baseUrl;
+    
+    /**
+     * Stores the username.
+     */
+    private String username;
 
     /**
      * Authorize the given device/user.
@@ -86,6 +91,36 @@ public class HueBridge {
             LOGGER.log(WARNING, "Unable to authorize device/user: " + deviceType, e);
         }
         return result;
+    }
+    
+    /**
+     * Change the state of a light.
+     * 
+     * @param id the id of the light.
+     * @param name the name of the state.
+     * @param value the value of the state.
+     */
+    public void changeLightState(int id, String name, String value) {
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .PUT(BodyPublishers.ofString(
+                            "{\"" + name + "\":\"" + value + "\"}"))
+                    .uri(new URI(baseUrl + "/api/" + username + "/lights/" + id + "/state"))
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            client.send(request, BodyHandlers.discarding());
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to change light state for light #" + id, e);
+        }
     }
 
     /**
@@ -126,11 +161,29 @@ public class HueBridge {
     }
 
     /**
+     * Get the username.
+     * 
+     * @return the username.
+     */
+    public String getUsername() {
+        return username;
+    }
+    
+    /**
      * Set the base URL.
      *
      * @param baseUrl the base URL.
      */
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
+    }
+    
+    /**
+     * Set the username.
+     * 
+     * @param username the username.
+     */
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
