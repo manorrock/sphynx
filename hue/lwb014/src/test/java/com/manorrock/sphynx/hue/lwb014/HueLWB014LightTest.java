@@ -25,101 +25,93 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.bridge;
+package com.manorrock.sphynx.hue.lwb014;
 
+import com.manorrock.sphynx.hue.bridge.DefaultHueBridge;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /**
- * The JUnit test for the DefaultHueBridge class.
+ * The JUnit test for the HueLWB014Light class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HueBridgeTest {
-
+public class HueLWB014LightTest {
+    
     /**
-     * Test authorize method.
+     * Test changeBrightness method.
      */
     @Test
-    public void authorize() {
-        if (!System.getProperty("sphynx.hue.bridge.baseUrl").equals("")) {
-            DefaultHueBridge bridge = new DefaultHueBridge();
-            bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
-            assertNotNull(bridge.authorize("testAuthorize"));
-        }
-    }
-
-    /**
-     * Test changeLightState method.
-     */
-    @Test
-    public void testChangeLightState() {
-        if (!System.getProperty("sphynx.hue.lct06.id").equals("")) {
+    public void testChangeBrightness() {
+        if (!System.getProperty("sphynx.hue.lwb014.id").equals("")) {
             DefaultHueBridge bridge = new DefaultHueBridge();
             bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
             bridge.setUsername(System.getProperty("sphynx.hue.bridge.username"));
-            bridge.changeLightState(
-                    Integer.valueOf(System.getProperty("sphynx.hue.lct06.id")),
-                    "on",
-                    "true");
+            HueLWB014Light light = new HueLWB014Light();
+            light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lwb014.id")));
+            light.setBridge(bridge);
+            light.on();
+            light.changeBrightness(50);
+            int brightness = light.getBrightness();
+            light.off();
+            assertEquals(50, brightness);
         }
     }
-
+    
     /**
-     * Test getBaseConfig method.
+     * Test getId method.
      */
     @Test
-    public void testGetBaseConfig() {
-        DefaultHueBridge bridge = new DefaultHueBridge();
-        bridge.setBaseUrl("http://localhost");
-        assertNull(bridge.getBaseConfig());
+    public void testGetId() {
+        if (!System.getProperty("sphynx.hue.lwb014.id").equals("")) {
+            HueLWB014Light light = new HueLWB014Light();
+            light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lwb014.id")));
+            assertEquals((int) Integer.valueOf(System.getProperty("sphynx.hue.lwb014.id")), light.getId());
+        }
     }
-
+    
     /**
-     * Test getBaseConfig method.
+     * Test getBridge method.
      */
     @Test
-    public void testGetBaseConfig2() {
-        if (!System.getProperty("sphynx.hue.bridge.baseUrl").equals("")) {
+    public void testGetBridge() {
+        if (!System.getProperty("sphynx.hue.lwb014.id").equals("")) {
             DefaultHueBridge bridge = new DefaultHueBridge();
-            bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
-            assertNotNull(bridge.getBaseConfig());
+            HueLWB014Light light = new HueLWB014Light();
+            light.setBridge(bridge);
+            assertEquals(bridge, light.getBridge());
         }
     }
-
+    
     /**
-     * Test getBaseUrl method.
+     * Test on method.
      */
     @Test
-    public void testGetBaseUrl() {
-        DefaultHueBridge bridge = new DefaultHueBridge();
-        bridge.setBaseUrl("https://localhost");
-        assertEquals("https://localhost", bridge.getBaseUrl());
-    }
-
-    /**
-     * Test getLightInfo method.
-     */
-    @Test
-    public void testGetLightInfo() {
-        if (!System.getProperty("sphynx.hue.lct06.id").equals("")) {
+    public void testOn() {
+        if (!System.getProperty("sphynx.hue.lwb014.id").equals("")) {
             DefaultHueBridge bridge = new DefaultHueBridge();
             bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
             bridge.setUsername(System.getProperty("sphynx.hue.bridge.username"));
-            assertNotNull(bridge.getLightInfo(
-                    Integer.valueOf(System.getProperty("sphynx.hue.lct06.id"))));
+            HueLWB014Light light = new HueLWB014Light();
+            light.setBridge(bridge);
+            light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lwb014.id")));
+            light.on();
         }
     }
-
+    
     /**
-     * Test getUsername method.
+     * Test off method.
      */
     @Test
-    public void testGetUsername() {
-        DefaultHueBridge bridge = new DefaultHueBridge();
-        bridge.setUsername(System.getProperty("sphynx.hue.bridge.username"));
-        assertEquals(System.getProperty("sphynx.hue.bridge.username"), bridge.getUsername());
+    public void testOff() {
+        if (!System.getProperty("sphynx.hue.lwb014.id").equals("")) {
+            DefaultHueBridge bridge = new DefaultHueBridge();
+            bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
+            bridge.setUsername(System.getProperty("sphynx.hue.bridge.username"));
+            HueLWB014Light light = new HueLWB014Light();
+            light.setBridge(bridge);
+            light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lwb014.id")));
+            light.off();
+        }
     }
 }

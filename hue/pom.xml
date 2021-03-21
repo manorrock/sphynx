@@ -9,7 +9,7 @@
     <groupId>com.manorrock.sphynx.hue</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
-    <name>Manorrock Sphynx - Hue - Project</name>
+    <name>Hue - Project</name>
     <build>
         <plugins>
             <plugin>
@@ -44,7 +44,7 @@
     </dependencies>
     <modules>
         <module>bridge</module>
-        <module>lct06</module>
+        <module>lwb014</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

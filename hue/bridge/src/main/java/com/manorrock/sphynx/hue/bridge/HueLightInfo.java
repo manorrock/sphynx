@@ -25,47 +25,44 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.lct06light;
+package com.manorrock.sphynx.hue.bridge;
 
-import com.manorrock.sphynx.hue.bridge.HueBridge;
-import org.junit.Test;
+import javax.json.bind.annotation.JsonbProperty;
 
 /**
- * The JUnit test for the HueLCT06Light class.
- *
+ * The JSON information holder for a light.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HueLCT06LightTest {
+public class HueLightInfo {
     
     /**
-     * Test on method.
+     * Stores the state.
      */
-    @Test
-    public void testOn() {
-        if (!System.getProperty("sphynx.hue.lct06.id").equals("")) {
-            HueBridge bridge = new HueBridge();
-            bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
-            bridge.setUsername(System.getProperty("sphynx.hue.bridge.username"));
-            HueLCT06Light light = new HueLCT06Light();
-            light.setBridge(bridge);
-            light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lct06.id")));
-            light.on();
-        }
+    @JsonbProperty("state")
+    private HueLightStateInfo state;
+
+    /**
+     * Constructor.
+     */
+    public HueLightInfo() {
     }
     
     /**
-     * Test off method.
+     * Get the state.
+     * 
+     * @return the state.
      */
-    @Test
-    public void testOff() {
-        if (!System.getProperty("sphynx.hue.lct06.id").equals("")) {
-            HueBridge bridge = new HueBridge();
-            bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
-            bridge.setUsername(System.getProperty("sphynx.hue.bridge.username"));
-            HueLCT06Light light = new HueLCT06Light();
-            light.setBridge(bridge);
-            light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lct06.id")));
-            light.off();
-        }
+    public HueLightStateInfo getState() {
+        return state;
+    }
+
+    /**
+     * Set the state.
+     * 
+     * @param state the state.
+     */
+    public void setState(HueLightStateInfo state) {
+        this.state = state;
     }
 }

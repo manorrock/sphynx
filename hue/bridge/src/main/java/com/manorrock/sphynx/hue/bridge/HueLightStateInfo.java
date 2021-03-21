@@ -25,74 +25,44 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.lct06light;
+package com.manorrock.sphynx.hue.bridge;
 
-import com.manorrock.sphynx.hue.bridge.HueBridge;
+import javax.json.bind.annotation.JsonbProperty;
 
 /**
- * A Hue LCT06 light.
+ * The JSON information holder for the state of a light.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HueLCT06Light {
-    
+public class HueLightStateInfo {
+
     /**
-     * Stores the id of the light.
+     * Stores the brightness.
      */
-    private int id;
-    
+    @JsonbProperty("bri")
+    private Integer brightness;
+
     /**
-     * Stores the Hue bridge we rely on.
+     * Constructor.
      */
-    private HueBridge bridge;
-    
-    /**
-     * Get the Hue bridge.
-     * 
-     * @return the Hue bridge.
-     */
-    public HueBridge getBridge() {
-        return bridge;
-    }
-    
-    /**
-     * Get the id.
-     * 
-     * @return the id.
-     */
-    public int getId() {
-        return id;
-    }
-    
-    /**
-     * Turn the light off.
-     */
-    public void off() {
-        bridge.changeLightState(id, "on", "false");
-    }
-    
-    /**
-     * Turn the light on.
-     */
-    public void on() {
-        bridge.changeLightState(id, "on", "true");
-    }
-    
-    /**
-     * Set the Hue bridge.
-     * 
-     * @param bridge the Hue bridge;
-     */
-    public void setBridge(HueBridge bridge) {
-        this.bridge = bridge;
+    public HueLightStateInfo() {
     }
 
     /**
-     * Set the id.
-     * 
-     * @param id the id.
+     * Get the brightness.
+     *
+     * @return the brightness.
      */
-    public void setId(int id) {
-        this.id = id;
+    public Integer getBrightness() {
+        return brightness;
+    }
+
+    /**
+     * Set the brightness.
+     *
+     * @param brightness the brightness.
+     */
+    public void setBrightness(Integer brightness) {
+        this.brightness = brightness;
     }
 }

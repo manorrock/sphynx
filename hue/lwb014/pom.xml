@@ -10,9 +10,9 @@
         <artifactId>project</artifactId>
         <version>20.8.0-SNAPSHOT</version>
     </parent>
-    <artifactId>sphynx-hue-lct06</artifactId>
+    <artifactId>sphynx-hue-lwb014</artifactId>
     <packaging>jar</packaging>
-    <name>Hue - LCT06 Color Lamp</name>
+    <name>Hue - LWB014 Light (White A19)</name>
     <build>
         <plugins>
             <plugin>
@@ -23,7 +23,7 @@
                     <systemPropertyVariables>
                         <sphynx.hue.bridge.baseUrl>${sphynx.hue.bridge.baseUrl}</sphynx.hue.bridge.baseUrl>
                         <sphynx.hue.bridge.username>${sphynx.hue.bridge.username}</sphynx.hue.bridge.username>
-                        <sphynx.hue.lct06.id>${sphynx.hue.lct06.id}</sphynx.hue.lct06.id>
+                        <sphynx.hue.lwb014.id>${sphynx.hue.lwb014.id}</sphynx.hue.lwb014.id>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

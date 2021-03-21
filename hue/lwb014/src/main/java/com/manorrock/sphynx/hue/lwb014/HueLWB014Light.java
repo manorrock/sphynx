@@ -25,12 +25,93 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.bridge;
+package com.manorrock.sphynx.hue.lwb014;
+
+import com.manorrock.sphynx.hue.bridge.DefaultHueBridge;
 
 /**
- * The interface that defines a Hue bridge.
-
+ * A Hue LWB014 light (White A19).
+ *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @see https://zigbee.blakadder.com/Philips_LWB014.html
  */
-interface HueBridge {
+public class HueLWB014Light {
+
+    /**
+     * Stores the id of the light.
+     */
+    private int id;
+
+    /**
+     * Stores the Hue bridge we rely on.
+     */
+    private DefaultHueBridge bridge;
+
+    /**
+     * Set the brightness.
+     *
+     * @param brightness the brightness.
+     */
+    public void changeBrightness(int brightness) {
+        bridge.changeLightState(id, "bri", Integer.toString(brightness));
+    }
+
+    /**
+     * Get the Hue bridge.
+     *
+     * @return the Hue bridge.
+     */
+    public DefaultHueBridge getBridge() {
+        return bridge;
+    }
+
+    /**
+     * Get the brightness.
+     *
+     * @return the brightness.
+     */
+    public int getBrightness() {
+        return Integer.valueOf(bridge.getLightState(id, "bri"));
+    }
+
+    /**
+     * Get the id.
+     *
+     * @return the id.
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Turn the light off.
+     */
+    public void off() {
+        bridge.changeLightState(id, "on", "false");
+    }
+
+    /**
+     * Turn the light on.
+     */
+    public void on() {
+        bridge.changeLightState(id, "on", "true");
+    }
+
+    /**
+     * Set the Hue bridge.
+     *
+     * @param bridge the Hue bridge;
+     */
+    public void setBridge(DefaultHueBridge bridge) {
+        this.bridge = bridge;
+    }
+
+    /**
+     * Set the id.
+     *
+     * @param id the id.
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
 }
