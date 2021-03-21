@@ -25,17 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.lwb014;
+package com.manorrock.sphynx.hue.lct016;
 
 import com.manorrock.sphynx.hue.bridge.HueBridge;
 
 /**
- * A Hue LWB014 light (White A19).
+ * A Hue LCT016 light (Color A19).
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @see https://zigbee.blakadder.com/Philips_LWB014.html
+ * @see https://zigbee.blakadder.com/Philips_LCT016.html
  */
-public class HueLWB014Light {
+public class HueLCT016Light {
 
     /**
      * Stores the id of the light.
@@ -54,6 +54,15 @@ public class HueLWB014Light {
      */
     public void changeBrightness(int brightness) {
         bridge.changeLightState(id, "bri", brightness);
+    }
+    
+    /**
+     * Set the XY.
+     * 
+     * @param xy the XY.
+     */
+    public void changeXY(float[] xy) {
+        bridge.changeLightState(id, "xy", xy);
     }
 
     /**
@@ -81,6 +90,15 @@ public class HueLWB014Light {
      */
     public int getId() {
         return id;
+    }
+    
+    /**
+     * Get the XY.
+     * 
+     * @return the XY.
+     */
+    public float[] getXy() {
+        return bridge.getLightStateAsFloatArray(id, "xy");
     }
 
     /**

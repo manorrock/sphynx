@@ -29,8 +29,53 @@ package com.manorrock.sphynx.hue.bridge;
 
 /**
  * The interface that defines a Hue bridge.
-
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-interface HueBridge {
+public interface HueBridge {
+
+    /**
+     * Change the state of a light.
+     *
+     * @param id the id of the light.
+     * @param name the name of the state.
+     * @param value the value of the state.
+     */
+    public void changeLightState(int id, String name, boolean value);
+
+    /**
+     * Change the state of a light.
+     *
+     * @param id the id of the light.
+     * @param name the name of the state.
+     * @param value the value of the state.
+     */
+    public void changeLightState(int id, String name, float[] value);
+
+    /**
+     * Change the state of a light.
+     *
+     * @param id the id of the light.
+     * @param name the name of the state.
+     * @param value the value of the state.
+     */
+    public void changeLightState(int id, String name, int value);
+    
+    /**
+     * Get the specific state.
+     *
+     * @param id the id.
+     * @param name the name of the state.
+     * @return the value, or null if not found.
+     */
+    public String getLightState(int id, String name);
+    
+    /**
+     * Get the specific state.
+     *
+     * @param id the id.
+     * @param name the name of the state.
+     * @return the value, or null if not found.
+     */
+    public float[] getLightStateAsFloatArray(int id, String name);
 }

@@ -95,14 +95,67 @@ public class DefaultHueBridge implements HueBridge {
         return result;
     }
 
-    /**
-     * Change the state of a light.
-     *
-     * @param id the id of the light.
-     * @param name the name of the state.
-     * @param value the value of the state.
-     */
-    public void changeLightState(int id, String name, String value) {
+    @Override
+    public void changeLightState(int id, String name, boolean value) {
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .PUT(BodyPublishers.ofString(
+                            "{\"" + name + "\":" + value + "}"))
+                    .uri(new URI(baseUrl + "/" + username + "/lights/" + id + "/state"))
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            client.send(request, BodyHandlers.discarding());
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to change light state for light #" + id, e);
+        }
+    }
+
+    @Override
+    public void changeLightState(int id, String name, float[] value) {
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            StringBuilder jsonValue = new StringBuilder();
+            jsonValue.append("[");
+            if (value != null) {
+                for(int i=0; i<value.length; i++) {
+                    jsonValue.append(value[i]);
+                    if (i + 1 != value.length) {
+                        jsonValue.append(",");
+                    }
+                }
+            }
+            jsonValue.append("]");
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .PUT(BodyPublishers.ofString(
+                            "{\"" + name + "\":" + jsonValue.toString() + "}"))
+                    .uri(new URI(baseUrl + "/" + username + "/lights/" + id + "/state"))
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            client.send(request, BodyHandlers.discarding());
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to change light state for light #" + id, e);
+        }
+    }
+
+    @Override
+    public void changeLightState(int id, String name, int value) {
         try {
             HttpClient client = HttpClient
                     .newBuilder()
@@ -191,20 +244,30 @@ public class DefaultHueBridge implements HueBridge {
         return result;
     }
 
-    /**
-     * Get the specific state.
-     *
-     * @param id the id.
-     * @param name the name of the state.
-     * @return the value, or null if not found.
-     */
+    @Override
     public String getLightState(int id, String name) {
         String result = null;
         String info = getLightInfo(id);
         if (info != null) {
             Jsonb jsonb = JsonbBuilder.create();
             HueLightInfo json = jsonb.fromJson(info, HueLightInfo.class);
-            result = json.getState().getBrightness().toString();
+            switch(name) {
+                case "bri" : result = json.getState().getBrightness().toString(); break;
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public float[] getLightStateAsFloatArray(int id, String name) {
+        float[] result = null;
+        String info = getLightInfo(id);
+        if (info != null) {
+            Jsonb jsonb = JsonbBuilder.create();
+            HueLightInfo json = jsonb.fromJson(info, HueLightInfo.class);
+            switch(name) {
+                case "xy": result = json.getState().getXy(); break;
+            }
         }
         return result;
     }

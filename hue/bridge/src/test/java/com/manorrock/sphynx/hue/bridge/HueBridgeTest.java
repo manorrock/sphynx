@@ -63,7 +63,7 @@ public class HueBridgeTest {
             bridge.changeLightState(
                     Integer.valueOf(System.getProperty("sphynx.hue.lct06.id")),
                     "on",
-                    "true");
+                    true);
         }
     }
 
