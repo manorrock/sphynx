@@ -48,6 +48,7 @@
         <module>lct016</module>
         <module>ltw011</module>
         <module>lwb014</module>
+        <module>lst002</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
