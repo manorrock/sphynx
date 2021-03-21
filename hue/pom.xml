@@ -46,6 +46,7 @@
         <module>bridge</module>
         <module>lwb014</module>
         <module>lct016</module>
+        <module>ltw011</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
