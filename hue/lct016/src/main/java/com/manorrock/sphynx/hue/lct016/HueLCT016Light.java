@@ -55,10 +55,21 @@ public class HueLCT016Light {
     public void changeBrightness(int brightness) {
         bridge.changeLightState(id, "bri", brightness);
     }
-    
+
+    /**
+     * Change the RGB color.
+     *
+     * @param r the R.
+     * @param g the G.
+     * @param b the B
+     */
+    public void changeColor(float r, float g, float b) {
+        bridge.changeLightState(id, "color", new float[]{r, g, b});
+    }
+
     /**
      * Set the XY.
-     * 
+     *
      * @param xy the XY.
      */
     public void changeXY(float[] xy) {
@@ -91,10 +102,10 @@ public class HueLCT016Light {
     public int getId() {
         return id;
     }
-    
+
     /**
      * Get the XY.
-     * 
+     *
      * @return the XY.
      */
     public float[] getXy() {
