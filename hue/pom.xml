@@ -44,12 +44,13 @@
     </dependencies>
     <modules>
         <module>bridge</module>
+        <module>lca002</module>
         <module>lcb001</module>
         <module>lct016</module>
+        <module>lct024</module>
+        <module>lst002</module>
         <module>ltw011</module>
         <module>lwb014</module>
-        <module>lst002</module>
-        <module>lca002</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
