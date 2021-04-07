@@ -34,7 +34,7 @@ jobs:
         TAG=${GITHUB_REF}
         INDEX=${TAG%v*}
         VERSION=${TAG:${#INDEX}}
-        docker build -f webapp/src/main/docker/Dockerfile.arm32v6 -t manorrock/sphynx:arm32v6-$VERSION .
+        docker build -f src/main/docker/Dockerfile.arm32v6 -t manorrock/sphynx:arm32v6-$VERSION .
         docker push manorrock/sphynx:arm32v6-$VERSION
     - name: Create multi-arch manifest
       run: | 
