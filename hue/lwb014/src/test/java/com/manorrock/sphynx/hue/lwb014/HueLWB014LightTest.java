@@ -39,10 +39,10 @@ import org.junit.Test;
 public class HueLWB014LightTest {
     
     /**
-     * Test changeBrightness method.
+     * Test setBrightness method.
      */
     @Test
-    public void testChangeBrightness() {
+    public void testSetBrightness() {
         if (!System.getProperty("sphynx.hue.lwb014.id").equals("")) {
             DefaultHueBridge bridge = new DefaultHueBridge();
             bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
@@ -51,7 +51,7 @@ public class HueLWB014LightTest {
             light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lwb014.id")));
             light.setBridge(bridge);
             light.on();
-            light.changeBrightness(50);
+            light.setBrightness(50);
             int brightness = light.getBrightness();
             light.off();
             assertEquals(50, brightness);

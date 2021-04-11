@@ -52,7 +52,7 @@ public class HueLCT016Light {
      *
      * @param brightness the brightness.
      */
-    public void changeBrightness(int brightness) {
+    public void setBrightness(int brightness) {
         bridge.changeLightState(id, "bri", brightness);
     }
 
