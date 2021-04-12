@@ -63,7 +63,7 @@ public class HueLCT016Light {
      * @param g the G.
      * @param b the B
      */
-    public void changeColor(float r, float g, float b) {
+    public void setColor(float r, float g, float b) {
         bridge.changeLightState(id, "color", new float[]{r, g, b});
     }
 
