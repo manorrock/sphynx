@@ -61,7 +61,7 @@ public class HueLCT024Light {
      * 
      * @param xy the XY.
      */
-    public void changeXY(float[] xy) {
+    public void setXY(float[] xy) {
         bridge.changeLightState(id, "xy", xy);
     }
 

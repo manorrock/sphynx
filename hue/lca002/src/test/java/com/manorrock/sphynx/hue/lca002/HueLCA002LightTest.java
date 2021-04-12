@@ -59,10 +59,10 @@ public class HueLCA002LightTest {
     }
     
     /**
-     * Test changeXY method.
+     * Test setXY method.
      */
     @Test
-    public void testChangeXY() {
+    public void testSetXY() {
         if (!System.getProperty("sphynx.hue.lca002.id").equals("")) {
             DefaultHueBridge bridge = new DefaultHueBridge();
             bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
@@ -71,7 +71,7 @@ public class HueLCA002LightTest {
             light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lca002.id")));
             light.setBridge(bridge);
             light.setOn(true);
-            light.changeXY(new float[] { 0.45f, 0.40f });
+            light.setXY(new float[] { 0.45f, 0.40f });
             float[] xy = light.getXy();
             light.setOn(false);
             assertEquals(0.45f, xy[0], 0.1);
