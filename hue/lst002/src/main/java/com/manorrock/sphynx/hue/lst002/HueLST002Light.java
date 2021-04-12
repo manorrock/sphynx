@@ -43,7 +43,7 @@ public class HueLST002Light {
     private int id;
 
     /**
-     * Stores the Hue bridge we rely on.
+     * Stores the Hue bridge we rely setOn.
      */
     private HueBridge bridge;
 
@@ -102,17 +102,12 @@ public class HueLST002Light {
     }
 
     /**
-     * Turn the light off.
+     * Turn the light on/off.
+     * 
+     * @param on the on/off flag.
      */
-    public void off() {
-        bridge.changeLightState(id, "on", false);
-    }
-
-    /**
-     * Turn the light on.
-     */
-    public void on() {
-        bridge.changeLightState(id, "on", true);
+    public void setOn(boolean on) {
+        bridge.changeLightState(id, "on", on);
     }
 
     /**

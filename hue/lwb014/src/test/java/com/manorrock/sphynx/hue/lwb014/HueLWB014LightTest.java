@@ -50,10 +50,10 @@ public class HueLWB014LightTest {
             HueLWB014Light light = new HueLWB014Light();
             light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lwb014.id")));
             light.setBridge(bridge);
-            light.on();
+            light.setOn(true);
             light.setBrightness(50);
             int brightness = light.getBrightness();
-            light.off();
+            light.setOn(false);
             assertEquals(50, brightness);
         }
     }
@@ -84,10 +84,10 @@ public class HueLWB014LightTest {
     }
     
     /**
-     * Test on method.
+     * Test setOn method.
      */
     @Test
-    public void testOn() {
+    public void testSetOn() {
         if (!System.getProperty("sphynx.hue.lwb014.id").equals("")) {
             DefaultHueBridge bridge = new DefaultHueBridge();
             bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
@@ -95,15 +95,15 @@ public class HueLWB014LightTest {
             HueLWB014Light light = new HueLWB014Light();
             light.setBridge(bridge);
             light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lwb014.id")));
-            light.on();
+            light.setOn(true);
         }
     }
     
     /**
-     * Test off method.
+     * Test setOn method.
      */
     @Test
-    public void testOff() {
+    public void testSetOn2() {
         if (!System.getProperty("sphynx.hue.lwb014.id").equals("")) {
             DefaultHueBridge bridge = new DefaultHueBridge();
             bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
@@ -111,7 +111,7 @@ public class HueLWB014LightTest {
             HueLWB014Light light = new HueLWB014Light();
             light.setBridge(bridge);
             light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lwb014.id")));
-            light.off();
+            light.setOn(false);
         }
     }
 }

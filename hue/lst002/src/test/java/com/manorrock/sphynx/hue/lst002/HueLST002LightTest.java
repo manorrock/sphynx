@@ -50,10 +50,10 @@ public class HueLST002LightTest {
             HueLST002Light light = new HueLST002Light();
             light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lst002.id")));
             light.setBridge(bridge);
-            light.on();
+            light.setOn(true);
             light.setBrightness(50);
             int brightness = light.getBrightness();
-            light.off();
+            light.setOn(false);
             assertEquals(50, brightness);
         }
     }
@@ -70,10 +70,10 @@ public class HueLST002LightTest {
             HueLST002Light light = new HueLST002Light();
             light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lst002.id")));
             light.setBridge(bridge);
-            light.on();
+            light.setOn(true);
             light.changeXY(new float[] { 0.45f, 0.40f });
             float[] xy = light.getXy();
-            light.off();
+            light.setOn(false);
             assertEquals(0.45f, xy[0], 0.1);
             assertEquals(0.40f, xy[1], 0.1);
         }
@@ -105,10 +105,10 @@ public class HueLST002LightTest {
     }
     
     /**
-     * Test on method.
+     * Test setOn method.
      */
     @Test
-    public void testOn() {
+    public void testSetOn() {
         if (!System.getProperty("sphynx.hue.lst002.id").equals("")) {
             DefaultHueBridge bridge = new DefaultHueBridge();
             bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
@@ -116,15 +116,15 @@ public class HueLST002LightTest {
             HueLST002Light light = new HueLST002Light();
             light.setBridge(bridge);
             light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lst002.id")));
-            light.on();
+            light.setOn(true);
         }
     }
     
     /**
-     * Test off method.
+     * Test setOn method.
      */
     @Test
-    public void testOff() {
+    public void testSetOn2() {
         if (!System.getProperty("sphynx.hue.lst002.id").equals("")) {
             DefaultHueBridge bridge = new DefaultHueBridge();
             bridge.setBaseUrl(System.getProperty("sphynx.hue.bridge.baseUrl"));
@@ -132,7 +132,7 @@ public class HueLST002LightTest {
             HueLST002Light light = new HueLST002Light();
             light.setBridge(bridge);
             light.setId(Integer.valueOf(System.getProperty("sphynx.hue.lst002.id")));
-            light.off();
+            light.setOn(false);
         }
     }
 }
