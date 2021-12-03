@@ -53,7 +53,7 @@ public class HueLCT016Light {
      * @param brightness the brightness.
      */
     public void setBrightness(int brightness) {
-        bridge.changeLightState(id, "bri", brightness);
+//        bridge.changeLightState(id, "bri", brightness);
     }
 
     /**
@@ -64,7 +64,7 @@ public class HueLCT016Light {
      * @param b the B
      */
     public void setColor(float r, float g, float b) {
-        bridge.changeLightState(id, "color", new float[]{r, g, b});
+//        bridge.changeLightState(id, "color", new float[]{r, g, b});
     }
 
     /**
@@ -73,7 +73,7 @@ public class HueLCT016Light {
      * @param xy the XY.
      */
     public void setXY(float[] xy) {
-        bridge.changeLightState(id, "xy", xy);
+//        bridge.changeLightState(id, "xy", xy);
     }
 
     /**
@@ -91,7 +91,8 @@ public class HueLCT016Light {
      * @return the brightness.
      */
     public int getBrightness() {
-        return Integer.valueOf(bridge.getLightState(id, "bri"));
+        return -1;
+//        return Integer.valueOf(bridge.getLightState(id, "bri"));
     }
 
     /**
@@ -109,7 +110,8 @@ public class HueLCT016Light {
      * @return the XY.
      */
     public float[] getXy() {
-        return bridge.getLightStateAsFloatArray(id, "xy");
+        return null;
+//        return bridge.getLightStateAsFloatArray(id, "xy");
     }
 
     /**
@@ -118,7 +120,7 @@ public class HueLCT016Light {
      * @param on the on/off flag.
      */
     public void setOn(boolean on) {
-        bridge.changeLightState(id, "on", on);
+//        bridge.changeLightState(id, "on", on);
     }
 
     /**

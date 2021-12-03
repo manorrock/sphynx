@@ -53,7 +53,7 @@ public class HueLWB014Light {
      * @param brightness the brightness.
      */
     public void setBrightness(int brightness) {
-        bridge.changeLightState(id, "bri", brightness);
+//        bridge.changeLightState(id, "bri", brightness);
     }
 
     /**
@@ -71,7 +71,8 @@ public class HueLWB014Light {
      * @return the brightness.
      */
     public int getBrightness() {
-        return Integer.valueOf(bridge.getLightState(id, "bri"));
+        return -1;
+//        return Integer.valueOf(bridge.getLightState(id, "bri"));
     }
 
     /**
@@ -89,7 +90,7 @@ public class HueLWB014Light {
      * @param on the on/off flag.
      */
     public void setOn(boolean on) {
-        bridge.changeLightState(id, "on", on);
+//        bridge.changeLightState(id, "on", on);
     }
 
     /**

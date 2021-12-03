@@ -7,9 +7,20 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.manorrock.sphynx</groupId>
     <artifactId>project</artifactId>
-    <version>20.8.0-SNAPSHOT</version>
+    <version>21.12.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Manorrock Sphynx - Project</name>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.3.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
     <modules>
         <module>hue</module>
         <module>webapp</module>

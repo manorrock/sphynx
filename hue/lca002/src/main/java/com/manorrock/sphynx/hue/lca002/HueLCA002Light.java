@@ -53,16 +53,16 @@ public class HueLCA002Light {
      * @param brightness the brightness.
      */
     public void setBrightness(int brightness) {
-        bridge.changeLightState(id, "bri", brightness);
+//        bridge.changeLightState(id, "bri", brightness);
     }
-    
+
     /**
      * Set the XY.
-     * 
+     *
      * @param xy the XY.
      */
     public void setXY(float[] xy) {
-        bridge.changeLightState(id, "xy", xy);
+//        bridge.changeLightState(id, "xy", xy);
     }
 
     /**
@@ -80,7 +80,8 @@ public class HueLCA002Light {
      * @return the brightness.
      */
     public int getBrightness() {
-        return Integer.valueOf(bridge.getLightState(id, "bri"));
+//        return Integer.valueOf(bridge.getLightState(id, "bri"));
+        return -1;
     }
 
     /**
@@ -91,23 +92,24 @@ public class HueLCA002Light {
     public int getId() {
         return id;
     }
-    
+
     /**
      * Get the XY.
-     * 
+     *
      * @return the XY.
      */
     public float[] getXy() {
-        return bridge.getLightStateAsFloatArray(id, "xy");
+        return null;
+//        return bridge.getLightStateAsFloatArray(id, "xy");
     }
 
     /**
      * Set the light on/off.
-     * 
+     *
      * @param on the on/off flag.
      */
     public void setOn(boolean on) {
-        bridge.changeLightState(id, "on", on);
+//        bridge.changeLightState(id, "on", on);
     }
 
     /**
