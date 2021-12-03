@@ -25,72 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.bridge;
 
-/*
-import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbPropertyOrder;
- */
+module com.manorrock.sphynx.hue.bridge {
 
-/**
- * The JSON information holder for the state of a light.
- *
- * @author Manfred Riem (mriem@manorrock.com)
- */
-// @JsonbPropertyOrder({"brightness", "xy"})
-public class HueLightStateInfo {
-
-    /**
-     * Stores the brightness.
-     */
-//    @JsonbProperty("bri")
-    private Integer brightness;
-
-    /**
-     * Stores the XY.
-     */
-//    @JsonbProperty("xy")
-    private float[] xy;
-
-    /**
-     * Constructor.
-     */
-    public HueLightStateInfo() {
-    }
-
-    /**
-     * Get the brightness.
-     *
-     * @return the brightness.
-     */
-    public Integer getBrightness() {
-        return brightness;
-    }
-
-    /**
-     * Get the XY.
-     *
-     * @return the XY.
-     */
-    public float[] getXy() {
-        return xy;
-    }
-
-    /**
-     * Set the brightness.
-     *
-     * @param brightness the brightness.
-     */
-    public void setBrightness(Integer brightness) {
-        this.brightness = brightness;
-    }
-
-    /**
-     * Set the XY.
-     *
-     * @param xy he XY.
-     */
-    public void setXy(float[] xy) {
-        this.xy = xy;
-    }
+    exports com.manorrock.sphynx.hue.bridge;
+    opens com.manorrock.sphynx.hue.bridge;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.impl;
+    requires cloud.piranha.http.webapp;
+    requires cloud.piranha.nano;
+    requires jakarta.servlet;    
+    requires java.logging;
+    requires java.net.http;
 }

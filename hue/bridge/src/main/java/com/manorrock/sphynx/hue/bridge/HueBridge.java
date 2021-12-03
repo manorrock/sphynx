@@ -27,55 +27,280 @@
  */
 package com.manorrock.sphynx.hue.bridge;
 
+import java.io.IOException;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import static java.net.http.HttpClient.Redirect.ALWAYS;
+import static java.net.http.HttpClient.Version.HTTP_1_1;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.time.Duration;
+
 /**
- * The interface that defines a Hue bridge.
+ * The implementation of the Philips Hue bridge.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface HueBridge {
+public class HueBridge {
 
     /**
-     * Change the state of a light.
-     *
-     * @param id the id of the light.
-     * @param name the name of the state.
-     * @param value the value of the state.
+     * Stores the logger.
      */
-    public void changeLightState(int id, String name, boolean value);
+    private static final Logger LOGGER = System.getLogger(HueBridge.class.getName());
 
     /**
-     * Change the state of a light.
-     *
-     * @param id the id of the light.
-     * @param name the name of the state.
-     * @param value the value of the state.
+     * Stores the base URL.
      */
-    public void changeLightState(int id, String name, float[] value);
+    private String baseUrl;
 
     /**
-     * Change the state of a light.
+     * Stores the username.
+     */
+    private String username;
+
+    /**
+     * Authorize the given device/user.
+     *
+     * @param deviceType the device type/user.
+     * @return the JSON response containing the generated username (token).
+     */
+    public String authorize(String deviceType) {
+        String result = null;
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .POST(BodyPublishers.ofString(
+                            "{\"devicetype\":\"" + deviceType + "\"}"))
+                    .uri(new URI(baseUrl))
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            result = client.send(request, BodyHandlers.ofString()).body();
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to authorize device/user: " + deviceType, e);
+        }
+        return result;
+    }
+
+    public void changeLightState(int id, String name, boolean value) {
+        /*
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .PUT(BodyPublishers.ofString(
+                            "{\"" + name + "\":" + value + "}"))
+                    .uri(new URI(baseUrl + "/" + username + "/lights/" + id + "/state"))
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            client.send(request, BodyHandlers.discarding());
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to change light state for light #" + id, e);
+        }
+        */
+    }
+
+    public void changeLightState(int id, String name, float[] value) {
+        /*
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            StringBuilder jsonValue = new StringBuilder();
+            jsonValue.append("[");
+            if (value != null) {
+                for(int i=0; i<value.length; i++) {
+                    jsonValue.append(value[i]);
+                    if (i + 1 != value.length) {
+                        jsonValue.append(",");
+                    }
+                }
+            }
+            jsonValue.append("]");
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .PUT(BodyPublishers.ofString(
+                            "{\"" + name + "\":" + jsonValue.toString() + "}"))
+                    .uri(new URI(baseUrl + "/" + username + "/lights/" + id + "/state"))
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            client.send(request, BodyHandlers.discarding());
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to change light state for light #" + id, e);
+        }
+        */
+    }
+
+    public void changeLightState(int id, String name, int value) {
+        /*
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .PUT(BodyPublishers.ofString(
+                            "{\"" + name + "\":" + value + "}"))
+                    .uri(new URI(baseUrl + "/" + username + "/lights/" + id + "/state"))
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            client.send(request, BodyHandlers.discarding());
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to change light state for light #" + id, e);
+        }
+        */
+    }
+
+    /**
+     * Get the base configuration.
+     *
+     * @return the base configuration.
+     */
+    public String config() {
+        String result = null;
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .GET()
+                    .uri(new URI(baseUrl + "/config"))
+                    .build();
+
+            result = client.send(request, BodyHandlers.ofString()).body();
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            LOGGER.log(WARNING, "Unable to get base configuration", e);
+        }
+        return result;
+    }
+
+    /**
+     * Get the base URL.
+     *
+     * @return the base URL.
+     */
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    /**
+     * Get all the information about a specific light.
      *
      * @param id the id of the light.
-     * @param name the name of the state.
-     * @param value the value of the state.
+     * @return the information, or null if not found.
      */
-    public void changeLightState(int id, String name, int value);
-    
+    public String getLightInfo(int id) {
+        String result = null;
+        /*
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .GET()
+                    .uri(new URI(baseUrl + "/" + username + "/lights/" + id))
+                    .build();
+
+            result = client.send(request, BodyHandlers.ofString()).body();
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to get information for light #" + id, e);
+        }
+        */
+        return result;
+    }
+
+    public String getLightState(int id, String name) {
+        String result = null;
+        /*
+        String info = getLightInfo(id);
+        if (info != null) {
+            Jsonb jsonb = JsonbBuilder.create();
+            HueLightInfo json = jsonb.fromJson(info, HueLightInfo.class);
+            switch(name) {
+                case "bri" : result = json.getState().getBrightness().toString(); break;
+            }
+        }
+        */
+        return result;
+    }
+
+    public float[] getLightStateAsFloatArray(int id, String name) {
+        float[] result = null;
+        /*
+        String info = getLightInfo(id);
+        if (info != null) {
+            Jsonb jsonb = JsonbBuilder.create();
+            HueLightInfo json = jsonb.fromJson(info, HueLightInfo.class);
+            switch(name) {
+                case "xy": result = json.getState().getXy(); break;
+            }
+        }
+        */
+        return result;
+    }
+
     /**
-     * Get the specific state.
+     * Get the username.
      *
-     * @param id the id.
-     * @param name the name of the state.
-     * @return the value, or null if not found.
+     * @return the username.
      */
-    public String getLightState(int id, String name);
-    
+    public String getUsername() {
+        return username;
+    }
+
     /**
-     * Get the specific state.
+     * Set the base URL.
      *
-     * @param id the id.
-     * @param name the name of the state.
-     * @return the value, or null if not found.
+     * @param baseUrl the base URL.
      */
-    public float[] getLightStateAsFloatArray(int id, String name);
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    /**
+     * Set the username.
+     *
+     * @param username the username.
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

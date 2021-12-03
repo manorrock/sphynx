@@ -27,7 +27,7 @@
  */
 package com.manorrock.sphynx.hue.bridge;
 
-import javax.json.bind.annotation.JsonbProperty;
+//import javax.json.bind.annotation.JsonbProperty;
 
 /**
  * The JSON information holder for a light.
@@ -39,7 +39,7 @@ public class HueLightInfo {
     /**
      * Stores the state.
      */
-    @JsonbProperty("state")
+//    @JsonbProperty("state")
     private HueLightStateInfo state;
 
     /**

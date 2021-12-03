@@ -27,70 +27,45 @@
  */
 package com.manorrock.sphynx.hue.bridge;
 
-/*
-import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbPropertyOrder;
- */
+import cloud.piranha.http.impl.DefaultHttpServer;
+import cloud.piranha.nano.NanoPiranha;
+import cloud.piranha.nano.NanoPiranhaBuilder;
 
 /**
- * The JSON information holder for the state of a light.
+ * The Hue Bridge bootstrap.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-// @JsonbPropertyOrder({"brightness", "xy"})
-public class HueLightStateInfo {
+public class HueBridgeBootstrap {
 
     /**
-     * Stores the brightness.
+     * Main method.
+     * 
+     * @param arguments the command-line arguments.
+     * @throws Exception when an error occurs.
      */
-//    @JsonbProperty("bri")
-    private Integer brightness;
-
-    /**
-     * Stores the XY.
-     */
-//    @JsonbProperty("xy")
-    private float[] xy;
-
-    /**
-     * Constructor.
-     */
-    public HueLightStateInfo() {
-    }
-
-    /**
-     * Get the brightness.
-     *
-     * @return the brightness.
-     */
-    public Integer getBrightness() {
-        return brightness;
-    }
-
-    /**
-     * Get the XY.
-     *
-     * @return the XY.
-     */
-    public float[] getXy() {
-        return xy;
-    }
-
-    /**
-     * Set the brightness.
-     *
-     * @param brightness the brightness.
-     */
-    public void setBrightness(Integer brightness) {
-        this.brightness = brightness;
-    }
-
-    /**
-     * Set the XY.
-     *
-     * @param xy he XY.
-     */
-    public void setXy(float[] xy) {
-        this.xy = xy;
+    public static void main(String[] arguments) throws Exception {
+        String baseUrl = null;
+        String username = null;
+        for(int i=0; i<arguments.length; i++) {
+            if (arguments[i].equals("--baseUrl")) {
+                baseUrl = arguments[i + 1];
+            }
+            if (arguments[i].equals("--username")) {
+                baseUrl = arguments[i + 1];
+            }
+        }
+        
+        HueBridgeServlet servlet = new HueBridgeServlet();
+        NanoPiranha piranha = new NanoPiranhaBuilder()
+                .servlet("Hue Bridge", servlet)
+                .servletInitParam("Hue Bridge", "baseUrl", baseUrl)
+                .servletInitParam("Hue Bridge", "username", username)
+                .build();
+        
+        DefaultHttpServer server = new DefaultHttpServer(8080, 
+                new HueBridgeHttpProcessor(piranha), false);
+        
+        server.start();
     }
 }
