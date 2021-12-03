@@ -8,7 +8,7 @@
     <artifactId>sphynx-hue-bridge</artifactId>
     <version>21.12.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Hue - Bridge</name>
+    <name>Philips Hue Bridge</name>
     <build>
         <plugins>
             <plugin>
