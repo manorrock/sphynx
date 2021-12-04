@@ -1,11 +1,14 @@
 name: build
-on: 
+on:
   push:
     branches:
       - '*'
     tags-ignore:
       - 'release-*'
       - 'v*'
+  schedule:
+  - cron: "0 0 13 * *"
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
