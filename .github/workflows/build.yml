@@ -44,3 +44,8 @@ jobs:
         docker manifest annotate manorrock/sphynx:snapshot \
           manorrock/sphynx:arm32v6-snapshot --os linux --arch arm
         docker manifest push manorrock/sphynx:snapshot
+    - name: Build and push Philips Hue Bridge container
+      run: |
+        cd hue/bridge
+        docker build -f Dockerfile -t manorrock/sphynx-hue-bridge:latest .
+        docker push manorrock/sphynx-hue-bridge:latest
