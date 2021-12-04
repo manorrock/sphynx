@@ -47,13 +47,21 @@ public class HueBridgeBootstrap {
     public static void main(String[] arguments) throws Exception {
         String baseUrl = null;
         String username = null;
+        
         for(int i=0; i<arguments.length; i++) {
             if (arguments[i].equals("--baseUrl")) {
                 baseUrl = arguments[i + 1];
             }
             if (arguments[i].equals("--username")) {
-                baseUrl = arguments[i + 1];
+                username = arguments[i + 1];
             }
+        }
+        
+        if (baseUrl == null) {
+            baseUrl = System.getenv("BASE_URL");
+        }
+        if (username == null) {
+            username = System.getenv("USERNAME");
         }
         
         HueBridgeServlet servlet = new HueBridgeServlet();

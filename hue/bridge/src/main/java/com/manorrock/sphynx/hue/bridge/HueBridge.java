@@ -194,10 +194,15 @@ public class HueBridge {
                     .followRedirects(ALWAYS)
                     .build();
 
+            URI uri = new URI(baseUrl + "/config");
+            if (username != null) {
+                uri = new URI(baseUrl + "/" + username + "/config");
+            }
+            
             HttpRequest request = HttpRequest
                     .newBuilder()
                     .GET()
-                    .uri(new URI(baseUrl + "/config"))
+                    .uri(uri)
                     .build();
 
             result = client.send(request, BodyHandlers.ofString()).body();
@@ -224,7 +229,7 @@ public class HueBridge {
      */
     public String getLightInfo(int id) {
         String result = null;
-        /*
+
         try {
             HttpClient client = HttpClient
                     .newBuilder()
@@ -243,7 +248,7 @@ public class HueBridge {
         } catch (URISyntaxException | InterruptedException | IOException e) {
             LOGGER.log(WARNING, "Unable to get information for light #" + id, e);
         }
-        */
+
         return result;
     }
 

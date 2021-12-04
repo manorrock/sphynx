@@ -35,6 +35,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
 
 /**
@@ -54,32 +55,76 @@ public class HueBridgeServlet extends HttpServlet {
      */
     private final HueBridge bridge = new HueBridge();
 
+    /**
+     * Handle GET /config.
+     *
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     */
+    private void getConfig(HttpServletResponse response) throws IOException {
+        response.setContentType("text/json");
+        try ( PrintWriter writer = response.getWriter()) {
+            writer.println(bridge.config());
+            writer.flush();
+        }
+    }
+
+    /**
+     * Handle GET /.
+     *
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     */
+    private void getDefault(HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain");
+        try ( PrintWriter writer = response.getWriter()) {
+            writer.println("Philips Hue Bridge container");
+            writer.flush();
+        }
+    }
+
+    /**
+     * Handle GET /lights/&lt;id&gt;
+     *
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     */
+    private void getLight(HttpServletRequest request, 
+            HttpServletResponse response) throws IOException {
+        
+        String id = request.getServletPath().substring(
+                request.getServletPath().indexOf("/lights/") + "/kights".length() + 1);
+        try ( PrintWriter writer = response.getWriter()) {
+            writer.println(bridge.getLightInfo(Integer.valueOf(id)));
+            writer.flush();
+        }
+    }
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         bridge.setBaseUrl(config.getInitParameter("baseUrl"));
         if (config.getInitParameter("baseUrl") == null) {
             LOGGER.log(WARNING, "No baseUrl was set so nothing will work");
+        } else {
+            LOGGER.log(INFO, "Using " + config.getInitParameter("baseUrl") + " to communicate with Philips Hue Bridge");
         }
         bridge.setUsername(config.getInitParameter("username"));
         if (config.getInitParameter("username") == null) {
             LOGGER.log(WARNING, "No username was set so only basic operations will work");
+        } else {
+            LOGGER.log(INFO, "With a configured username");
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (request.getServletPath().startsWith("/config")) {
-            response.setContentType("text/json");
-            try ( PrintWriter writer = response.getWriter()) {
-                writer.println(bridge.config());
-                writer.flush();
-            }
+            getConfig(response);
+        } else if (request.getServletPath().startsWith("/lights/")) {
+            getLight(request, response);
         } else {
-            response.setContentType("text/plain");
-            try ( PrintWriter writer = response.getWriter()) {
-                writer.println("Hue Bridge container");
-                writer.flush();
-            }
+            getDefault(response);
         }
     }
 
