@@ -151,7 +151,7 @@
                         <configuration>
                             <skip>false</skip>
                             <imageName>hue-bridge</imageName>
-                            <buildArgs>--no-fallback</buildArgs>
+                            <buildArgs>--no-fallback --static</buildArgs>
                         </configuration>
                     </plugin>                    
                 </plugins>

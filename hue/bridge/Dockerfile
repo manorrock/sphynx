@@ -14,9 +14,9 @@ RUN export PATH=$PATH:/usr/local/apache-maven-3.8.3/bin && \
     mvn --no-transfer-progress -P graalvm clean install
 
 #
-# Create a slim Debian image with the GraalVM helloworld binary
+# Create an image with the GraalVM hue-bridge binary
 #
-FROM debian:10-slim
+FROM scratch
 COPY --from=builder /root/target/hue-bridge /usr/local/bin/hue-bridge
 EXPOSE 8080
 CMD ["/usr/local/bin/hue-bridge"]
