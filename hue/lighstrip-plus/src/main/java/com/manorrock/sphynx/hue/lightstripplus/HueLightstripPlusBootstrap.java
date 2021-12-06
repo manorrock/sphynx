@@ -25,24 +25,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.bridge;
+package com.manorrock.sphynx.hue.lightstripplus;
 
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.nano.NanoPiranha;
 import cloud.piranha.nano.NanoPiranhaBuilder;
-import static java.lang.System.Logger.Level.INFO;
 
 /**
- * The Hue Bridge bootstrap.
+ * The Hue Lightstrip Plus bootstrap.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HueBridgeBootstrap {
-    
-    /**
-     * Stores the logger.
-     */
-    private static final System.Logger LOGGER = System.getLogger(HueBridgeBootstrap.class.getName());    
+public class HueLightstripPlusBootstrap {
 
     /**
      * Main method.
@@ -51,41 +45,35 @@ public class HueBridgeBootstrap {
      * @throws Exception when an error occurs.
      */
     public static void main(String[] arguments) throws Exception {
-        String baseUrl = null;
-        String username = null;
-        int httpPort = 8080;
+        String bridgeUrl = null;
+        String id = null;
         
         for(int i=0; i<arguments.length; i++) {
-            if (arguments[i].equals("--baseUrl")) {
-                baseUrl = arguments[i + 1];
+            if (arguments[i].equals("--bridgeUrl")) {
+                bridgeUrl = arguments[i + 1];
             }
-            if (arguments[i].equals("--username")) {
-                username = arguments[i + 1];
-            }
-            if (arguments[i].equals("--httpPort")) {
-                httpPort = Integer.valueOf(arguments[i + 1]);
+            if (arguments[i].equals("--id")) {
+                id = arguments[i + 1];
             }
         }
         
-        if (baseUrl == null) {
-            baseUrl = System.getenv("BASE_URL");
+        if (bridgeUrl == null) {
+            bridgeUrl = System.getenv("BASE_URL");
         }
-        if (username == null) {
-            username = System.getenv("USERNAME");
+        if (id == null) {
+            id = System.getenv("ID");
         }
         
-        HueBridgeServlet servlet = new HueBridgeServlet();
+        HueLightstripPlusServlet servlet = new HueLightstripPlusServlet();
         NanoPiranha piranha = new NanoPiranhaBuilder()
-                .servlet("Hue Bridge", servlet)
-                .servletInitParam("Hue Bridge", "baseUrl", baseUrl)
-                .servletInitParam("Hue Bridge", "username", username)
+                .servlet("Hue Lightstrip Plus", servlet)
+                .servletInitParam("Hue Lightstrip Plus", "baseUrl", bridgeUrl)
+                .servletInitParam("Hue Lightstrip Plus", "id", id)
                 .build();
         
-        DefaultHttpServer server = new DefaultHttpServer(httpPort, 
-                new HueBridgeHttpProcessor(piranha), false);
+        DefaultHttpServer server = new DefaultHttpServer(8080, 
+                new HueLightstripPlusHttpProcessor(piranha), false);
         
         server.start();
-        
-        LOGGER.log(INFO, "Started listening on port " + httpPort);
     }
 }

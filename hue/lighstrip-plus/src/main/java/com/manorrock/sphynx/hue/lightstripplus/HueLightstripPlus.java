@@ -25,27 +25,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.lst002;
+package com.manorrock.sphynx.hue.lightstripplus;
 
-import com.manorrock.sphynx.hue.bridge.HueBridge;
+import java.io.IOException;
+import static java.lang.System.Logger.Level.WARNING;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import static java.net.http.HttpClient.Redirect.ALWAYS;
+import static java.net.http.HttpClient.Version.HTTP_1_1;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 
 /**
- * A Hue LST002 light (LightStrip Plus).
+ * A Hue LightStrip Plus (model LST002).
  *
  * @author Manfred Riem (mriem@manorrock.com)
  * @see https://zigbee.blakadder.com/Philips_LST002.html
  */
-public class HueLST002Light {
+public class HueLightstripPlus {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(HueLightstripPlus.class.getName());
 
     /**
-     * Stores the id of the light.
+     * Stores the bridge URL.
+     */
+    private String bridgeUrl;
+    
+    /**
+     * Stores the id.
      */
     private int id;
-
-    /**
-     * Stores the Hue bridge we rely setOn.
-     */
-    private HueBridge bridge;
 
     /**
      * Set the brightness.
@@ -63,15 +78,6 @@ public class HueLST002Light {
      */
     public void setXY(float[] xy) {
 //        bridge.changeLightState(id, "xy", xy);
-    }
-
-    /**
-     * Get the Hue bridge.
-     *
-     * @return the Hue bridge.
-     */
-    public HueBridge getBridge() {
-        return bridge;
     }
 
     /**
@@ -104,21 +110,39 @@ public class HueLST002Light {
     }
 
     /**
+     * Set the bridge URL.
+     * 
+     * @param bridgeUrl the bridge URL.
+     */
+    public void setBridgeUrl(String bridgeUrl) {
+        this.bridgeUrl = bridgeUrl;
+    }
+
+    /**
      * Turn the light on/off.
      * 
      * @param on the on/off flag.
      */
     public void setOn(boolean on) {
-//        bridge.changeLightState(id, "on", on);
-    }
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
 
-    /**
-     * Set the Hue bridge.
-     *
-     * @param bridge the Hue bridge;
-     */
-    public void setBridge(HueBridge bridge) {
-        this.bridge = bridge;
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .PUT(BodyPublishers.ofString(Boolean.toString(on)))
+                    .uri(new URI(bridgeUrl + "/lights/" + id + "/on"))
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to change on to: " + on, e);
+        }
     }
 
     /**

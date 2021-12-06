@@ -5,16 +5,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.manorrock.sphynx.hue</groupId>
-        <artifactId>project</artifactId>
-        <version>21.12.0-SNAPSHOT</version>
-    </parent>
-    <artifactId>sphynx-hue-lst002</artifactId>
+    <groupId>com.manorrock.sphynx.hue</groupId>
+    <artifactId>sphynx-hue-lightstrip-plus</artifactId>
+    <version>21.12.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Hue - LST002 Light (Lightstrip Plus)</name>
+    <name>Philips Hue Lightstrip Plus</name>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <release>17</release>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -34,6 +39,12 @@
             <groupId>com.manorrock.sphynx.hue</groupId>
             <artifactId>sphynx-hue-bridge</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <properties>

@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.bridge;
+package com.manorrock.sphynx.hue.lightstripplus;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -41,35 +41,21 @@ import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
 
 /**
- * The Hue Bridge.
+ * The Hue Lightstrip Plus servlet.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HueBridgeServlet extends HttpServlet {
+public class HueLightstripPlusServlet extends HttpServlet {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(HueBridgeServlet.class.getName());
+    private static final Logger LOGGER = System.getLogger(HueLightstripPlusServlet.class.getName());
 
     /**
-     * Stores the Hue Bridge.
+     * Stores the Hue Lightstrip Plus.
      */
-    private final HueBridge bridge = new HueBridge();
-
-    /**
-     * Handle GET /config.
-     *
-     * @param response the response.
-     * @throws IOException when an I/O error occurs.
-     */
-    private void getConfig(HttpServletResponse response) throws IOException {
-        response.setContentType("text/json");
-        try ( PrintWriter writer = response.getWriter()) {
-            writer.println(bridge.config());
-            writer.flush();
-        }
-    }
+    private final HueLightstripPlus lightstrip = new HueLightstripPlus();
 
     /**
      * Handle GET /.
@@ -80,97 +66,53 @@ public class HueBridgeServlet extends HttpServlet {
     private void getDefault(HttpServletResponse response) throws IOException {
         response.setContentType("text/plain");
         try ( PrintWriter writer = response.getWriter()) {
-            writer.println("Philips Hue Bridge container");
-            writer.flush();
-        }
-    }
-
-    /**
-     * Handle GET /lights/&lt;id&gt;
-     *
-     * @param request the request.
-     * @param response the response.
-     * @throws IOException when an I/O error occurs.
-     */
-    private void getLight(HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
-
-        String id = request.getServletPath().substring(
-                request.getServletPath().indexOf("/lights/") + "/lights".length() + 1);
-        try ( PrintWriter writer = response.getWriter()) {
-            writer.println(bridge.getLightInfo(Integer.valueOf(id)));
+            writer.println("Philips Hue Lightstrip Plus container");
             writer.flush();
         }
     }
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        bridge.setBaseUrl(config.getInitParameter("baseUrl"));
+        lightstrip.setBridgeUrl(config.getInitParameter("baseUrl"));
         if (config.getInitParameter("baseUrl") == null) {
             LOGGER.log(WARNING, "No baseUrl was set so nothing will work");
         } else {
-            LOGGER.log(INFO, "Using " + config.getInitParameter("baseUrl") + " to communicate with Philips Hue Bridge");
+            LOGGER.log(INFO, "Using " + config.getInitParameter("baseUrl") + " to communicate with Philips Hue Bridge container");
         }
-        bridge.setUsername(config.getInitParameter("username"));
-        if (config.getInitParameter("username") == null) {
-            LOGGER.log(WARNING, "No username was set so only basic operations will work");
+        if (config.getInitParameter("id") == null) {
+            LOGGER.log(WARNING, "No id was set so so nothing will work");
         } else {
-            LOGGER.log(INFO, "With a configured username");
+            lightstrip.setId(Integer.valueOf(config.getInitParameter("id")));
+            LOGGER.log(INFO, "With id: " + lightstrip.getId());
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (request.getServletPath().startsWith("/config")) {
-            getConfig(response);
-        } else if (request.getServletPath().startsWith("/lights/")) {
-            getLight(request, response);
-        } else {
-            getDefault(response);
-        }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getServletPath().startsWith("/authorize")) {
-            response.setContentType("text/json");
-            try ( PrintWriter writer = response.getWriter()) {
-                writer.println(bridge.authorize(request.getParameter("username")));
-                writer.flush();
-            }
-        } else {
-            getDefault(response);
-        }
+        getDefault(response);
     }
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getServletPath().startsWith("/lights/")
-                && request.getServletPath().endsWith("/on")) {
-            putLightOn(request, response);
-        } else {
-            getDefault(response);
+        if (request.getServletPath().startsWith("/on")) {
+            putOn(request, response);
         }
     }
 
     /**
-     * Handle PUT /lights/&lt;id&gt;/on
+     * Handle PUT /on.
      *
      * @param request the request.
      * @param response the response.
      * @throws IOException when an I/O error occurs.
      */
-    private void putLightOn(HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
-
-        String id = request.getServletPath().substring(
-                request.getServletPath().indexOf("/lights/") + "/lights".length() + 1);
-        id = id.substring(0, id.indexOf("/"));
+    private void putOn(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/json");
         try ( PrintWriter writer = response.getWriter()) {
             response.setStatus(200);
             Jsonb jsonb = JsonbBuilder.create();
             boolean on = jsonb.fromJson(request.getInputStream(), boolean.class);
-            bridge.changeLightState(Integer.valueOf(id), "on", on);
+            lightstrip.setOn(on);
             writer.flush();
         }
     }

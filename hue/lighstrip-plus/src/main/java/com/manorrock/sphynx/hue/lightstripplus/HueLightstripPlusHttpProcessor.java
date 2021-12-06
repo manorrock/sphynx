@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.bridge;
+package com.manorrock.sphynx.hue.lightstripplus;
 
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.api.HttpServerProcessorEndState;
@@ -39,11 +39,11 @@ import cloud.piranha.nano.NanoPiranha;
 import static java.lang.System.Logger.Level.ERROR;
 
 /**
- * The HttpServerProcessor for the Hue Bridge.
+ * The HttpServerProcessor for the Hue Lightstrip Plus.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HueBridgeHttpProcessor implements HttpServerProcessor {
+public class HueLightstripPlusHttpProcessor implements HttpServerProcessor {
 
     /**
      * Stores the logger.
@@ -60,7 +60,7 @@ public class HueBridgeHttpProcessor implements HttpServerProcessor {
      *
      * @param piranha the Piranha instance.
      */
-    public HueBridgeHttpProcessor(NanoPiranha piranha) {
+    public HueLightstripPlusHttpProcessor(NanoPiranha piranha) {
         this.piranha = piranha;
     }
 

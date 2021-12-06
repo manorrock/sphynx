@@ -44,11 +44,11 @@
     </dependencies>
     <modules>
         <module>bridge</module>
+        <module>lighstrip-plus</module>
         <module>lca002</module>
         <module>lcb001</module>
         <module>lct016</module>
         <module>lct024</module>
-        <module>lst002</module>
         <module>ltw011</module>
         <module>lwb014</module>
     </modules>

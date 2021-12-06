@@ -26,10 +26,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module com.manorrock.sphynx.hue.bridge {
+module com.manorrock.sphynx.hue.lightstripplus {
 
-    exports com.manorrock.sphynx.hue.bridge;
-    opens com.manorrock.sphynx.hue.bridge;
+    exports com.manorrock.sphynx.hue.lightstripplus;
+    opens com.manorrock.sphynx.hue.lightstripplus;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;

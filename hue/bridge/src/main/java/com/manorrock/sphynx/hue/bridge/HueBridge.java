@@ -94,7 +94,6 @@ public class HueBridge {
     }
 
     public void changeLightState(int id, String name, boolean value) {
-        /*
         try {
             HttpClient client = HttpClient
                     .newBuilder()
@@ -115,7 +114,6 @@ public class HueBridge {
         } catch (URISyntaxException | InterruptedException | IOException e) {
             LOGGER.log(WARNING, "Unable to change light state for light #" + id, e);
         }
-        */
     }
 
     public void changeLightState(int id, String name, float[] value) {
