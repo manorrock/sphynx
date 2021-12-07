@@ -148,8 +148,33 @@ public class HueBridgeServlet extends HttpServlet {
         if (request.getServletPath().startsWith("/lights/")
                 && request.getServletPath().endsWith("/on")) {
             putLightOn(request, response);
+        } else if (request.getServletPath().startsWith("/lights/")
+                && request.getServletPath().endsWith("/state")) {
+            putLightState(request, response);
         } else {
             getDefault(response);
+        }
+    }
+
+    /**
+     * Handle PUT /lights/&lt;id&gt;/brightness
+     *
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     */
+    private void putLightState(HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+
+        String id = request.getServletPath().substring(
+                request.getServletPath().indexOf("/lights/") + "/lights".length() + 1);
+        id = id.substring(0, id.indexOf("/"));
+        try ( PrintWriter writer = response.getWriter()) {
+            response.setStatus(200);
+            Jsonb jsonb = JsonbBuilder.create();
+            HueLightStateInfo info = jsonb.fromJson(request.getInputStream(), HueLightStateInfo.class);
+            bridge.changeLightState(Integer.valueOf(id), "bri", info.getBrightness());
+            writer.flush();
         }
     }
 

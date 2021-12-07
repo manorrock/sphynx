@@ -96,6 +96,28 @@ public class HueLightstripPlusServlet extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getServletPath().startsWith("/on")) {
             putOn(request, response);
+        } else if (request.getServletPath().startsWith("/brightness")) {
+            putBrightness(request, response);
+        }
+    }
+    
+    /**
+     * Handle PUT /brightness.
+     * 
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     */
+    private void putBrightness(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        
+        response.setContentType("text/json");
+        try ( PrintWriter writer = response.getWriter()) {
+            response.setStatus(200);
+            Jsonb jsonb = JsonbBuilder.create();
+            int brightness = jsonb.fromJson(request.getInputStream(), int.class);
+            lightstrip.setBrightness(brightness);
+            writer.flush();
         }
     }
 
@@ -106,7 +128,9 @@ public class HueLightstripPlusServlet extends HttpServlet {
      * @param response the response.
      * @throws IOException when an I/O error occurs.
      */
-    private void putOn(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void putOn(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        
         response.setContentType("text/json");
         try ( PrintWriter writer = response.getWriter()) {
             response.setStatus(200);

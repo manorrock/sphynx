@@ -27,29 +27,27 @@
  */
 package com.manorrock.sphynx.hue.bridge;
 
-/*
-import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbPropertyOrder;
- */
+import jakarta.json.bind.annotation.JsonbProperty;
+import jakarta.json.bind.annotation.JsonbPropertyOrder;
 
 /**
  * The JSON information holder for the state of a light.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-// @JsonbPropertyOrder({"brightness", "xy"})
+ @JsonbPropertyOrder({"brightness", "xy"})
 public class HueLightStateInfo {
 
     /**
      * Stores the brightness.
      */
-//    @JsonbProperty("bri")
+    @JsonbProperty("bri")
     private Integer brightness;
 
     /**
      * Stores the XY.
      */
-//    @JsonbProperty("xy")
+    @JsonbProperty("xy")
     private float[] xy;
 
     /**

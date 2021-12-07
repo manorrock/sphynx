@@ -63,3 +63,19 @@ The following response table descibes what the container can respond
 | HTTP Code | Body |
 |-----------|------|
 | 200 | { .... } |
+
+## Set a state of a light
+
+The following request table describes what you need to pass to set a state for a specific light. 
+
+| Item | Value | Required | Notes |
+|------|-------|----------|-------|
+| URL | /lights/{id}/state | yes | where {id} is an number |
+| Method | PUT | yes | |
+| Body | { .... } | yes | |
+
+The following response table descibes what the container can respond
+
+| HTTP Code | Body |
+|-----------|------|
+| 200 | |

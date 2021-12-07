@@ -68,7 +68,26 @@ public class HueLightstripPlus {
      * @param brightness the brightness.
      */
     public void setBrightness(int brightness) {
-//        bridge.changeLightState(id, "bri", brightness);
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .PUT(BodyPublishers.ofString(
+                            "{\"bri\":" + brightness + "}"))
+                    .uri(new URI(bridgeUrl + "/lights/" + id + "/state"))
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to change brightness to: " + brightness, e);
+        }        
     }
     
     /**
