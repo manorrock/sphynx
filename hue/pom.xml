@@ -9,7 +9,7 @@
     <groupId>com.manorrock.sphynx.hue</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
-    <name>Hue - Project</name>
+    <name>Philips Hue Project</name>
     <build>
         <plugins>
             <plugin>

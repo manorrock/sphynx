@@ -1,0 +1,20 @@
+[
+    {
+        "name": "com.manorrock.sphynx.hue.bridge.HueLightInfo",
+        "allDeclaredConstructors": true,
+        "allPublicConstructors": true,
+        "allDeclaredFields": true,
+        "allPublicFields": true,
+        "allDeclaredMethods": true,
+        "allPublicMethods": true
+    },
+    {
+        "name": "com.manorrock.sphynx.hue.bridge.HueLightStateInfo",
+        "allDeclaredConstructors": true,
+        "allPublicConstructors": true,
+        "allDeclaredFields": true,
+        "allPublicFields": true,
+        "allDeclaredMethods": true,
+        "allPublicMethods": true
+    }
+]

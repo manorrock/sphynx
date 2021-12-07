@@ -31,7 +31,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
 
 /**
- * The JSON information holder for the state of a light.
+ * The state of a light (in JSON format).
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

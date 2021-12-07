@@ -107,6 +107,7 @@
         </plugins>
     </build>
     <dependencies>
+        <!-- compile -->
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-impl</artifactId>
@@ -129,6 +130,20 @@
             <groupId>org.eclipse</groupId>
             <artifactId>yasson</artifactId>
             <version>2.0.3</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- runtime -->
+        <!--
+      
+            Needed by GraalVM because of how Yasson determines if CDI is
+            available.
+
+          -->
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>3.0.0</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
     <profiles>
@@ -151,7 +166,7 @@
                         <configuration>
                             <skip>false</skip>
                             <imageName>hue-bridge</imageName>
-                            <buildArgs>--no-fallback --static --allow-incomplete-classpath</buildArgs>
+                            <buildArgs>--no-fallback --static -H:ReflectionConfigurationFiles=${project.build.directory}/../src/main/graalvm/reflection.json</buildArgs>
                         </configuration>
                     </plugin>                    
                 </plugins>

@@ -71,7 +71,9 @@ public class HueLightstripPlusHttpProcessor implements HttpServerProcessor {
             servletRequest.setMethod(request.getMethod());
             servletRequest.setQueryString(request.getQueryString());
             servletRequest.setServletPath(request.getRequestTarget());
-            servletRequest.setContentLength(Integer.valueOf(request.getHeader("Content-Length")));
+            if (request.getHeader("Content-Length") != null) {
+                servletRequest.setContentLength(Integer.valueOf(request.getHeader("Content-Length")));
+            }
             servletRequest.setInputStream(request.getInputStream());
             piranha.service(servletRequest, servletResponse);
             servletResponse.flush();

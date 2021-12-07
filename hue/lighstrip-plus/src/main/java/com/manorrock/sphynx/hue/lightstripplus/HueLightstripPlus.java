@@ -105,8 +105,27 @@ public class HueLightstripPlus {
      * @return the brightness.
      */
     public int getBrightness() {
-        return -1;
-//        return Integer.valueOf(bridge.getLightState(id, "bri"));
+        int result = -1;
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .uri(new URI(bridgeUrl + "/lights/" + id + "/brightness"))
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            result = Integer.valueOf(client.send(request, 
+                    HttpResponse.BodyHandlers.ofString()).body().trim());
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to get brightness", e);
+        }
+        return result;
     }
 
     /**

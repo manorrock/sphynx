@@ -41,7 +41,7 @@ import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
 
 /**
- * The Hue Bridge.
+ * The Hue Bridge servlet.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -123,6 +123,9 @@ public class HueBridgeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (request.getServletPath().startsWith("/config")) {
             getConfig(response);
+        } else if (request.getServletPath().startsWith("/lights") &&
+                request.getServletPath().endsWith("/brightness")) {
+            getBrightness(request, response);
         } else if (request.getServletPath().startsWith("/lights/")) {
             getLight(request, response);
         } else {
@@ -196,6 +199,19 @@ public class HueBridgeServlet extends HttpServlet {
             Jsonb jsonb = JsonbBuilder.create();
             boolean on = jsonb.fromJson(request.getInputStream(), boolean.class);
             bridge.changeLightState(Integer.valueOf(id), "on", on);
+            writer.flush();
+        }
+    }
+
+    private void getBrightness(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String id = request.getServletPath().substring(
+                request.getServletPath().indexOf("/lights/") + "/lights/".length());
+        id = id.substring(0, id.indexOf("/"));
+        try ( PrintWriter writer = response.getWriter()) {
+            response.setStatus(200);
+            Jsonb jsonb = JsonbBuilder.create();
+            HueLightInfo info = jsonb.fromJson(bridge.getLightInfo(Integer.valueOf(id)), HueLightInfo.class);
+            writer.println(info.getState().getBrightness());
             writer.flush();
         }
     }

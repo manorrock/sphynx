@@ -39,7 +39,7 @@ import cloud.piranha.nano.NanoPiranha;
 import static java.lang.System.Logger.Level.ERROR;
 
 /**
- * The HttpServerProcessor for the Hue Bridge.
+ * The Hue Bridge HttpServerProcessor.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -71,7 +71,9 @@ public class HueBridgeHttpProcessor implements HttpServerProcessor {
             servletRequest.setMethod(request.getMethod());
             servletRequest.setQueryString(request.getQueryString());
             servletRequest.setServletPath(request.getRequestTarget());
-            servletRequest.setContentLength(Integer.valueOf(request.getHeader("Content-Length")));
+            if (request.getHeader("Content-Length") != null) {
+                servletRequest.setContentLength(Integer.valueOf(request.getHeader("Content-Length")));
+            }
             servletRequest.setInputStream(request.getInputStream());
             piranha.service(servletRequest, servletResponse);
             servletResponse.flush();

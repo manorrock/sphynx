@@ -41,7 +41,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 
 /**
- * The implementation of the Philips Hue bridge.
+ * The Hue Bridge.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
