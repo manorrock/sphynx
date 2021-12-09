@@ -27,6 +27,7 @@
  */
 package com.manorrock.sphynx.hue.lightstripplus;
 
+import com.manorrock.sphynx.hue.core.HueLight;
 import java.io.IOException;
 import static java.lang.System.Logger.Level.WARNING;
 import java.net.URI;
@@ -45,22 +46,13 @@ import java.time.Duration;
  * @author Manfred Riem (mriem@manorrock.com)
  * @see https://zigbee.blakadder.com/Philips_LST002.html
  */
-public class HueLightstripPlus {
+public class HueLightstripPlus extends HueLight {
     
     /**
      * Stores the logger.
      */
     private static final System.Logger LOGGER = System.getLogger(HueLightstripPlus.class.getName());
 
-    /**
-     * Stores the bridge URL.
-     */
-    private String bridgeUrl;
-    
-    /**
-     * Stores the id.
-     */
-    private int id;
 
     /**
      * Set the brightness.
@@ -128,14 +120,6 @@ public class HueLightstripPlus {
         return result;
     }
 
-    /**
-     * Get the id.
-     *
-     * @return the id.
-     */
-    public int getId() {
-        return id;
-    }
     
     /**
      * Get the XY.
@@ -147,14 +131,6 @@ public class HueLightstripPlus {
 //        return bridge.getLightStateAsFloatArray(id, "xy");
     }
 
-    /**
-     * Set the bridge URL.
-     * 
-     * @param bridgeUrl the bridge URL.
-     */
-    public void setBridgeUrl(String bridgeUrl) {
-        this.bridgeUrl = bridgeUrl;
-    }
 
     /**
      * Turn the light on/off.
@@ -183,12 +159,4 @@ public class HueLightstripPlus {
         }
     }
 
-    /**
-     * Set the id.
-     *
-     * @param id the id.
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
 }

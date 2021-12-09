@@ -25,59 +25,58 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.lightstripplus;
-
-import cloud.piranha.http.impl.DefaultHttpServer;
-import cloud.piranha.nano.NanoPiranha;
-import cloud.piranha.nano.NanoPiranhaBuilder;
+package com.manorrock.sphynx.hue.core;
 
 /**
- * The Hue Lightstrip Plus bootstrap.
- *
+ * A Hue light.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HueLightstripPlusBootstrap {
+public class HueLight {
 
     /**
-     * Main method.
-     * 
-     * @param arguments the command-line arguments.
-     * @throws Exception when an error occurs.
+     * Stores the bridge URL.
      */
-    public static void main(String[] arguments) throws Exception {
-        String bridgeUrl = null;
-        String id = null;
-        
-        for(int i=0; i<arguments.length; i++) {
-            if (arguments[i].equals("--bridgeUrl")) {
-                bridgeUrl = arguments[i + 1];
-            }
-            if (arguments[i].equals("--id")) {
-                id = arguments[i + 1];
-            }
-        }
-        
-        if (bridgeUrl == null) {
-            bridgeUrl = System.getenv("BASE_URL");
-        }
-        if (id == null) {
-            id = System.getenv("ID");
-        }
-        
-        HueLightstripPlusServlet servlet = new HueLightstripPlusServlet();
-        
-        /*
-         * Replace with StandardNanoPiranha when available.
-         */
-        NanoPiranha piranha = new NanoPiranhaBuilder()
-                .servlet("Hue Lightstrip Plus", servlet)
-                .servletInitParam("Hue Lightstrip Plus", "baseUrl", bridgeUrl)
-                .servletInitParam("Hue Lightstrip Plus", "id", id)
-                .build();
-        
-        DefaultHttpServer server = new DefaultHttpServer(8080, 
-                new HueLightstripPlusHttpProcessor(piranha), false);
-        
-        server.start();
+    protected String bridgeUrl;
+    
+    /**
+     * Stores the id.
+     */
+    protected int id;
+
+    /**
+     * Get the bridge URL.
+     * 
+     * @return the bridge URL.
+     */
+    public String getBridgeUrl() {
+        return bridgeUrl;
+    }
+
+    /**
+     * Get the id.
+     *
+     * @return the id.
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Set the bridge URL.
+     *
+     * @param bridgeUrl the bridge URL.
+     */
+    public void setBridgeUrl(String bridgeUrl) {
+        this.bridgeUrl = bridgeUrl;
+    }
+
+    /**
+     * Set the id.
+     *
+     * @param id the id.
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 }

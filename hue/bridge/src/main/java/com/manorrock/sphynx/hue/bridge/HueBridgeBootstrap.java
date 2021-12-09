@@ -75,6 +75,10 @@ public class HueBridgeBootstrap {
         }
         
         HueBridgeServlet servlet = new HueBridgeServlet();
+
+        /*
+         * Replace with StandardNanoPiranha when available.
+         */
         NanoPiranha piranha = new NanoPiranhaBuilder()
                 .servlet("Hue Bridge", servlet)
                 .servletInitParam("Hue Bridge", "baseUrl", baseUrl)

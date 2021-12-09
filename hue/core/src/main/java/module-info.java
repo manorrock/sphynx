@@ -26,17 +26,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-module com.manorrock.sphynx.hue.lightstripplus {
+module com.manorrock.sphynx.hue.core {
 
-    exports com.manorrock.sphynx.hue.lightstripplus;
-    opens com.manorrock.sphynx.hue.lightstripplus;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.webapp;
-    requires cloud.piranha.nano;
-    requires com.manorrock.sphynx.hue.core;
-    requires jakarta.json.bind;
-    requires jakarta.servlet;    
-    requires java.logging;
-    requires java.net.http;
+    exports com.manorrock.sphynx.hue.core;
+    opens com.manorrock.sphynx.hue.core;
 }
