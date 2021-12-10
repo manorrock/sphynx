@@ -30,4 +30,5 @@ module com.manorrock.sphynx.hue.core {
 
     exports com.manorrock.sphynx.hue.core;
     opens com.manorrock.sphynx.hue.core;
+    requires java.net.http;
 }

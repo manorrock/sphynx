@@ -27,18 +27,34 @@
  */
 package com.manorrock.sphynx.hue.core;
 
+import java.io.IOException;
+import java.lang.System.Logger;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import static java.net.http.HttpClient.Redirect.ALWAYS;
+import static java.net.http.HttpClient.Version.HTTP_1_1;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+
 /**
  * A Hue light.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HueLight {
 
     /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(HueLight.class.getName());
+
+    /**
      * Stores the bridge URL.
      */
     protected String bridgeUrl;
-    
+
     /**
      * Stores the id.
      */
@@ -46,7 +62,7 @@ public class HueLight {
 
     /**
      * Get the bridge URL.
-     * 
+     *
      * @return the bridge URL.
      */
     public String getBridgeUrl() {
@@ -78,5 +94,32 @@ public class HueLight {
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * Turn the light on/off.
+     *
+     * @param on the on/off flag.
+     */
+    public void setOn(boolean on) {
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+            
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .PUT(HttpRequest.BodyPublishers.ofString(Boolean.toString(on)))
+                    .uri(new URI(bridgeUrl + "/lights/" + id + "/on"))
+                    .header("Content-Type", "application/json")
+                    .build();
+            
+            client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(System.Logger.Level.WARNING, "Unable to change on to: " + on, e);
+        }
     }
 }
