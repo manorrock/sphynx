@@ -28,6 +28,7 @@
 package com.manorrock.sphynx.hue.lightstripplus;
 
 import cloud.piranha.http.impl.DefaultHttpServer;
+import cloud.piranha.http.webapp.HttpWebApplicationServerProcessor;
 import cloud.piranha.nano.NanoPiranha;
 import cloud.piranha.nano.NanoPiranhaBuilder;
 
@@ -76,7 +77,7 @@ public class HueLightstripPlusBootstrap {
                 .build();
         
         DefaultHttpServer server = new DefaultHttpServer(8080, 
-                new HueLightstripPlusHttpProcessor(piranha), false);
+                new HttpWebApplicationServerProcessor(piranha), false);
         
         server.start();
     }

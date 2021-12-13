@@ -28,6 +28,7 @@
 package com.manorrock.sphynx.hue.bridge;
 
 import cloud.piranha.http.impl.DefaultHttpServer;
+import cloud.piranha.http.webapp.HttpWebApplicationServerProcessor;
 import cloud.piranha.nano.NanoPiranha;
 import cloud.piranha.nano.NanoPiranhaBuilder;
 import static java.lang.System.Logger.Level.INFO;
@@ -86,7 +87,7 @@ public class HueBridgeBootstrap {
                 .build();
         
         DefaultHttpServer server = new DefaultHttpServer(httpPort, 
-                new HueBridgeHttpProcessor(piranha), false);
+                new HttpWebApplicationServerProcessor(piranha), false);
         
         server.start();
         
