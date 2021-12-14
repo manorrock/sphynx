@@ -126,6 +126,9 @@ public class HueBridgeServlet extends HttpServlet {
         } else if (request.getServletPath().startsWith("/lights") &&
                 request.getServletPath().endsWith("/brightness")) {
             getBrightness(request, response);
+        } else if (request.getServletPath().startsWith("/lights") &&
+                request.getServletPath().endsWith("/on")) {
+            isOn(request, response);
         } else if (request.getServletPath().startsWith("/lights/")) {
             getLight(request, response);
         } else {
@@ -212,6 +215,19 @@ public class HueBridgeServlet extends HttpServlet {
             Jsonb jsonb = JsonbBuilder.create();
             HueLightInfo info = jsonb.fromJson(bridge.getLightInfo(Integer.valueOf(id)), HueLightInfo.class);
             writer.println(info.getState().getBrightness());
+            writer.flush();
+        }
+    }
+    
+    private void isOn(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String id = request.getServletPath().substring(
+                request.getServletPath().indexOf("/lights/") + "/lights/".length());
+        id = id.substring(0, id.indexOf("/"));
+        try ( PrintWriter writer = response.getWriter()) {
+            response.setStatus(200);
+            Jsonb jsonb = JsonbBuilder.create();
+            HueLightInfo info = jsonb.fromJson(bridge.getLightInfo(Integer.valueOf(id)), HueLightInfo.class);
+            writer.println(info.getState().isOn());
             writer.flush();
         }
     }

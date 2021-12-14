@@ -35,7 +35,7 @@ import jakarta.json.bind.annotation.JsonbPropertyOrder;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
- @JsonbPropertyOrder({"brightness", "xy"})
+ @JsonbPropertyOrder({"on", "brightness", "xy"})
 public class HueLightStateInfo {
 
     /**
@@ -43,6 +43,12 @@ public class HueLightStateInfo {
      */
     @JsonbProperty("bri")
     private Integer brightness;
+    
+    /**
+     * Stores the on.
+     */
+    @JsonbProperty("on")
+    private boolean on;
 
     /**
      * Stores the XY.
@@ -73,6 +79,15 @@ public class HueLightStateInfo {
     public float[] getXy() {
         return xy;
     }
+    
+    /**
+     * Is the light on/off.
+     * 
+     * @return true if the light is on, false otherwise.
+     */
+    public boolean isOn() {
+        return on;
+    }
 
     /**
      * Set the brightness.
@@ -81,6 +96,15 @@ public class HueLightStateInfo {
      */
     public void setBrightness(Integer brightness) {
         this.brightness = brightness;
+    }
+    
+    /**
+     * Set the on/off flag.
+     * 
+     * @param on the on/off flag.
+     */
+    public void setOn(boolean on) {
+        this.on = on;
     }
 
     /**

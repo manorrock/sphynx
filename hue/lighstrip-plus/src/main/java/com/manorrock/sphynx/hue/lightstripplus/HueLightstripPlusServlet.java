@@ -61,6 +61,8 @@ public class HueLightstripPlusServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (request.getServletPath().startsWith("/brightness")) {
             getBrightness(response);
+        } else if (request.getServletPath().startsWith("/on")) {
+            isOn(response);
         } else {
             getDefault(response);
         }
@@ -120,6 +122,24 @@ public class HueLightstripPlusServlet extends HttpServlet {
         } else {
             lightstrip.setId(Integer.valueOf(config.getInitParameter("id")));
             LOGGER.log(INFO, "With id: " + lightstrip.getId());
+        }
+    }
+
+    /**
+     * Handle GET /on
+     *
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     */
+    private void isOn(HttpServletResponse response)
+            throws IOException {
+
+        response.setContentType("text/json");
+        try ( PrintWriter writer = response.getWriter()) {
+            response.setStatus(200);
+            boolean on = lightstrip.isOn();
+            writer.println(on);
+            writer.flush();
         }
     }
 

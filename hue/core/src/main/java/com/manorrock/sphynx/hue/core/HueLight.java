@@ -29,6 +29,7 @@ package com.manorrock.sphynx.hue.core;
 
 import java.io.IOException;
 import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.WARNING;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -76,6 +77,35 @@ public class HueLight {
      */
     public int getId() {
         return id;
+    }
+
+    /**
+     * Is the light on/off.
+     *
+     * @return true if the light is on, false otherwise.
+     */
+    public boolean isOn() {
+        boolean result = false;
+        try {
+            HttpClient client = HttpClient
+                    .newBuilder()
+                    .version(HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20))
+                    .followRedirects(ALWAYS)
+                    .build();
+
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .uri(new URI(bridgeUrl + "/lights/" + id + "/on"))
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            result = Boolean.valueOf(client.send(request, 
+                    HttpResponse.BodyHandlers.ofString()).body().trim());
+        } catch (URISyntaxException | InterruptedException | IOException e) {
+            LOGGER.log(WARNING, "Unable to get on/off state", e);
+        }
+        return result;
     }
 
     /**
