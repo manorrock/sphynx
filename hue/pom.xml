@@ -43,6 +43,7 @@
         </dependency>
     </dependencies>
     <modules>
+        <module>a19-white</module>
         <module>bridge</module>
         <module>core</module>
         <module>lighstrip-plus</module>
@@ -51,7 +52,6 @@
         <module>lct016</module>
         <module>lct024</module>
         <module>ltw011</module>
-        <module>lwb014</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

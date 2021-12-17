@@ -25,89 +25,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.manorrock.sphynx.hue.lwb014;
 
-import com.manorrock.sphynx.hue.bridge.HueBridge;
+module com.manorrock.sphynx.hue.a19white {
 
-/**
- * A Hue LWB014 light (White A19).
- *
- * @author Manfred Riem (mriem@manorrock.com)
- * @see https://zigbee.blakadder.com/Philips_LWB014.html
- */
-public class HueLWB014Light {
-
-    /**
-     * Stores the id of the light.
-     */
-    private int id;
-
-    /**
-     * Stores the Hue bridge we rely setOn.
-     */
-    private HueBridge bridge;
-
-    /**
-     * Set the brightness.
-     *
-     * @param brightness the brightness.
-     */
-    public void setBrightness(int brightness) {
-//        bridge.changeLightState(id, "bri", brightness);
-    }
-
-    /**
-     * Get the Hue bridge.
-     *
-     * @return the Hue bridge.
-     */
-    public HueBridge getBridge() {
-        return bridge;
-    }
-
-    /**
-     * Get the brightness.
-     *
-     * @return the brightness.
-     */
-    public int getBrightness() {
-        return -1;
-//        return Integer.valueOf(bridge.getLightState(id, "bri"));
-    }
-
-    /**
-     * Get the id.
-     *
-     * @return the id.
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Turn the light on/off.
-     * 
-     * @param on the on/off flag.
-     */
-    public void setOn(boolean on) {
-//        bridge.changeLightState(id, "on", on);
-    }
-
-    /**
-     * Set the Hue bridge.
-     *
-     * @param bridge the Hue bridge;
-     */
-    public void setBridge(HueBridge bridge) {
-        this.bridge = bridge;
-    }
-
-    /**
-     * Set the id.
-     *
-     * @param id the id.
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
+    exports com.manorrock.sphynx.hue.a19white;
+    opens com.manorrock.sphynx.hue.a19white;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.impl;
+    requires cloud.piranha.http.webapp;
+    requires cloud.piranha.nano;
+    requires com.manorrock.sphynx.hue.core;
+    requires jakarta.json.bind;
+    requires jakarta.servlet;    
+    requires java.logging;
+    requires java.net.http;
 }
