@@ -1,9 +1,0 @@
-#
-# Use Manorrock Server
-#
-FROM manorrock/server:amd64-v20.6.0
-
-#
-# Copy Manorrock Sphynx into Tomcat 9.
-#
-COPY target/sphynx.war /usr/local/tomcat/webapps/ROOT.war
