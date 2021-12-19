@@ -43,11 +43,11 @@
         </dependency>
     </dependencies>
     <modules>
+	<module>a19-color</module>
         <module>a19-white</module>
         <module>bridge</module>
         <module>core</module>
         <module>lighstrip-plus</module>
-        <module>lca002</module>
         <module>lcb001</module>
         <module>lct016</module>
         <module>lct024</module>
