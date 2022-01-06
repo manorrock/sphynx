@@ -1,9 +1,2 @@
-.classpath
-.project
-.settings/
-dependency-reduced-pom.xml
-HueBridge.properties
-nbactions*.xml
-nb-configuration.xml
-nbproject/
+nbactions.xml
 target/
