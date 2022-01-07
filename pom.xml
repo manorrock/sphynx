@@ -22,6 +22,7 @@
         </pluginManagement>
     </build>
     <modules>
+        <module>cron</module>
         <module>hue</module>
     </modules>
     <properties>
