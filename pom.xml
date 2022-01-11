@@ -24,6 +24,7 @@
     <modules>
         <module>cron</module>
         <module>hue</module>
+        <module>jshell</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
