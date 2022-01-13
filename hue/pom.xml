@@ -52,6 +52,7 @@
         <module>lct016</module>
         <module>lct024</module>
         <module>ltw011</module>
+        <module>outdoor-motion-sensor</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
