@@ -50,9 +50,9 @@
         <module>lighstrip-plus</module>
         <module>lcb001</module>
         <module>lct016</module>
-        <module>lct024</module>
         <module>ltw011</module>
         <module>outdoor-motion-sensor</module>
+        <module>play-light</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

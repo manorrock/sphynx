@@ -10,9 +10,9 @@
         <artifactId>project</artifactId>
         <version>21.12.0-SNAPSHOT</version>
     </parent>
-    <artifactId>sphynx-hue-lct024</artifactId>
+    <artifactId>hue-play-light</artifactId>
     <packaging>jar</packaging>
-    <name>Hue - LCT024 Light (Play Light Bar)</name>
+    <name>Philips Hue Play Light</name>
     <build>
         <plugins>
             <plugin>
