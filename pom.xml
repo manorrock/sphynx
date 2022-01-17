@@ -24,6 +24,7 @@
     <modules>
         <module>cron</module>
         <module>hue</module>
+        <module>homekit-bridge</module>
         <module>jshell</module>
         <module>ondemand</module>
     </modules>
