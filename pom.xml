@@ -22,6 +22,7 @@
         </pluginManagement>
     </build>
     <modules>
+        <module>arlo</module>
         <module>cron</module>
         <module>hue</module>
         <module>homekit-bridge</module>
