@@ -53,6 +53,7 @@
         <module>ltw011</module>
         <module>outdoor-motion-sensor</module>
         <module>play-light</module>
+        <module>light-switch</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
