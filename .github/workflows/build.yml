@@ -25,28 +25,6 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Build amd64 image
-      run: |
-        cd webapp
-        docker build -f src/main/docker/Dockerfile.amd64 -t manorrock/sphynx:amd64-snapshot .
-        docker push manorrock/sphynx:amd64-snapshot
-    - name: Build arm32v6 image
-      run: |
-        cd webapp
-        docker build -f src/main/docker/Dockerfile.arm32v6 -t manorrock/sphynx:arm32v6-snapshot .
-        docker push manorrock/sphynx:arm32v6-snapshot
-    - name: Push Docker manifest
-      run: |
-        cd webapp
-        export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create manorrock/sphynx:snapshot \
-          manorrock/sphynx:amd64-snapshot \
-          manorrock/sphynx:arm32v6-snapshot
-        docker manifest annotate manorrock/sphynx:snapshot \
-          manorrock/sphynx:amd64-snapshot --os linux --arch amd64
-        docker manifest annotate manorrock/sphynx:snapshot \
-          manorrock/sphynx:arm32v6-snapshot --os linux --arch arm
-        docker manifest push manorrock/sphynx:snapshot
     - name: Build and push Philips Hue Bridge container
       run: |
         cd hue/bridge
