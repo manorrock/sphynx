@@ -71,9 +71,9 @@ public class HueA19WhiteLightBootstrap {
          * Replace with StandardNanoPiranha when available.
          */
         NanoPiranha piranha = new NanoPiranhaBuilder()
-                .servlet("Hue Lightstrip Plus", servlet)
-                .servletInitParam("Hue Lightstrip Plus", "baseUrl", bridgeUrl)
-                .servletInitParam("Hue Lightstrip Plus", "id", id)
+                .servlet("Hue A19 White", servlet)
+                .servletInitParam("Hue A19 White", "baseUrl", bridgeUrl)
+                .servletInitParam("Hue A19 White", "id", id)
                 .build();
         
         DefaultHttpServer server = new DefaultHttpServer(8080, 

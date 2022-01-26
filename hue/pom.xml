@@ -11,6 +11,15 @@
     <packaging>pom</packaging>
     <name>Philips Hue Project</name>
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.2.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -43,7 +52,7 @@
         </dependency>
     </dependencies>
     <modules>
-	<module>a19-color</module>
+        <module>a19-color</module>
         <module>a19-white</module>
         <module>bridge</module>
         <module>core</module>

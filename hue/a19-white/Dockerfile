@@ -11,12 +11,14 @@ RUN export PATH=$PATH:/usr/local/apache-maven-3.8.3/bin && \
     gu install native-image && \
     cd /root && \
     export MAVEN_OPTS=-Xmx4G && \
-    mvn --no-transfer-progress -P graalvm clean install
+    mvn -DskipTests -DskipITs -ntp clean install && \
+    cd hue/a19-white && \
+    mvn -DskipTests -DskipITs -ntp -P graalvm clean install 
 
 #
-# Create an image with the GraalVM hue-bridge binary
+# Create an image with the GraalVM hue-a19-white binary
 #
 FROM scratch
-COPY --from=builder /root/target/hue-a19-white /usr/local/bin/hue-a19-white
+COPY --from=builder /root/hue/a19-white/target/hue-a19-white /usr/local/bin/hue-a19-white
 EXPOSE 8080
 CMD ["/usr/local/bin/hue-a19-white"]
