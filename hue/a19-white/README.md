@@ -1,9 +1,9 @@
-# Philips Hue Lightstrip PLus
+# Philips Hue A19 White light
 
-This container exposes the Philips Hue Lightstrip PLus using a REST API. It
+This container exposes the Philips Hue A19 White light using a REST API. It
 expects at minimum the BRIGE_URL environment variable to point to the Philips 
 Hue Bridge (e.g. http://192.168.1.10) and the ID environment variable to be set
-to the id of the lightstrip.
+to the id of the light.
 
 ## Turn the light on or off
 
