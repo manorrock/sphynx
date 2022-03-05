@@ -5,21 +5,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.manorrock.sphynx.hue</groupId>
+    <parent>
+        <groupId>com.manorrock.sphynx.hue</groupId>
+        <artifactId>project</artifactId>
+        <version>21.12.0-SNAPSHOT</version>
+    </parent>
     <artifactId>sphynx-hue-a19-white</artifactId>
-    <version>21.12.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Philips Hue A19 White Light</name>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.9.0</version>
-                <configuration>
-                    <release>17</release>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
