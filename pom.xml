@@ -69,6 +69,14 @@
                     <release>17</release>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <inherited>true</inherited>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <dependencyManagement>
@@ -112,6 +120,7 @@
         <module>homekit-bridge</module>
         <module>jshell</module>
         <module>ondemand</module>
+        <module>webapp</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
