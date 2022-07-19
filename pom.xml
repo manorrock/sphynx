@@ -116,6 +116,7 @@
     <modules>
         <module>arlo</module>
         <module>cron</module>
+        <module>desktop</module>
         <module>hue</module>
         <module>homekit-bridge</module>
         <module>jshell</module>
