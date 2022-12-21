@@ -114,7 +114,6 @@
         </dependencies>
     </dependencyManagement>
     <modules>
-        <module>cron</module>
         <module>desktop</module>
         <module>hue</module>
         <module>homekit-bridge</module>
