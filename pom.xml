@@ -119,7 +119,6 @@
         <module>hue</module>
         <module>homekit-bridge</module>
         <module>jshell</module>
-        <module>ondemand</module>
         <module>webapp</module>
     </modules>
     <properties>
