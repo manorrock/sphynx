@@ -8,13 +8,13 @@
     <parent>
         <groupId>com.manorrock.sphynx</groupId>
         <artifactId>project</artifactId>
-        <version>21.12.0-SNAPSHOT</version>
+        <version>23.1.0-SNAPSHOT</version>
     </parent>
     <artifactId>sphynx-webapp</artifactId>
     <packaging>war</packaging>
     <name>Sphynx - Web application</name>
     <properties>
-        <piranha.distribution>servlet</piranha.distribution>
+        <piranha.distribution>webprofile</piranha.distribution>
         <piranha.version>22.12.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -61,9 +61,27 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.2</version>
                 <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp/WEB-INF</directory>
+                            <filtering>true</filtering>
+                            <targetPath>WEB-INF</targetPath>
+                            <includes>
+                                <include>web.xml</include>
+                            </includes>
+                        </resource>
+                    </webResources>                    
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <version>10.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>
