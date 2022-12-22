@@ -44,12 +44,6 @@
             <version>${piranha.version}</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>com.manorrock.sphynx.hue</groupId>
-            <artifactId>sphynx-hue-core</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency> 
             <groupId>org.eclipse</groupId>
             <artifactId>yasson</artifactId>
