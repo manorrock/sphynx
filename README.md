@@ -1,9 +1,6 @@
-_This project will be archived Jan 1st, 2023 if nobody steps up to take over development_
-
 # Manorrock Sphynx Project
 
-The Manorrock Sphynx Project delivers you with several life automation container
-images that you can use to automate several tasks in life!
+The Manorrock Sphynx Project delivers you with life automation that you can use to automate several tasks in life!
 
 ## How do I contribute?
 
