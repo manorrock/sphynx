@@ -115,7 +115,6 @@
     </dependencyManagement>
     <modules>
         <module>desktop</module>
-        <module>hue</module>
         <module>homekit-bridge</module>
         <module>webapp</module>
     </modules>
