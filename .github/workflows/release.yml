@@ -9,52 +9,9 @@ jobs:
     steps:
     - name: Checkout sources
       uses: actions/checkout@v1
-    - name: Set up Java 11
+    - name: Set up Java 17
       uses: actions/setup-java@v1
       with:
         java-version: 17
     - name: Build with Maven
-      run: mvn -B -DskipTests=true -f pom.xml install
-    - name: Login to Docker Hub
-      uses: azure/docker-login@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Build and push Philips Hue A19 White container
-      run: |
-        TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}
-        VERSION=${TAG:${#INDEX}}
-        docker build -f hue/a19-white/Dockerfile -t manorrock/sphynx-hue-a19-white:$VERSION .
-        docker push manorrock/sphynx-hue-a19-white:$VERSION
-    - name: Build amd64 image
-      run: |
-        cd webapp
-        TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}
-        VERSION=${TAG:${#INDEX}}
-        docker build -f src/main/docker/Dockerfile.amd64 -t manorrock/sphynx:amd64-$VERSION .
-        docker push manorrock/sphynx:amd64-$VERSION
-    - name: Build arm32v6 image
-      run: |
-        cd webapp
-        TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}
-        VERSION=${TAG:${#INDEX}}
-        docker build -f src/main/docker/Dockerfile.arm32v6 -t manorrock/sphynx:arm32v6-$VERSION .
-        docker push manorrock/sphynx:arm32v6-$VERSION
-    - name: Create multi-arch manifest
-      run: | 
-        cd webapp
-        TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}
-        VERSION=${TAG:${#INDEX}}
-        export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create manorrock/sphynx:$VERSION \
-          manorrock/sphynx:amd64-$VERSION \
-          manorrock/sphynx:arm32v6-$VERSION
-        docker manifest annotate manorrock/sphynx:$VERSION \
-          manorrock/sphynx:amd64-$VERSION --os linux --arch amd64
-        docker manifest annotate manorrock/sphynx:$VERSION \
-          manorrock/sphynx:arm32v6-$VERSION --os linux --arch arm
-        docker manifest push manorrock/sphynx:$VERSION
+      run: mvn -B -DskipTests=true -f pom.xml --ntp install
