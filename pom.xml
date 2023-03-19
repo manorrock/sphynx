@@ -115,6 +115,7 @@
     </dependencyManagement>
     <modules>
         <module>desktop</module>
+        <module>macos</module>
         <module>webapp</module>
     </modules>
     <properties>
