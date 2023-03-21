@@ -12,7 +12,7 @@
     </parent>
     <artifactId>sphynx-desktop</artifactId>
     <packaging>jar</packaging>
-    <name>Sphynx - Desktop</name>
+    <name>Manorrock Sphynx - Desktop</name>
     <properties>
         <main.class>com.manorrock.sphynx.desktop.DesktopApplication</main.class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
