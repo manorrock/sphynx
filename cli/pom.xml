@@ -13,4 +13,54 @@
     <artifactId>sphynx-cli</artifactId>
     <packaging>jar</packaging>
     <name>Manorrock Sphynx - CLI</name>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <release>17</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.manorrock.sphynx.cli.Cli</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin> 
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>graalvm</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.nativeimage</groupId>
+                        <artifactId>native-image-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>native-image</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <skip>false</skip>
+                            <imageName>msp</imageName>
+                            <buildArgs>-H:+ReportExceptionStackTraces</buildArgs>
+                        </configuration>
+                    </plugin>                    
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
