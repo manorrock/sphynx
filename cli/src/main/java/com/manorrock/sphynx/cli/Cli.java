@@ -27,30 +27,93 @@
  */
 package com.manorrock.sphynx.cli;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import static java.nio.file.StandardOpenOption.APPEND;
+
 /**
  * The Manorrock Sphynx CLI.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class Cli {
 
     /**
-     * Main entry point.
-     * 
-     * @param arguments the command-line arguments. 
+     * Add a workflow.
      */
-    public static void main(String[] arguments) {
+    private void addWorkflow(String[] arguments) {
+        String name = null;
+        String filename = null;
+        for(int i=1; i<arguments.length; i++) {
+            if (arguments[i].equals("--name")) {
+                name = arguments[i+1];
+            }
+            if (arguments[i].equals("--filename")) {
+                filename = arguments[i+1];
+            }
+        }
+        if (name == null) {
+            System.out.println("Missing --name parameter");
+            System.exit(100);
+        }
+        if (filename == null) {
+            System.out.println("MIssing --filename parameter");
+        }
+        File baseDir = new File(System.getProperty("user.home"), ".manorrock/sphynx");
+        if (!baseDir.exists()) {
+            baseDir.mkdirs();
+        }
+        File workflowDir = new File(baseDir, name);
+        if (!workflowDir.exists()) {
+            workflowDir.mkdir();
+        }
+        File workflowConfigFile = new File(workflowDir, "workflow.json");
+        File workflowFile = new File(workflowDir, "workflow.jshell");
+        try (PrintStream printStream = new PrintStream(new FileOutputStream(workflowConfigFile))) {
+            printStream.println("{name:\"" + name + "\"}");
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            Files.copy(new File(filename).toPath(), workflowFile.toPath());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Execute.
+     *
+     * @param arguments the arguments.
+     */
+    private void execute(String[] arguments) {
         if (arguments.length > 0) {
-            switch(arguments[0]) {
+            switch (arguments[0]) {
+                case "add" -> addWorkflow(arguments);
                 case "list" -> listWorkflows();
             }
         }
     }
 
     /**
+     * Main entry point.
+     *
+     * @param arguments the command-line arguments.
+     */
+    public static void main(String[] arguments) {
+        Cli cli = new Cli();
+        cli.execute(arguments);
+    }
+
+    /**
      * List the workflows.
      */
-    private static void listWorkflows() {
+    private void listWorkflows() {
         System.out.println("NONE");
     }
 }
