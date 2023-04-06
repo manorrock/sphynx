@@ -40,6 +40,17 @@ public class Cli {
      * @param arguments the command-line arguments. 
      */
     public static void main(String[] arguments) {
-        System.out.println("Manorrock Sphynx - CLI");
+        if (arguments.length > 0) {
+            switch(arguments[0]) {
+                case "list" -> listWorkflows();
+            }
+        }
+    }
+
+    /**
+     * List the workflows.
+     */
+    private static void listWorkflows() {
+        System.out.println("NONE");
     }
 }
