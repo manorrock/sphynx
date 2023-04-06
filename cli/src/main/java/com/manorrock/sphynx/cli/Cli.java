@@ -28,13 +28,11 @@
 package com.manorrock.sphynx.cli;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
-import static java.nio.file.StandardOpenOption.APPEND;
 
 /**
  * The Manorrock Sphynx CLI.
@@ -95,8 +93,48 @@ public class Cli {
         if (arguments.length > 0) {
             switch (arguments[0]) {
                 case "add" -> addWorkflow(arguments);
+                case "execute" -> executeWorkflow(arguments);
                 case "list" -> listWorkflows();
             }
+        }
+    }
+    
+    /**
+     * Execute the workflow.
+     * 
+     * @param arguments the arguments.
+     */
+    private void executeWorkflow(String[] arguments) {
+        String name = null;
+        for(int i=1; i<arguments.length; i++) {
+            if (arguments[i].equals("--name")) {
+                name = arguments[i+1];
+            }
+        }
+        if (name == null) {
+            System.out.println("Missing --name parameter");
+            System.exit(100);
+        }
+        ProcessBuilder builder = new ProcessBuilder();
+        
+        File baseDir = new File(System.getProperty("user.home"), ".manorrock/sphynx");
+        File workflowDir = new File(baseDir, name);
+        File tmpDir = new File(workflowDir, "temp");
+        if (!tmpDir.exists()) {
+            tmpDir.mkdir();
+        }
+        File workflowFile = new File(workflowDir, "workflow.jshell");
+        builder.directory(tmpDir)
+                .command("jshell", workflowFile.getAbsolutePath())
+                .inheritIO();
+        Process process;
+        try {
+            process = builder.start();
+            System.exit(process.waitFor());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
         }
     }
 
