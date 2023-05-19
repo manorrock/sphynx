@@ -14,10 +14,20 @@
     <packaging>war</packaging>
     <name>Sphynx - Web application</name>
     <properties>
+        <docker-maven-plugin.version>0.42.1</docker-maven-plugin.version>
+        <jakartaee.version>10.0.0</jakartaee.version>
         <piranha.distribution>webprofile</piranha.distribution>
         <piranha.version>22.12.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <version>${jakartaee.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
     <build>
         <finalName>sphynx</finalName>
         <plugins>
@@ -76,12 +86,46 @@
             </plugin>
         </plugins>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-web-api</artifactId>
-            <version>10.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>${docker-maven-plugin.version}</version>
+                        <configuration>
+                            <createContainers>true</createContainers>
+                            <images>
+                                <image>
+                                    <alias>sphynx</alias>
+                                    <name>manorrock/sphynx:%l</name>
+                                    <build>
+                                        <buildx>
+                                            <platforms>
+                                                <platform>linux/amd64</platform>
+                                                <platform>linux/arm64</platform>
+                                            </platforms>
+                                        </buildx>
+                                        <contextDir>${basedir}</contextDir>
+                                        <dockerFile>src/main/docker/Dockerfile</dockerFile>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>build</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
