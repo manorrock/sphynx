@@ -116,7 +116,6 @@
     <modules>
         <module>cli</module>
         <module>desktop</module>
-        <module>macos</module>
         <module>webapp</module>
     </modules>
     <properties>
