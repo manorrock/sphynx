@@ -94,6 +94,7 @@ public class Cli {
             switch (arguments[0]) {
                 case "add" -> addWorkflow(arguments);
                 case "execute" -> executeWorkflow(arguments);
+                case "java" -> new JavaCli().execute(arguments);
                 case "list" -> listWorkflows();
             }
         }
