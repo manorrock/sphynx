@@ -60,7 +60,7 @@ public class Cli {
             System.exit(100);
         }
         if (filename == null) {
-            System.out.println("MIssing --filename parameter");
+            System.out.println("Missing --filename parameter");
         }
         File baseDir = new File(System.getProperty("user.home"), ".manorrock/sphynx");
         if (!baseDir.exists()) {
@@ -93,6 +93,7 @@ public class Cli {
         if (arguments.length > 0) {
             switch (arguments[0]) {
                 case "add" -> addWorkflow(arguments);
+                case "bash" -> new BashCli().execute(arguments);
                 case "execute" -> executeWorkflow(arguments);
                 case "java" -> new JavaCli().execute(arguments);
                 case "list" -> listWorkflows();
