@@ -1,5 +1,7 @@
 # Manorrock Sphynx Project
 
+[![build](https://github.com/manorrock/sphynx/actions/workflows/build.yml/badge.svg)](https://github.com/manorrock/sphynx/actions/workflows/build.yml)
+
 The Manorrock Sphynx Project delivers you with life automation that you can use
 to automate whatever you can in your life!
 
