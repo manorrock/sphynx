@@ -10,6 +10,10 @@
     <version>23.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Manorrock Sphynx - Project</name>
+    <properties>
+        <java.vereion>21</java.vereion>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <build>
         <pluginManagement>
             <plugins>
@@ -66,7 +70,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <inherited>true</inherited>
                 <configuration>
-                    <release>17</release>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -117,7 +121,4 @@
         <module>cli</module>
         <module>webapp</module>
     </modules>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 </project>
