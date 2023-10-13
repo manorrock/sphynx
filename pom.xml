@@ -11,7 +11,9 @@
     <packaging>pom</packaging>
     <name>Manorrock Sphynx - Project</name>
     <properties>
-        <java.vereion>21</java.vereion>
+        <!-- other -->
+        <java.version>21</java.version>
+        <piranha.version>23.9.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
