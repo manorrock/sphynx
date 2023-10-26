@@ -16,7 +16,6 @@
     <properties>
         <docker-maven-plugin.version>0.42.1</docker-maven-plugin.version>
         <jakartaee.version>10.0.0</jakartaee.version>
-        <piranha.distribution>webprofile</piranha.distribution>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>

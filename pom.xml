@@ -11,9 +11,11 @@
     <packaging>pom</packaging>
     <name>Manorrock Sphynx - Project</name>
     <properties>
+        <!-- dependencies -->
+        <piranha.version>23.10.0</piranha.version>
         <!-- other -->
         <java.version>21</java.version>
-        <piranha.version>23.9.0</piranha.version>
+        <piranha.distribution>webprofile</piranha.distribution>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
@@ -88,19 +90,14 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>cloud.piranha</groupId>
-                <artifactId>piranha-nano</artifactId>
-                <version>21.12.0</version>
-            </dependency>    
-            <dependency>
                 <groupId>cloud.piranha.http</groupId>
                 <artifactId>piranha-http-impl</artifactId>
-                <version>21.12.0</version>
+                <version>${piranha.version}</version>
             </dependency>    
             <dependency>
                 <groupId>cloud.piranha.http</groupId>
                 <artifactId>piranha-http-webapp</artifactId>
-                <version>21.12.0</version>
+                <version>${piranha.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.enterprise</groupId>
