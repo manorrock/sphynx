@@ -92,6 +92,7 @@
                                             <platforms>
                                                 <platform>linux/amd64</platform>
                                                 <platform>linux/arm64</platform>
+                                                <platform>linux/arm</platform>
                                             </platforms>
                                         </buildx>
                                         <contextDir>${basedir}</contextDir>
