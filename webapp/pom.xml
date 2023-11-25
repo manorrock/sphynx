@@ -86,7 +86,7 @@
                             <images>
                                 <image>
                                     <alias>sphynx</alias>
-                                    <name>manorrock/sphynx:%l</name>
+                                    <name>ghcr.io/manorrock/sphynx:%l</name>
                                     <build>
                                         <buildx>
                                             <platforms>
