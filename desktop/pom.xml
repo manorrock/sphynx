@@ -41,7 +41,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>com.manorrock.sphynx.desktop.App</mainClass>
+                    <mainClass>com.manorrock.sphynx.desktop.DesktopApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
