@@ -30,9 +30,4 @@ public class DesktopApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(DesktopApplication.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
-
-    public static void main(String[] args) {
-        launch();
-    }
-
 }
