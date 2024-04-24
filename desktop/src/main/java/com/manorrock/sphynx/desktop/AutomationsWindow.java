@@ -27,23 +27,29 @@
  */
 package com.manorrock.sphynx.desktop;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.BorderPane;
 
 /**
- * The Sphynx Desktop application.
+ * The Automations Window.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DesktopApplication extends Application {
+public class AutomationsWindow extends BorderPane {
 
-    @Override
-    public void start(Stage stage) throws IOException {
-        Scene scene = new Scene(new AutomationsWindow(), 640, 480);
-        stage.setScene(scene);
-        stage.show();
+    /**
+     * Constructor.
+     */
+    public AutomationsWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setRoot(this);
+            loader.setController(this);
+            loader.load(getClass().getResourceAsStream(
+                    "/com/manorrock/sphynx/desktop/AutomationsWindow.fxml"));
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 }
