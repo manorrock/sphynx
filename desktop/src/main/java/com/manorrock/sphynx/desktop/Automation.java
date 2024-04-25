@@ -27,64 +27,33 @@
  */
 package com.manorrock.sphynx.desktop;
 
-import java.io.IOException;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
-
 /**
- * The Automations Window.
+ * An automation.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AutomationsWindow extends BorderPane {
+public class Automation {
     
     /**
-     * Stores the automation TableView.
+     * Stores the name.
      */
-    @FXML
-    private TableView automationTableView;
+    private String name;
 
     /**
-     * Constructor.
-     */
-    public AutomationsWindow() {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setRoot(this);
-            loader.setController(this);
-            loader.load(getClass().getResourceAsStream(
-                    "/com/manorrock/sphynx/desktop/AutomationsWindow.fxml"));
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }
-    
-    /**
-     * Initialize the component.
-     */
-    @FXML
-    public void initialize() {
-        TableColumn nameTableColumn = new TableColumn("Name");
-        nameTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Automation, String>("name")
-        );
-        automationTableView.getColumns().add(nameTableColumn);
-    }
-    
-    /**
-     * Handle 'Add' button click.
+     * Get the name.
      * 
-     * @param event the event.
+     * @return the name.
      */
-    @FXML
-    public void onAdd(ActionEvent event) {
-        Automation automation = new Automation();
-        automation.setName(Long.toString(System.currentTimeMillis()));
-        automationTableView.getItems().add(automation);
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Set the name.
+     * 
+     * @param name the name.
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 }

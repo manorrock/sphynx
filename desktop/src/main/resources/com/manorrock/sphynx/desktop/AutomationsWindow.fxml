@@ -2,20 +2,20 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" type="BorderPane" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
    <top>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
           <Button mnemonicParsing="false" text="Delete" />
             <Button mnemonicParsing="false" text="Edit" />
-            <Button mnemonicParsing="false" text="Add" />
+            <Button mnemonicParsing="false" onAction="#onAdd" text="Add" />
         </buttons>
       </ButtonBar>
    </top>
+   <center>
+      <TableView fx:id="automationTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
 </fx:root>
