@@ -41,7 +41,7 @@ import javafx.scene.layout.BorderPane;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AutomationsWindow extends BorderPane {
+public class AutomationListWindow extends BorderPane {
     
     /**
      * Stores the automation TableView.
@@ -52,13 +52,13 @@ public class AutomationsWindow extends BorderPane {
     /**
      * Constructor.
      */
-    public AutomationsWindow() {
+    public AutomationListWindow() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setRoot(this);
             loader.setController(this);
             loader.load(getClass().getResourceAsStream(
-                    "/com/manorrock/sphynx/desktop/AutomationsWindow.fxml"));
+                    "/com/manorrock/sphynx/desktop/AutomationListWindow.fxml"));
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
@@ -86,5 +86,19 @@ public class AutomationsWindow extends BorderPane {
         Automation automation = new Automation();
         automation.setName(Long.toString(System.currentTimeMillis()));
         automationTableView.getItems().add(automation);
+    }
+    
+    /**
+     * Handle 'Delete' button click.
+     * 
+     * @param event the event.
+     */
+    @FXML
+    public void onDelete(ActionEvent event) {
+        if (!automationTableView.getSelectionModel().isEmpty()) {
+            Automation automation = (Automation) automationTableView
+                    .getSelectionModel().getSelectedItem();
+            automationTableView.getItems().remove(automation);
+        }
     }
 }

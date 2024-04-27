@@ -9,7 +9,7 @@
    <top>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button mnemonicParsing="false" text="Delete" />
+          <Button mnemonicParsing="false" onAction="#onDelete" text="Delete" />
             <Button mnemonicParsing="false" text="Edit" />
             <Button mnemonicParsing="false" onAction="#onAdd" text="Add" />
         </buttons>
