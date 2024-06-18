@@ -97,6 +97,7 @@ public class Cli {
                 case "execute" -> executeWorkflow(arguments);
                 case "java" -> new JavaCli().execute(arguments);
                 case "list" -> listWorkflows();
+                case "version" -> showVersion();
             }
         }
     }
@@ -155,5 +156,12 @@ public class Cli {
      */
     private void listWorkflows() {
         System.out.println("NONE");
+    }
+
+    /**
+     * Show the version information.
+     */
+    private void showVersion() {
+        System.out.println("TODO");
     }
 }
