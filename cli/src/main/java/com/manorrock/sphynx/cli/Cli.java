@@ -97,6 +97,7 @@ public class Cli {
                 case "execute" -> executeWorkflow(arguments);
                 case "java" -> new JavaCli().execute(arguments);
                 case "list" -> listWorkflows();
+                case "create" -> createJob();
                 case "version" -> showVersion();
             }
         }
@@ -162,6 +163,10 @@ public class Cli {
      * Show the version information.
      */
     private void showVersion() {
-        System.out.println("TODO");
+        System.out.println("TODO - show version");
+    }
+
+    private void createJob() {
+        System.out.println("TODO - create job");
     }
 }
