@@ -98,6 +98,7 @@ public class Cli {
                 case "java" -> new JavaCli().execute(arguments);
                 case "list" -> listWorkflows();
                 case "create" -> createJob();
+                case "delete" -> deleteJob();
                 case "version" -> showVersion();
             }
         }
@@ -168,5 +169,9 @@ public class Cli {
 
     private void createJob() {
         System.out.println("TODO - create job");
+    }
+
+    private void deleteJob() {
+        System.out.println("TODO - delete job");
     }
 }
