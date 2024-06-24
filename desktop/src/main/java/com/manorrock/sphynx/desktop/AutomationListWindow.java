@@ -69,6 +69,11 @@ public class AutomationListWindow extends BorderPane {
      */
     @FXML
     public void initialize() {
+        TableColumn idTableColumn = new TableColumn("Id");
+        idTableColumn.setCellValueFactory(
+                new PropertyValueFactory<Automation, Long>("id")
+        );
+        automationTableView.getColumns().add(idTableColumn);
         TableColumn nameTableColumn = new TableColumn("Name");
         nameTableColumn.setCellValueFactory(
                 new PropertyValueFactory<Automation, String>("name")
@@ -84,7 +89,8 @@ public class AutomationListWindow extends BorderPane {
     @FXML
     public void onAdd(ActionEvent event) {
         Automation automation = new Automation();
-        automation.setName(Long.toString(System.currentTimeMillis()));
+        automation.setId(System.currentTimeMillis());
+        automation.setName("Untitled - " + System.currentTimeMillis());
         automationTableView.getItems().add(automation);
     }
     

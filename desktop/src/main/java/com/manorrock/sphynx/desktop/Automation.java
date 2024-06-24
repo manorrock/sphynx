@@ -35,9 +35,23 @@ package com.manorrock.sphynx.desktop;
 public class Automation {
     
     /**
+     * Stores the id.
+     */
+    private Long id;
+    
+    /**
      * Stores the name.
      */
     private String name;
+
+    /**
+     * Get the id.
+     * 
+     * @return the id.
+     */
+    public Long getId() {
+        return id;
+    }
 
     /**
      * Get the name.
@@ -48,6 +62,15 @@ public class Automation {
         return name;
     }
 
+    /**
+     * Set the id.
+     * 
+     * @param id the id.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     /**
      * Set the name.
      * 
