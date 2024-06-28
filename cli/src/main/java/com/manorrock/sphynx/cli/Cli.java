@@ -33,12 +33,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
+import picocli.CommandLine.Command;
 
 /**
  * The Manorrock Sphynx CLI.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@Command(name = "sfx", mixinStandardHelpOptions = true,
+        versionProvider = CliVersionProvider.class)
 public class Cli {
 
     /**
