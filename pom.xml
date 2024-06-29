@@ -264,7 +264,7 @@
     <module>webapp</module>
           
     <module>desktop</module>
-      
+    <module>shared</module>
   </modules>
   
 </project>
