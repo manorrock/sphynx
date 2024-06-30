@@ -13,16 +13,38 @@
     <artifactId>sphynx-cli</artifactId>
     <packaging>jar</packaging>
     <name>Manorrock Sphynx - CLI</name>
+    <properties>
+        <!-- dependencies -->
+        <picocli.version>4.7.6</picocli.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
-            <version>4.7.6</version>
+            <version>${picocli.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>    
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <!-- 
+                          This generates the correct files for use by
+                          GraalVM to integrate Picocli into a native image.
+                    -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>info.picocli</groupId>
+                            <artifactId>picocli-codegen</artifactId>
+                            <version>${picocli.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <release>${java.version}</release>
+                </configuration>
+            </plugin>            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -59,20 +81,23 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.graalvm.nativeimage</groupId>
-                        <artifactId>native-image-maven-plugin</artifactId>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>0.10.2</version>
+                        <extensions>true</extensions>
                         <executions>
                             <execution>
                                 <goals>
-                                    <goal>native-image</goal>
+                                    <goal>compile-no-fork</goal>
                                 </goals>
                                 <phase>package</phase>
                             </execution>
                         </executions>
                         <configuration>
                             <skip>false</skip>
-                            <imageName>msp</imageName>
-                            <buildArgs>-H:+ReportExceptionStackTraces</buildArgs>
+                            <imageName>si</imageName>
+                            <buildArgs>-H:+ReportExceptionStackTraces --no-fallback</buildArgs>
+                            <verbose>true</verbose>
                         </configuration>
                     </plugin>                    
                 </plugins>

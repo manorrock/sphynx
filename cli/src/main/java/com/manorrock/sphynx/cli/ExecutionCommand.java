@@ -29,36 +29,20 @@ package com.manorrock.sphynx.cli;
 
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
-import picocli.CommandLine.Command;
 
 /**
- * The Manorrock Sphynx CLI.
- *
+ * The execution command.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Command(name = "si", mixinStandardHelpOptions = true,
+@CommandLine.Command(name = "execution", mixinStandardHelpOptions = true,
         subcommands = {
-            CreateCommand.class,
-            DeleteCommand.class,
-            ExecutionCommand.class,
-            ExecuteCommand.class,
-            InfoCommand.class,
-            ListCommand.class
-        },
-        versionProvider = CliVersionProvider.class)
-public class Cli implements Callable<Integer> {
+            ExecutionPurgeCommand.class
+        })
+public class ExecutionCommand implements Callable<Integer> {       
 
     @Override
     public Integer call() throws Exception {
         return 0;
-    }
-
-    /**
-     * Main entry point.
-     *
-     * @param arguments the command-line arguments.
-     */
-    public static void main(String[] arguments) {
-        System.exit(new CommandLine(new Cli()).execute(arguments));
     }
 }

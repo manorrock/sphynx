@@ -11,6 +11,19 @@
   <build>
     <plugins>
       <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>info.picocli</groupId>
+              <artifactId>picocli-codegen</artifactId>
+              <version>${picocli.version}</version>
+            </path>
+          </annotationProcessorPaths>
+          <release>${java.version}</release>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <archive>
@@ -44,24 +57,30 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.graalvm.nativeimage</groupId>
-            <artifactId>native-image-maven-plugin</artifactId>
+            <groupId>org.graalvm.buildtools</groupId>
+            <artifactId>native-maven-plugin</artifactId>
+            <version>0.10.2</version>
+            <extensions>true</extensions>
             <executions>
               <execution>
                 <phase>package</phase>
                 <goals>
-                  <goal>native-image</goal>
+                  <goal>compile-no-fork</goal>
                 </goals>
               </execution>
             </executions>
             <configuration>
               <skip>false</skip>
-              <imageName>msp</imageName>
-              <buildArgs>-H:+ReportExceptionStackTraces</buildArgs>
+              <imageName>si</imageName>
+              <buildArgs>-H:+ReportExceptionStackTraces --no-fallback</buildArgs>
+              <verbose>true</verbose>
             </configuration>
           </plugin>
         </plugins>
       </build>
     </profile>
   </profiles>
+  <properties>
+    <picocli.version>4.7.6</picocli.version>
+  </properties>
 </project>
