@@ -27,70 +27,20 @@
  */
 package com.manorrock.sphynx.cli;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.concurrent.Callable;
+import picocli.CommandLine;
 
 /**
- * The Java CLI.
+ * The execution purge command.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class JavaCli {
-    
-    /**
-     * Stores the .java file.
-     */
-    private String javaFile;
-    
-    /**
-     * Stores the run arguments.
-     */
-    private String runArguments;
-    
-    /**
-     * Execute.
-     * 
-     * @param arguments the arguments.
-     */
-    void execute(String[] arguments) {
-        parseArguments(arguments);
-        run();
-    }
+@CommandLine.Command(name = "purge", mixinStandardHelpOptions = true)
+public class ExecutionPurgeCommand implements Callable<Integer> {       
 
-    /**
-     * Parse the arguments.
-     * 
-     * @param arguments the arguments.
-     */
-    private void parseArguments(String[] arguments) {
-        for(int i=1; i<arguments.length; i++) {
-            if (arguments[i].equals("--java-file")) {
-                javaFile = arguments[i + 1];
-            }
-            if (arguments[i].equals("--run-arguments")) {
-                runArguments = arguments[i];
-            }
-        }
-    }
-    
-    /**
-     * Run the Java file.
-     */
-    private void run() {
-        try {
-            ArrayList<String> command = new ArrayList<>();
-            command.add("java");
-            command.add(javaFile);
-            if (runArguments != null) {
-                command.addAll(Arrays.asList(runArguments.split(" ")));
-            }
-            Process process = new ProcessBuilder()
-                .command(command)
-                .inheritIO()
-                .start();
-            System.exit(process.waitFor());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Override
+    public Integer call() throws Exception {
+        System.out.println("TODO - purge executions");
+        return 0;
     }
 }

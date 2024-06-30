@@ -36,7 +36,10 @@ import picocli.CommandLine.IVersionProvider;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class CliVersionProvider implements IVersionProvider {
+public class CliVersionProvider implements IVersionProvider {
+
+    public CliVersionProvider() {
+    }
 
     @Override
     public String[] getVersion() throws Exception {

@@ -27,67 +27,20 @@
  */
 package com.manorrock.sphynx.cli;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.concurrent.Callable;
+import picocli.CommandLine;
 
 /**
- * The Bash CLI.
+ * The create command.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class BashCli {
-    
-    /**
-     * Stores the script file.
-     */
-    private String bashFile;
-    
-    /**
-     * Stores the run arguments.
-     */
-    private String runArguments;
-    
-    /**
-     * Execute.
-     * 
-     * @param arguments the arguments.
-     */
-    void execute(String[] arguments) {
-        parseArguments(arguments);
-        run();
-    }
+@CommandLine.Command(name = "create", mixinStandardHelpOptions = true)
+public class CreateCommand implements Callable<Integer> {       
 
-    /**
-     * Parse the arguments.
-     * 
-     * @param arguments the arguments.
-     */
-    private void parseArguments(String[] arguments) {
-        for(int i=1; i<arguments.length; i++) {
-            if (arguments[i].equals("--bash-file")) {
-                bashFile = arguments[i + 1];
-            }
-            if (arguments[i].equals("--run-arguments")) {
-                runArguments = arguments[i];
-            }
-        }
-    }
-    
-    /**
-     * Run the Java file.
-     */
-    private void run() {
-        try {
-            ArrayList<String> command = new ArrayList<>();
-            command.add("bash");
-            command.add(runArguments);
-            Process process = new ProcessBuilder()
-                .command(command)
-                .inheritIO()
-                .start();
-            System.exit(process.waitFor());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Override
+    public Integer call() throws Exception {
+        System.out.println("TODO - create job");
+        return 0;
     }
 }
