@@ -27,20 +27,73 @@
  */
 package com.manorrock.sphynx.cli;
 
+import java.io.File;
+import static java.lang.System.Logger.Level.INFO;
+import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 
 /**
  * The execute command.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @CommandLine.Command(name = "execute", mixinStandardHelpOptions = true)
-public class ExecuteCommand implements Callable<Integer> {       
+public class ExecuteCommand implements Callable<Integer> {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(ExecuteCommand.class.getName());
+
+    /**
+     * Stores the base directory.
+     */
+    @CommandLine.Option(names = "--base-directory", description = "The base directory used for storage")
+    protected File baseDirectory = new File(System.getProperty("user.home") + "/.manorrock/sphynx");
+
+    /**
+     * Stores the name.
+     */
+    @CommandLine.Option(names = "--name", description = "The name of the job", required = true)
+    protected String name;
 
     @Override
     public Integer call() throws Exception {
-        System.out.println("TODO - execute job");
-        return 0;
+        /*
+         * Step 1 - Determine job directory.
+         */
+        File jobDirectory = new File(baseDirectory, "jobs" + File.separator + name);
+        
+        /*
+         * Step 2 - Determine script filename.
+         */
+        File scriptFilename = new File(jobDirectory, "script" + File.separator + "run.sh");
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            scriptFilename = new File(jobDirectory, "script" + File.separator + "run.cmd");
+        }
+        
+        /**
+         * Step 4 - Create command array.
+         */
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("sh");
+        commands.add(scriptFilename.getAbsolutePath());
+        
+        /**
+         * Step 5 - Determine work directory.
+         */
+        File workDirectory = new File(jobDirectory, "work");
+        
+        /*
+         * Step 3 - Create process.
+         */
+        Process process = new ProcessBuilder()
+                .command(commands)
+                .directory(workDirectory)
+                .inheritIO()
+                .start();
+
+        return process.waitFor();
     }
 }
