@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,11 @@
 package com.manorrock.sphynx.cli;
 
 import java.io.File;
-import static java.lang.System.Logger.Level.INFO;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import static java.lang.System.Logger.Level.ERROR;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
@@ -64,7 +68,7 @@ public class ExecuteCommand implements Callable<Integer> {
          * Step 1 - Determine job directory.
          */
         File jobDirectory = new File(baseDirectory, "jobs" + File.separator + name);
-        
+
         /*
          * Step 2 - Determine script filename.
          */
@@ -72,28 +76,92 @@ public class ExecuteCommand implements Callable<Integer> {
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
             scriptFilename = new File(jobDirectory, "script" + File.separator + "run.cmd");
         }
-        
+
         /**
          * Step 4 - Create command array.
          */
         ArrayList<String> commands = new ArrayList<>();
         commands.add("sh");
         commands.add(scriptFilename.getAbsolutePath());
-        
+
         /**
          * Step 5 - Determine work directory.
          */
         File workDirectory = new File(jobDirectory, "work");
-        
+
         /*
-         * Step 3 - Create process.
+         * Step 6 - Determine the log file.
+         */
+        File logFile = new File(jobDirectory, "logs" + File.separator + System.currentTimeMillis() + ".log");
+        if (!logFile.getParentFile().exists()) {
+            if (!logFile.getParentFile().mkdirs()) {
+                LOGGER.log(ERROR, "Unable to create logs directory");
+                return 1;
+            }
+        }
+
+        /*
+         * Step 7 - Create process.
          */
         Process process = new ProcessBuilder()
                 .command(commands)
                 .directory(workDirectory)
-                .inheritIO()
                 .start();
 
+        InputStream processOutput = process.getInputStream();
+        DualOutputStream dualOutputStream = new DualOutputStream(System.out,
+                new FileOutputStream(logFile));
+
+        while (process.isAlive()) {
+            int character = processOutput.read();
+            if (character != -1) {
+                dualOutputStream.write(character);
+            }
+        }
+
         return process.waitFor();
+    }
+
+    /**
+     * Helper class to write out to both System.out and a file.
+     */
+    private static class DualOutputStream extends OutputStream {
+
+        /**
+         * Stores the reference to System.out.
+         */
+        private final OutputStream systemOut;
+
+        /**
+         * Stores the output stream to a log file.
+         */
+        private final OutputStream fileOut;
+
+        /**
+         * Constructor.
+         *
+         * @param systemOut the reference to System.out.
+         * @param fileOut the output stream to a log file.
+         */
+        public DualOutputStream(OutputStream systemOut, OutputStream fileOut) {
+            this.systemOut = systemOut;
+            this.fileOut = fileOut;
+        }
+
+        @Override
+        public void close() throws IOException {
+            fileOut.close();
+        }
+
+        @Override
+        public void flush() throws IOException {
+            fileOut.flush();
+        }
+
+        @Override
+        public void write(int b) throws IOException {
+            systemOut.write(b);
+            fileOut.write(b);
+        }
     }
 }
