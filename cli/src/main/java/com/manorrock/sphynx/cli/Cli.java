@@ -40,7 +40,6 @@ import picocli.CommandLine.Command;
         subcommands = {
             CreateCommand.class,
             DeleteCommand.class,
-            ExecutionCommand.class,
             ExecuteCommand.class,
             ListCommand.class
         },
