@@ -42,7 +42,6 @@ import picocli.CommandLine.Command;
             DeleteCommand.class,
             ExecutionCommand.class,
             ExecuteCommand.class,
-            InfoCommand.class,
             ListCommand.class
         },
         versionProvider = CliVersionProvider.class)
