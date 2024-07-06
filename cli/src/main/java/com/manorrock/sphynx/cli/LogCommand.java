@@ -28,30 +28,13 @@
 package com.manorrock.sphynx.cli;
 
 import picocli.CommandLine;
-import picocli.CommandLine.Command;
 
 /**
- * The Manorrock Sphynx CLI.
+ * The log command.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Command(name = "si", mixinStandardHelpOptions = true,
-        subcommands = {
-            CreateCommand.class,
-            DeleteCommand.class,
-            ExecuteCommand.class,
-            ListCommand.class,
-            LogCommand.class
-        },
-        versionProvider = CliVersionProvider.class)
-public class Cli {
-
-    /**
-     * Main entry point.
-     *
-     * @param arguments the command-line arguments.
-     */
-    public static void main(String[] arguments) {
-        System.exit(new CommandLine(new Cli()).execute(arguments));
-    }
+@CommandLine.Command(name = "log", mixinStandardHelpOptions = true,
+        subcommands = {})
+public class LogCommand {
 }
