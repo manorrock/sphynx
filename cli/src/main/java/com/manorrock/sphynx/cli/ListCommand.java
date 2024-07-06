@@ -27,6 +27,8 @@
  */
 package com.manorrock.sphynx.cli;
 
+import java.io.File;
+import static java.lang.System.Logger.Level.ERROR;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 
@@ -36,11 +38,31 @@ import picocli.CommandLine;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @CommandLine.Command(name = "list", mixinStandardHelpOptions = true)
-public class ListCommand implements Callable<Integer> {       
+public class ListCommand implements Callable<Integer> {    
+    
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(CreateCommand.class.getName());
+
+    /**
+     * Stores the base directory.
+     */
+    @CommandLine.Option(names = "--base-directory", description = "The base directory used for storage")
+    protected File baseDirectory = new File(System.getProperty("user.home") + "/.manorrock/sphynx");
 
     @Override
     public Integer call() throws Exception {
-        System.out.println("TODO - list jobs");
+        File jobsDirectory = new File(baseDirectory, "jobs");
+        if (jobsDirectory.exists()) {
+            String[] names = jobsDirectory.list();
+            for (String name : names) {
+                System.out.println(name);
+            }
+        } else {
+            LOGGER.log(ERROR, "Job directory does not exist");
+            return 1;
+        }
         return 0;
     }
 }
