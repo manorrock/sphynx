@@ -60,7 +60,7 @@ public class ListCommand implements Callable<Integer> {
                 System.out.println(name);
             }
         } else {
-            LOGGER.log(ERROR, "Job directory does not exist");
+            LOGGER.log(ERROR, "Jobs directory does not exist");
             return 1;
         }
         return 0;
