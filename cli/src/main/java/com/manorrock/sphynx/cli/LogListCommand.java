@@ -27,16 +27,54 @@
  */
 package com.manorrock.sphynx.cli;
 
+import java.io.File;
+import static java.lang.System.Logger.Level.ERROR;
+import java.util.concurrent.Callable;
 import picocli.CommandLine;
 
 /**
- * The log command.
+ * The log list command.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@CommandLine.Command(name = "log", mixinStandardHelpOptions = true,
-        subcommands = {
-            LogListCommand.class
-        })
-public class LogCommand {
+@CommandLine.Command(name = "list", mixinStandardHelpOptions = true)
+public class LogListCommand implements Callable<Integer> {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(CreateCommand.class.getName());
+
+    /**
+     * Stores the base directory.
+     */
+    @CommandLine.Option(names = "--base-directory", description = "The base directory used for storage")
+    protected File baseDirectory = new File(System.getProperty("user.home") + "/.manorrock/sphynx");
+
+    /**
+     * Stores the name.
+     */
+    @CommandLine.Option(names = "--name", description = "The name of the job", required = true)
+    protected String name;
+
+    @Override
+    public Integer call() throws Exception {
+        File logsDirectory = new File(baseDirectory,
+                "jobs"
+                + File.separator
+                + name
+                + File.separator
+                + "logs");
+        if (!logsDirectory.exists()) {
+            LOGGER.log(ERROR, "Logs directory does not exist");
+            return 1;
+        }
+
+        String[] logs = logsDirectory.list();
+        for (String log : logs) {
+            System.out.println(log.substring(0, log.indexOf(".")));
+        }
+
+        return 0;
+    }
 }
