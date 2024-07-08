@@ -36,7 +36,8 @@ import picocli.CommandLine;
  */
 @CommandLine.Command(name = "log", mixinStandardHelpOptions = true,
         subcommands = {
-            LogListCommand.class
+            LogListCommand.class,
+            LogViewCommand.class
         })
 public class LogCommand {
 }
