@@ -233,38 +233,21 @@
       </dependency>
                   
       <dependency>
-                        
         <groupId>junit</groupId>
-                        
         <artifactId>junit</artifactId>
-                        
         <version>${junit.version}</version>
-                    
       </dependency>
-                  
       <dependency>
-         
-                
         <groupId>org.eclipse</groupId>
-                        
         <artifactId>yasson</artifactId>
-                        
         <version>${yasson.version}</version>
-                    
       </dependency>
-              
     </dependencies>
-        
   </dependencyManagement>
-      
   <modules>
-            
+    <module>api</module>
     <module>cli</module>
-            
-    <module>webapp</module>
-          
     <module>desktop</module>
     <module>shared</module>
   </modules>
-  
 </project>
