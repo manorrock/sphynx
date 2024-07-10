@@ -109,13 +109,14 @@ public class ExecuteCommand implements Callable<Integer> {
                 .start();
 
         InputStream processOutput = process.getInputStream();
-        DualOutputStream dualOutputStream = new DualOutputStream(System.out,
-                new FileOutputStream(logFile));
-
-        while (process.isAlive()) {
-            int character = processOutput.read();
-            if (character != -1) {
-                dualOutputStream.write(character);
+        try (DualOutputStream dualOutputStream = new DualOutputStream(
+                System.out,
+                new FileOutputStream(logFile))) {
+            while (process.isAlive()) {
+                int character = processOutput.read();
+                if (character != -1) {
+                    dualOutputStream.write(character);
+                }
             }
         }
 

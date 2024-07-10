@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -81,14 +81,15 @@ public class LogViewCommand implements Callable<Integer> {
             return 1;
         }
 
-        BufferedInputStream input = new BufferedInputStream(
-                new FileInputStream(logFile));
-        while(input.available() > 0) {
-            int character = input.read();
-            if (character == -1) {
-                break;
+        try (BufferedInputStream input = new BufferedInputStream(
+                new FileInputStream(logFile))) {
+            while(input.available() > 0) {
+                int character = input.read();
+                if (character == -1) {
+                    break;
+                }
+                System.out.print((char) character);
             }
-            System.out.print((char) character);
         }
         
         return 0;
