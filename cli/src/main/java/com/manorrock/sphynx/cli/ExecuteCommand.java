@@ -106,6 +106,7 @@ public class ExecuteCommand implements Callable<Integer> {
         Process process = new ProcessBuilder()
                 .command(commands)
                 .directory(workDirectory)
+                .redirectErrorStream(true)
                 .start();
 
         InputStream processOutput = process.getInputStream();
