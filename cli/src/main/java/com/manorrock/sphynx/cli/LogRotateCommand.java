@@ -29,16 +29,22 @@ package com.manorrock.sphynx.cli;
 
 import java.io.File;
 import static java.lang.System.Logger.Level.ERROR;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 
 /**
- * The log delete command.
+ * The log rotate command.
+ * 
+ * <p>
+ *  This command will rotate the logs, by default only 10 logs will be kept.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@CommandLine.Command(name = "delete", mixinStandardHelpOptions = true)
-public class LogDeleteCommand implements Callable<Integer> {
+@CommandLine.Command(name = "rotate", mixinStandardHelpOptions = true)
+public class LogRotateCommand implements Callable<Integer> {
 
     /**
      * Stores the logger.
@@ -56,35 +62,28 @@ public class LogDeleteCommand implements Callable<Integer> {
      */
     @CommandLine.Option(names = "--name", description = "The name of the job", required = true)
     protected String name;
-    
-    /**
-     * Stores the log name.
-     */
-    @CommandLine.Option(names = "--log", description = "The name of the log", required = true)
-    protected String log;
 
     @Override
     public Integer call() throws Exception {
-        File logFile = new File(baseDirectory,
+        File logsDirectory = new File(baseDirectory,
                 "jobs"
                 + File.separator
                 + name
                 + File.separator
-                + "logs"
-                + File.separator
-                + log
-                + ".log");
+                + "logs");
 
-        if (!logFile.exists()) {
-            LOGGER.log(ERROR, "Log file does not exist");
+        if (!logsDirectory.exists()) {
+            LOGGER.log(ERROR, "Logs directory does not exist");
             return 1;
         }
 
-        if (!logFile.delete()) {
-            LOGGER.log(ERROR, "Log file cannot be deleted");
-            return 2;
+        File[] logFiles = logsDirectory.listFiles();
+        Arrays.sort(logFiles, Comparator.comparingLong(File::lastModified).reversed());
+        for(int i=10; i<logFiles.length; i++) {
+            System.out.println("Deleting " + logFiles[i].getAbsolutePath());
+            logFiles[i].delete();
         }
-        
+
         return 0;
     }
 }
