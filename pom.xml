@@ -1,253 +1,206 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-      
-  <modelVersion>4.0.0</modelVersion>
-      
-  <groupId>com.manorrock.sphynx</groupId>
-      
-  <artifactId>project</artifactId>
-      
-  <version>24.5.0-SNAPSHOT</version>
-      
-  <packaging>pom</packaging>
-      
-  <name>Manorrock Sphynx - Project</name>
-      
-  <properties>
-            
-    <!-- dependencies -->
-            
-    <jakarta.version>10.0.0</jakarta.version>
-            
-    <jakarta.enterprise.cdi-api.version>3.0.0</jakarta.enterprise.cdi-api.version>
-            
-    <junit.version>4.13.2</junit.version>
-            
-    <piranha.version>23.10.0</piranha.version>
-            
-    <yasson.version>2.0.3</yasson.version>
-            
-    <!-- other -->
-            
-    <java.version>21</java.version>
-            
-    <piranha.distribution>webprofile</piranha.distribution>
-            
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-            
-    <!-- plugins -->
-            
-    <docker-maven-plugin.version>0.42.1</docker-maven-plugin.version>
-            
-    <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
-            
-    <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-            
-    <maven-dependency-plugin.version>3.6.1</maven-dependency-plugin.version>
-            
-    <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-            
-    <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-            
-    <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
-            
-    <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
-            
-    <moditect-maven-plugin.version>1.1.0</moditect-maven-plugin.version>
-            
-    <native-image-maven-plugin.version>21.2.0</native-image-maven-plugin.version>
-        
-  </properties>
-      
-  <build>
-            
-    <pluginManagement>
-                  
-      <plugins>
-                        
-        <plugin>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.manorrock.sphynx</groupId>
+    <artifactId>project</artifactId>
+    <version>24.5.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Manorrock Sphynx - Project</name>
+    <properties>
+        <!-- dependencies -->
+        <jakarta.version>10.0.0</jakarta.version>
+        <jakarta.enterprise.cdi-api.version>3.0.0</jakarta.enterprise.cdi-api.version>
+        <junit.version>4.13.2</junit.version>
+        <piranha.version>23.10.0</piranha.version>
+        <yasson.version>2.0.3</yasson.version>
+        <!-- other -->
+        <java.version>21</java.version>
+        <piranha.distribution>webprofile</piranha.distribution>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- plugins -->
+        <docker-maven-plugin.version>0.42.1</docker-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-dependency-plugin.version>3.6.1</maven-dependency-plugin.version>
+        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
+        <moditect-maven-plugin.version>1.1.0</moditect-maven-plugin.version>
+        <native-image-maven-plugin.version>21.2.0</native-image-maven-plugin.version>
+    </properties>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven-dependency-plugin.version}</version>
+                </plugin>
+                <plugin>
                               
-          <groupId>org.apache.maven.plugins</groupId>
+                    <groupId>org.apache.maven.plugins</groupId>
                               
-          <artifactId>maven-compiler-plugin</artifactId>
+                    <artifactId>maven-jar-plugin</artifactId>
                               
-          <version>${maven-compiler-plugin.version}</version>
+                    <version>${maven-jar-plugin.version}</version>
                           
-        </plugin>
+                </plugin>
                         
-        <plugin>
+                <plugin>
                               
-          <groupId>org.apache.maven.plugins</groupId>
+                    <groupId>org.apache.maven.plugins</groupId>
                               
-          <artifactId>maven-dependency-plugin</artifactId>
+                    <artifactId>maven-resources-plugin</artifactId>
                               
-          <version>${maven-dependency-plugin.version}</version>
+                    <version>${maven-resources-plugin.version}</version>
                           
-        </plugin>
+                </plugin>
                         
-        <plugin>
+                <plugin>
                               
-          <groupId>org.apache.maven.plugins</groupId>
+                    <groupId>org.apache.maven.plugins</groupId>
                               
-          <artifactId>maven-jar-plugin</artifactId>
+                    <artifactId>maven-surefire-plugin</artifactId>
                               
-          <version>${maven-jar-plugin.version}</version>
+                    <version>${maven-surefire-plugin.version}</version>
                           
-        </plugin>
+                </plugin>
                         
-        <plugin>
+                <plugin>
                               
-          <groupId>org.apache.maven.plugins</groupId>
+                    <groupId>org.apache.maven.plugins</groupId>
                               
-          <artifactId>maven-resources-plugin</artifactId>
+                    <artifactId>maven-war-plugin</artifactId>
                               
-          <version>${maven-resources-plugin.version}</version>
+                    <version>${maven-war-plugin.version}</version>
                           
-        </plugin>
+                </plugin>
                         
-        <plugin>
+                <plugin>
                               
-          <groupId>org.apache.maven.plugins</groupId>
+                    <groupId>org.graalvm.nativeimage</groupId>
                               
-          <artifactId>maven-surefire-plugin</artifactId>
+                    <artifactId>native-image-maven-plugin</artifactId>
                               
-          <version>${maven-surefire-plugin.version}</version>
+                    <version>${native-image-maven-plugin.version}</version>
                           
-        </plugin>
+                </plugin>
                         
-        <plugin>
+                <plugin>
                               
-          <groupId>org.apache.maven.plugins</groupId>
+                    <groupId>org.jacoco</groupId>
                               
-          <artifactId>maven-war-plugin</artifactId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
                               
-          <version>${maven-war-plugin.version}</version>
+                    <version>${jacoco-maven-plugin.version}</version>
                           
-        </plugin>
+                </plugin>
                         
-        <plugin>
+                <plugin>
                               
-          <groupId>org.graalvm.nativeimage</groupId>
+                    <groupId>org.moditect</groupId>
                               
-          <artifactId>native-image-maven-plugin</artifactId>
+                    <artifactId>moditect-maven-plugin</artifactId>
                               
-          <version>${native-image-maven-plugin.version}</version>
+                    <version>${moditect-maven-plugin.version}</version>
                           
-        </plugin>
-                        
-        <plugin>
-                              
-          <groupId>org.jacoco</groupId>
-                              
-          <artifactId>jacoco-maven-plugin</artifactId>
-                              
-          <version>${jacoco-maven-plugin.version}</version>
-                          
-        </plugin>
-                        
-        <plugin>
-                              
-          <groupId>org.moditect</groupId>
-                              
-          <artifactId>moditect-maven-plugin</artifactId>
-                              
-          <version>${moditect-maven-plugin.version}</version>
-                          
-        </plugin>
+                </plugin>
                     
-      </plugins>
+            </plugins>
               
-    </pluginManagement>
+        </pluginManagement>
             
-    <plugins>
+        <plugins>
                   
-      <plugin>
+            <plugin>
                         
-        <groupId>org.apache.maven.plugins</groupId>
+                <groupId>org.apache.maven.plugins</groupId>
                         
-        <artifactId>maven-compiler-plugin</artifactId>
+                <artifactId>maven-compiler-plugin</artifactId>
                         
-        <inherited>true</inherited>
+                <inherited>true</inherited>
                         
-        <configuration>
+                <configuration>
                               
-          <release>${java.version}</release>
+                    <release>${java.version}</release>
                           
-        </configuration>
+                </configuration>
                     
-      </plugin>
+            </plugin>
                   
-      <plugin>
+            <plugin>
                         
-        <groupId>org.apache.maven.plugins</groupId>
+                <groupId>org.apache.maven.plugins</groupId>
                         
-        <artifactId>maven-war-plugin</artifactId>
+                <artifactId>maven-war-plugin</artifactId>
                         
-        <inherited>true</inherited>
+                <inherited>true</inherited>
                         
-        <configuration>
+                <configuration>
                               
-          <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                           
-        </configuration>
+                </configuration>
                     
-      </plugin>
+            </plugin>
               
-    </plugins>
+        </plugins>
         
-  </build>
+    </build>
       
-  <dependencyManagement>
+    <dependencyManagement>
             
-    <dependencies>
+        <dependencies>
                   
-      <dependency>
+            <dependency>
                         
-        <groupId>cloud.piranha.http</groupId>
+                <groupId>cloud.piranha.http</groupId>
                         
-        <artifactId>piranha-http-impl</artifactId>
+                <artifactId>piranha-http-impl</artifactId>
                         
-        <version>${piranha.version}</version>
+                <version>${piranha.version}</version>
                     
-      </dependency>
+            </dependency>
           
             
-      <dependency>
+            <dependency>
                         
-        <groupId>cloud.piranha.http</groupId>
+                <groupId>cloud.piranha.http</groupId>
                         
-        <artifactId>piranha-http-webapp</artifactId>
+                <artifactId>piranha-http-webapp</artifactId>
                         
-        <version>${piranha.version}</version>
+                <version>${piranha.version}</version>
                     
-      </dependency>
+            </dependency>
                   
-      <dependency>
-                        
-        <groupId>jakarta.enterprise</groupId>
-                        
-        <artifactId>jakarta.enterprise.cdi-api</artifactId>
-                        
-        <version>${jakarta.enterprise.cdi-api.version}</version>
-                    
-      </dependency>
-                  
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse</groupId>
-        <artifactId>yasson</artifactId>
-        <version>${yasson.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-  <modules>
-    <module>api</module>
-    <module>cli</module>
-    <module>desktop</module>
-    <module>shared</module>
-  </modules>
+            <dependency>
+                <groupId>jakarta.enterprise</groupId>
+                <artifactId>jakarta.enterprise.cdi-api</artifactId>
+                <version>${jakarta.enterprise.cdi-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse</groupId>
+                <artifactId>yasson</artifactId>
+                <version>${yasson.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <modules>
+        <module>cli</module>
+        <module>desktop</module>
+        <module>rest</module>
+        <module>shared</module>
+    </modules>
 </project>
