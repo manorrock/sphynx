@@ -10,22 +10,54 @@
         <artifactId>project</artifactId>
         <version>24.5.0-SNAPSHOT</version>
     </parent>
-    <artifactId>sphynx-api</artifactId>
+    <artifactId>sphynx-rest</artifactId>
     <packaging>war</packaging>
-    <name>Manorrock Sphynx - REST API</name>
+    <name>Manorrock Sphynx - REST application</name>
     <properties>
+        <!-- dependencies -->
+        <junit.version>5.11.0-M2</junit.version>
+        <!-- other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- plugins -->
+        <maven-failsafe-plugin.version>3.3.0</maven-failsafe-plugin.version>
     </properties>
     <dependencies>
+        <!-- compile -->
+        <dependency>
+            <groupId>com.manorrock.sphynx</groupId>
+            <artifactId>sphynx-shared</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- provided -->
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
             <version>${jakarta.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
-        <finalName>sphynx</finalName>
+        <finalName>rest</finalName>
         <plugins>
             <plugin>
                 <groupId>cloud.piranha.maven.plugins</groupId>
@@ -40,7 +72,6 @@
                         </goals>
                         <configuration>
                             <distribution>${piranha.distribution}</distribution>
-                            <httpPort>8080</httpPort>
                             <!--<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000</jvmArguments>-->
                         </configuration>
                     </execution>
@@ -49,6 +80,19 @@
                         <phase>post-integration-test</phase>
                         <goals>
                             <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
                         </goals>
                     </execution>
                 </executions>

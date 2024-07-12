@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,34 +25,58 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ui;
-
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-import jakarta.servlet.ServletContext;
+package com.manorrock.sphynx.rest;
 
 /**
- * The one and only application bean.
+ * A job.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@ApplicationScoped
-@Named("applicationBean")
-public class ApplicationBean {
-    
+public class Job {
+
     /**
-     * Stores the Servlet context.
+     * Stores the name.
      */
-    @Inject
-    private ServletContext servletContext;
+    private String name;
     
     /**
-     * Get the version.
+     * Stores the script.
+     */
+    private String script;
+    
+    /**
+     * Get the name.
      * 
-     * @return the version.
+     * @return the name.
      */
-    public String getVersion() {
-        return servletContext.getInitParameter("sphynx.version");
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Get the script.
+     * 
+     * @return the script.
+     */
+    public String getScript() {
+        return script;
+    }
+
+    /**
+     * Set the name.
+     * 
+     * @param name the name. 
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Set the script.
+     * 
+     * @param script the script. 
+     */
+    public void setScript(String script) {
+        this.script = script;
     }
 }
