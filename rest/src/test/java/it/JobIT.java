@@ -59,4 +59,15 @@ class JobIT {
         System.out.println(response.body());
         assertTrue(response.body().trim().length() > 0);
     }
+ 
+    @Test
+    void testList() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:8080/rest/job"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        System.out.println(response.body());
+        assertTrue(response.body().trim().length() > 0);
+    }
 }
