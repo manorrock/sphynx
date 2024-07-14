@@ -31,6 +31,8 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.CONFLICT;
@@ -42,6 +44,8 @@ import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.TRACE;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -72,7 +76,7 @@ public class JobResource {
     @PUT
     @Consumes(APPLICATION_JSON)
     public Job create(Job job) {
-        
+
         /*
          * Step 1 - determine name.
          */
@@ -160,5 +164,26 @@ public class JobResource {
         LOGGER.log(INFO, "Successfully created job: " + job.getName());
 
         return job;
+    }
+
+    /**
+     * List jobs.
+     *
+     * @return the list of jobs.
+     */
+    @GET
+    @Produces(APPLICATION_JSON)
+    public List<String> list() {
+        File jobsDirectory = new File(baseDirectory, "jobs");
+        if (jobsDirectory.exists()) {
+            ArrayList<String> result = new ArrayList<>();
+            String[] names = jobsDirectory.list();
+            for (String name : names) {
+                result.add(name);
+            }
+            return result;
+        } else {
+            throw new WebApplicationException(INTERNAL_SERVER_ERROR);
+        }
     }
 }
