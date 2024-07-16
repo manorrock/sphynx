@@ -29,8 +29,6 @@ package it;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -42,11 +40,11 @@ import org.junit.jupiter.api.Test;
 
 /**
  * The integration tests for Jobs.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class JobIT {
- 
+
     @Test
     void testCreate() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
@@ -59,12 +57,24 @@ class JobIT {
         System.out.println(response.body());
         assertTrue(response.body().trim().length() > 0);
     }
- 
+
     @Test
     void testList() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
                 .newBuilder(new URI("http://localhost:8080/rest/job"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        System.out.println(response.body());
+        assertTrue(response.body().trim().length() > 0);
+    }
+
+    @Test
+    void testExecute() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:8080/rest/job/test/execute"))
+                .POST(BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         System.out.println(response.body());
