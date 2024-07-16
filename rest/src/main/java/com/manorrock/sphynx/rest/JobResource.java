@@ -32,6 +32,8 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -45,6 +47,7 @@ import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.TRACE;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -178,12 +181,73 @@ public class JobResource {
         if (jobsDirectory.exists()) {
             ArrayList<String> result = new ArrayList<>();
             String[] names = jobsDirectory.list();
-            for (String name : names) {
-                result.add(name);
+            if (names.length > 0) {
+                result.addAll(Arrays.asList(names));
             }
             return result;
         } else {
             throw new WebApplicationException(INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /**
+     * Execute a job.
+     *
+     * @param name the name of the job to execute.
+     * @return the log name.
+     */
+    @Path("{name}/execute")
+    @POST
+    public String execute(@PathParam("name") String name) {
+        /*
+         * Step 1 - Determine job directory.
+         */
+        File jobDirectory = new File(baseDirectory, "jobs" + File.separator + name);
+
+        /*
+         * Step 2 - Determine script filename.
+         */
+        File scriptFilename = new File(jobDirectory, "script" + File.separator + "run.sh");
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            scriptFilename = new File(jobDirectory, "script" + File.separator + "run.cmd");
+        }
+
+        /**
+         * Step 4 - Create command array.
+         */
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("sh");
+        commands.add(scriptFilename.getAbsolutePath());
+
+        /**
+         * Step 5 - Determine work directory.
+         */
+        File workDirectory = new File(jobDirectory, "work");
+
+        /*
+         * Step 6 - Determine the log file.
+         */
+        File logFile = new File(jobDirectory, "logs" + File.separator + System.currentTimeMillis() + ".log");
+        if (!logFile.getParentFile().exists()) {
+            if (!logFile.getParentFile().mkdirs()) {
+                LOGGER.log(ERROR, "Unable to create logs directory");
+                throw new WebApplicationException(INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        try {
+            /*
+            * Step 7 - Create process.
+             */
+            new ProcessBuilder()
+                    .command(commands)
+                    .directory(workDirectory)
+                    .start();
+        } catch (IOException ex) {
+            LOGGER.log(ERROR, "I/O error occurred: ", ex);
+            throw new WebApplicationException(INTERNAL_SERVER_ERROR);
+        }
+
+        return logFile.getName().substring(0, logFile.getName().indexOf(".log"));
     }
 }
