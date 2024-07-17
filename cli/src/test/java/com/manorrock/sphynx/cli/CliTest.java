@@ -27,70 +27,25 @@
  */
 package com.manorrock.sphynx.cli;
 
-import picocli.CommandLine;
-import picocli.CommandLine.Command;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * The Manorrock Sphynx CLI.
- *
+ * The JUnit test for the Cli class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Command(name = "si", mixinStandardHelpOptions = true,
-        subcommands = {
-            CreateCommand.class,
-            DeleteCommand.class,
-            ExecuteCommand.class,
-            ListCommand.class,
-            LogCommand.class
-        },
-        versionProvider = CliVersionProvider.class)
-public class Cli implements Runnable {
+public class CliTest {
     
     /**
-     * Stores the arguments.
+     * Test run method.
      */
-    private String[] arguments;
-    
-    /**
-     * Stores the exit code.
-     */
-    private int exitCode;
-
-    /**
-     * Get the exit code.
-     * 
-     * @return the exit code.
-     */
-    public int getExitCode() {
-        return exitCode;
-    }
-    
-    /**
-     * Main entry point.
-     *
-     * @param arguments the command-line arguments.
-     */
-    public static void main(String[] arguments) {
+    @Test
+    public void testRun() {
+        System.out.println("run");
         Cli cli = new Cli();
-        cli.arguments = arguments;
+        cli.setArguments(new String[] { "--help"});
         cli.run();
-        System.exit(cli.exitCode);
-    }
-
-    /**
-     * Run the CLI.
-     */
-    @Override
-    public void run() {
-        exitCode = new CommandLine(new Cli()).execute(arguments);
-    }
-    
-    /**
-     * Set the arguments.
-     * 
-     * @param arguments the arguments. 
-     */
-    public void setArguments(String[] arguments) {
-        this.arguments = arguments;
+        assertEquals(0, cli.getExitCode());
     }
 }
