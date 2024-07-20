@@ -35,7 +35,11 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
+import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import static java.lang.System.Logger.Level.ERROR;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +50,7 @@ import java.util.List;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Path("job/{name}")
+@Path("job/{jobName}/log")
 @RequestScoped
 public class LogResource {
 
@@ -61,6 +65,52 @@ public class LogResource {
     protected File baseDirectory = new File(System.getProperty("user.home") + "/.manorrock/sphynx");
 
     /**
+     * Get the specific log.
+     *
+     * @param jobName the job name.
+     * @param logName the log name.
+     * @return the log.
+     */
+    @GET
+    @Path("{logName}")
+    public String get(
+            @PathParam("jobName") String jobName,
+            @PathParam("logName") String logName) {
+
+        StringBuilder result = new StringBuilder();
+        
+        File logFile = new File(baseDirectory,
+                "jobs"
+                + File.separator
+                + jobName
+                + File.separator
+                + "logs"
+                + File.separator
+                + logName
+                + ".log");
+        if (!logFile.exists()) {
+            LOGGER.log(ERROR, "Log file does not exist");
+            throw new WebApplicationException(NOT_FOUND);
+        }
+
+        try (BufferedInputStream input = new BufferedInputStream(
+                new FileInputStream(logFile))) {
+            while (input.available() > 0) {
+                int character = input.read();
+                if (character == -1) {
+                    break;
+                }
+                result.append((char) character);
+            }
+        } catch (IOException ex) {
+            LOGGER.log(ERROR, "I/O error occured", ex);
+            throw new WebApplicationException(INTERNAL_SERVER_ERROR);
+        }
+        
+        return result.toString();
+    }
+
+    /**
      * List the logs.
      *
      * @param jobName the job name.
@@ -68,7 +118,7 @@ public class LogResource {
      */
     @GET
     @Produces(APPLICATION_JSON)
-    public List<String> list(@PathParam("name") String jobName) {
+    public List<String> list(@PathParam("jobName") String jobName) {
         File logsDirectory = new File(baseDirectory,
                 "jobs"
                 + File.separator

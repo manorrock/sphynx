@@ -1,5 +1,3 @@
-package it;
-
 /*
  * Copyright (c) 2002-2024, Manorrock.com. All Rights Reserved.
  *
@@ -29,26 +27,39 @@ package it;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package it;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * The integration tests for Jobs.
+ * The integration tests for Logs.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class LogIT {
 
     @Test
+    void testGet() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:8080/rest/job/test/log/1234"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertEquals(404, response.statusCode());
+    }
+    
+    @Test
     void testList() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/rest/job/test"))
+                .newBuilder(new URI("http://localhost:8080/rest/job/test/log"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         System.out.println(response.body());
