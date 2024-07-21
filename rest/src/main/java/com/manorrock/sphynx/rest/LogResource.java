@@ -29,6 +29,7 @@ package com.manorrock.sphynx.rest;
 
 import jakarta.ws.rs.Path;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -64,6 +65,39 @@ public class LogResource {
      */
     protected File baseDirectory = new File(System.getProperty("user.home") + "/.manorrock/sphynx");
 
+    /**
+     * Delete the specific log.
+     * 
+     * @param jobName the job name.
+     * @param logName the log name.
+     */
+    @DELETE
+    @Path("{logName}")
+    public void delete(
+            @PathParam("jobName") String jobName,
+            @PathParam("logName") String logName) {
+        
+        File logFile = new File(baseDirectory,
+                "jobs"
+                + File.separator
+                + jobName
+                + File.separator
+                + "logs"
+                + File.separator
+                + logName
+                + ".log");
+
+        if (!logFile.exists()) {
+            LOGGER.log(ERROR, "Log file does not exist");
+            throw new WebApplicationException(NOT_FOUND);
+        }
+
+        if (!logFile.delete()) {
+            LOGGER.log(ERROR, "Log file cannot be deleted");
+            throw new WebApplicationException(INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     /**
      * Get the specific log.
      *
