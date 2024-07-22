@@ -12,7 +12,7 @@
         <jakarta.version>10.0.0</jakarta.version>
         <jakarta.enterprise.cdi-api.version>3.0.0</jakarta.enterprise.cdi-api.version>
         <junit.version>4.13.2</junit.version>
-        <piranha.version>23.10.0</piranha.version>
+        <piranha.version>24.7.0</piranha.version>
         <yasson.version>2.0.3</yasson.version>
         <!-- other -->
         <java.version>21</java.version>
@@ -28,7 +28,7 @@
         <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <moditect-maven-plugin.version>1.1.0</moditect-maven-plugin.version>
-        <native-image-maven-plugin.version>21.2.0</native-image-maven-plugin.version>
+        <native-image-maven-plugin.version>21.2.0</native-image-maven-plugin.version>        
     </properties>
     <build>
         <pluginManagement>
@@ -44,147 +44,75 @@
                     <version>${maven-dependency-plugin.version}</version>
                 </plugin>
                 <plugin>
-                              
                     <groupId>org.apache.maven.plugins</groupId>
-                              
                     <artifactId>maven-jar-plugin</artifactId>
-                              
                     <version>${maven-jar-plugin.version}</version>
-                          
                 </plugin>
-                        
                 <plugin>
-                              
                     <groupId>org.apache.maven.plugins</groupId>
-                              
                     <artifactId>maven-resources-plugin</artifactId>
-                              
                     <version>${maven-resources-plugin.version}</version>
-                          
                 </plugin>
-                        
                 <plugin>
-                              
                     <groupId>org.apache.maven.plugins</groupId>
-                              
                     <artifactId>maven-surefire-plugin</artifactId>
-                              
                     <version>${maven-surefire-plugin.version}</version>
-                          
                 </plugin>
-                        
                 <plugin>
-                              
                     <groupId>org.apache.maven.plugins</groupId>
-                              
                     <artifactId>maven-war-plugin</artifactId>
-                              
                     <version>${maven-war-plugin.version}</version>
-                          
                 </plugin>
-                        
                 <plugin>
-                              
                     <groupId>org.graalvm.nativeimage</groupId>
-                              
                     <artifactId>native-image-maven-plugin</artifactId>
-                              
                     <version>${native-image-maven-plugin.version}</version>
-                          
                 </plugin>
-                        
                 <plugin>
-                              
                     <groupId>org.jacoco</groupId>
-                              
                     <artifactId>jacoco-maven-plugin</artifactId>
-                              
                     <version>${jacoco-maven-plugin.version}</version>
-                          
                 </plugin>
-                        
                 <plugin>
-                              
                     <groupId>org.moditect</groupId>
-                              
                     <artifactId>moditect-maven-plugin</artifactId>
-                              
                     <version>${moditect-maven-plugin.version}</version>
-                          
                 </plugin>
-                    
             </plugins>
-              
         </pluginManagement>
-            
         <plugins>
-                  
             <plugin>
-                        
                 <groupId>org.apache.maven.plugins</groupId>
-                        
                 <artifactId>maven-compiler-plugin</artifactId>
-                        
                 <inherited>true</inherited>
-                        
                 <configuration>
-                              
                     <release>${java.version}</release>
-                          
                 </configuration>
-                    
             </plugin>
-                  
-            <plugin>
-                        
-                <groupId>org.apache.maven.plugins</groupId>
-                        
-                <artifactId>maven-war-plugin</artifactId>
-                        
-                <inherited>true</inherited>
-                        
-                <configuration>
-                              
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                          
-                </configuration>
-                    
-            </plugin>
-              
         </plugins>
-        
     </build>
-      
     <dependencyManagement>
-            
         <dependencies>
-                  
             <dependency>
-                        
                 <groupId>cloud.piranha.http</groupId>
-                        
                 <artifactId>piranha-http-impl</artifactId>
-                        
                 <version>${piranha.version}</version>
-                    
             </dependency>
-          
-            
             <dependency>
-                        
                 <groupId>cloud.piranha.http</groupId>
-                        
                 <artifactId>piranha-http-webapp</artifactId>
-                        
                 <version>${piranha.version}</version>
-                    
             </dependency>
-                  
             <dependency>
                 <groupId>jakarta.enterprise</groupId>
                 <artifactId>jakarta.enterprise.cdi-api</artifactId>
                 <version>${jakarta.enterprise.cdi-api.version}</version>
             </dependency>
+            <dependency>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-web-api</artifactId>
+                <version>${jakarta.version}</version>
+            </dependency>          
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -195,13 +123,15 @@
                 <artifactId>yasson</artifactId>
                 <version>${yasson.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
     <modules>
         <module>cli</module>
         <module>desktop</module>
+        <module>docker</module>
         <module>rest</module>
         <module>shared</module>
-        <module>docker</module>
+        <module>ui</module>
     </modules>
 </project>
