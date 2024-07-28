@@ -28,11 +28,11 @@
 package com.manorrock.sphynx.desktop;
 
 /**
- * An automation.
+ * A job.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class Automation {
+public class Job {
     
     /**
      * Stores the id.

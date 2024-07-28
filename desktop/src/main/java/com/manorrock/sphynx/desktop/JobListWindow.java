@@ -27,7 +27,9 @@
  */
 package com.manorrock.sphynx.desktop;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,74 +39,86 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 
 /**
- * The Automations Window.
- * 
+ * The "Job List" Window.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AutomationListWindow extends BorderPane {
-    
+public class JobListWindow extends BorderPane {
+
     /**
-     * Stores the automation TableView.
+     * Stores the base directory.
+     */
+    protected File baseDirectory = new File(System.getProperty("user.home") + "/.manorrock/sphynx");
+
+    /**
+     * Stores the jobs TableView.
      */
     @FXML
-    private TableView automationTableView;
+    private TableView jobsTableView;
 
     /**
      * Constructor.
      */
-    public AutomationListWindow() {
+    public JobListWindow() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setRoot(this);
             loader.setController(this);
             loader.load(getClass().getResourceAsStream(
-                    "/com/manorrock/sphynx/desktop/AutomationListWindow.fxml"));
+                    "/com/manorrock/sphynx/desktop/JobListWindow.fxml"));
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
     }
-    
+
     /**
      * Initialize the component.
      */
     @FXML
     public void initialize() {
-        TableColumn idTableColumn = new TableColumn("Id");
-        idTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Automation, Long>("id")
-        );
-        automationTableView.getColumns().add(idTableColumn);
         TableColumn nameTableColumn = new TableColumn("Name");
         nameTableColumn.setCellValueFactory(
-                new PropertyValueFactory<Automation, String>("name")
+                new PropertyValueFactory<Job, String>("name")
         );
-        automationTableView.getColumns().add(nameTableColumn);
+        jobsTableView.getColumns().add(nameTableColumn);
+
+        File jobsDirectory = new File(baseDirectory, "jobs");
+        if (jobsDirectory.exists()) {
+            ArrayList<Job> list = new ArrayList<>();
+            String[] names = jobsDirectory.list();
+            for (String name : names) {
+                Job job = new Job();
+                job.setName(name);
+                list.add(job);
+            }
+            jobsTableView.getItems().addAll(list);
+        }
     }
-    
+
     /**
      * Handle 'Add' button click.
-     * 
+     *
      * @param event the event.
      */
     @FXML
     public void onAdd(ActionEvent event) {
-        Automation automation = new Automation();
+        Job automation = new Job();
         automation.setId(System.currentTimeMillis());
         automation.setName("Untitled - " + System.currentTimeMillis());
-        automationTableView.getItems().add(automation);
+        jobsTableView.getItems().add(automation);
     }
-    
+
     /**
      * Handle 'Delete' button click.
-     * 
+     *
      * @param event the event.
      */
     @FXML
     public void onDelete(ActionEvent event) {
-        if (!automationTableView.getSelectionModel().isEmpty()) {
-            Automation automation = (Automation) automationTableView
+        if (!jobsTableView.getSelectionModel().isEmpty()) {
+            Job automation = (Job) jobsTableView
                     .getSelectionModel().getSelectedItem();
-            automationTableView.getItems().remove(automation);
+            jobsTableView.getItems().remove(automation);
         }
     }
 }

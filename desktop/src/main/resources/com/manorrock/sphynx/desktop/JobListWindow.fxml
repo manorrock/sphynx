@@ -16,6 +16,6 @@
       </ButtonBar>
    </top>
    <center>
-      <TableView fx:id="automationTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <TableView fx:id="jobsTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
 </fx:root>
