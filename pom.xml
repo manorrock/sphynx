@@ -10,24 +10,27 @@
     <properties>
         <!-- dependencies -->
         <jakarta.version>10.0.0</jakarta.version>
-        <jakarta.enterprise.cdi-api.version>3.0.0</jakarta.enterprise.cdi-api.version>
-        <junit.version>4.13.2</junit.version>
+        <javafx.version>22</javafx.version>
+        <junit.version>5.11.0-RC1</junit.version>
+        <picocli.version>4.7.6</picocli.version>
         <piranha.version>24.7.0</piranha.version>
-        <yasson.version>2.0.3</yasson.version>
         <!-- other -->
         <java.version>21</java.version>
         <piranha.distribution>webprofile</piranha.distribution>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- plugins -->
         <docker-maven-plugin.version>0.42.1</docker-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
-        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+        <javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.7.1</maven-dependency-plugin.version>
-        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+        <maven-failsafe-plugin.version>3.3.1</maven-failsafe-plugin.version>
+        <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-        <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
+        <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
+        <maven-surefire-plugin.version>3.3.1</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
-        <moditect-maven-plugin.version>1.1.0</moditect-maven-plugin.version>
+        <moditect-maven-plugin.version>1.2.2.Final</moditect-maven-plugin.version>
         <native-image-maven-plugin.version>21.2.0</native-image-maven-plugin.version>        
     </properties>
     <build>
@@ -55,6 +58,11 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>${maven-shade-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                 </plugin>
@@ -77,6 +85,11 @@
                     <groupId>org.moditect</groupId>
                     <artifactId>moditect-maven-plugin</artifactId>
                     <version>${moditect-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-maven-plugin</artifactId>
+                    <version>${javafx-maven-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -104,9 +117,9 @@
                 <version>${piranha.version}</version>
             </dependency>
             <dependency>
-                <groupId>jakarta.enterprise</groupId>
-                <artifactId>jakarta.enterprise.cdi-api</artifactId>
-                <version>${jakarta.enterprise.cdi-api.version}</version>
+                <groupId>info.picocli</groupId>
+                <artifactId>picocli</artifactId>
+                <version>${picocli.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.platform</groupId>
@@ -114,16 +127,30 @@
                 <version>${jakarta.version}</version>
             </dependency>          
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
                 <version>${junit.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>yasson</artifactId>
-                <version>${yasson.version}</version>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>${junit.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-controls</artifactId>
+                <version>${javafx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-fxml</artifactId>
+                <version>${javafx.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <modules>

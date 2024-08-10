@@ -12,6 +12,7 @@
     <packaging>war</packaging>
     <name>Manorrock Sphynx - UI</name>
     <dependencies>
+        <!-- provided -->
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>

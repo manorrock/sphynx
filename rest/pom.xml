@@ -14,12 +14,8 @@
     <packaging>war</packaging>
     <name>Manorrock Sphynx - REST application</name>
     <properties>
-        <!-- dependencies -->
-        <junit.version>5.11.0-M2</junit.version>
         <!-- other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- plugins -->
-        <maven-failsafe-plugin.version>3.3.0</maven-failsafe-plugin.version>
     </properties>
     <dependencies>
         <!-- compile -->
@@ -33,7 +29,6 @@
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
-            <version>${jakarta.version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- test -->
@@ -60,7 +55,7 @@
         <finalName>rest</finalName>
         <plugins>
             <plugin>
-                <groupId>cloud.piranha.maven.plugins</groupId>
+                <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
                 <version>${piranha.version}</version>
                 <executions>
