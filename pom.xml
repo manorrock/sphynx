@@ -159,6 +159,5 @@
         <module>docker</module>
         <module>rest</module>
         <module>shared</module>
-        <module>ui</module>
     </modules>
 </project>
