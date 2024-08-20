@@ -156,7 +156,6 @@
     <modules>
         <module>cli</module>
         <module>desktop</module>
-        <module>docker</module>
         <module>rest</module>
         <module>shared</module>
     </modules>
