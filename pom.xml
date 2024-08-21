@@ -156,7 +156,7 @@
     <modules>
         <module>cli</module>
         <module>desktop</module>
-        <module>rest</module>
         <module>shared</module>
+        <module>server</module>
     </modules>
 </project>
