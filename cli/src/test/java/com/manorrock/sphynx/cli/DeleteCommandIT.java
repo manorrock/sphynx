@@ -29,28 +29,28 @@ package com.manorrock.sphynx.cli;
 
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.Test;
 
 /**
- * A test validating the CreateCommand works properly.
+ * A test validating the DeleteCommand works properly.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class CreateCommandIT {
+public class DeleteCommandIT {
     
     /**
-     * Test to validate CreateCommand class.
+     * Test to validate DeleteCommand class.
      */
     @Test
-    public void testCreate() throws Exception {
+    public void testDeleteCommand() throws Exception {
         Cli cli = new Cli();
-        cli.setArguments(new String[] {"create", "--name", "create-command-test"});
+        cli.setArguments(new String[] {"create", "--name", "delete-command-test"});
         cli.run();
+        cli.setArguments(new String[] {"delete", "--name", "delete-command-test"});
+        cli.run();
+        assertFalse(new File(System.getProperty("user.home"), 
+                ".manorrock/sphynx/jobs/delete-command-test").exists());
         assertEquals(0, cli.getExitCode());
-        assertTrue(new File(System.getProperty("user.home"), 
-                ".manorrock/sphynx/jobs/create-command-test").exists());
-        cli.setArguments(new String[] {"delete", "--name", "create-command-test"});
-        cli.run();
     }
 }
