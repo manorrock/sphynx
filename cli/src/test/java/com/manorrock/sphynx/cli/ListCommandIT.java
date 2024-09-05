@@ -27,24 +27,23 @@
  */
 package com.manorrock.sphynx.cli;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit test for the Cli class.
+ * A test validating the ListCommand works properly.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class CliTest {
+public class ListCommandIT {
     
     /**
-     * Test run method.
+     * Test to validate ListCommand class.
      */
     @Test
-    public void testRun() {
-        System.out.println("run");
+    public void testList() {
         Cli cli = new Cli();
-        cli.setArguments(new String[] { "--help"});
+        cli.setArguments(new String[] {"list"});
         cli.run();
         assertEquals(0, cli.getExitCode());
     }
