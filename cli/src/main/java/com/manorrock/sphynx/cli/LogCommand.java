@@ -38,6 +38,7 @@ import picocli.CommandLine;
         subcommands = {
             LogDeleteCommand.class,
             LogListCommand.class,
+            LogRotateCommand.class,
             LogViewCommand.class
         })
 public class LogCommand {
