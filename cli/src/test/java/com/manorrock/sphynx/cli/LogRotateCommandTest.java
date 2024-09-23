@@ -28,62 +28,37 @@
 package com.manorrock.sphynx.cli;
 
 import java.io.File;
-import static java.lang.System.Logger.Level.ERROR;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.concurrent.Callable;
-import picocli.CommandLine;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The log rotate command.
- * 
- * <p>
- *  This command will rotate the logs, by default only 10 logs will be kept.
- * </p>
+ * A test validating the LogRotateCommand works properly.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@CommandLine.Command(name = "rotate", mixinStandardHelpOptions = true)
-public class LogRotateCommand implements Callable<Integer> {
+public class LogRotateCommandTest {
 
     /**
-     * Stores the logger.
+     * Test to validate DeleteCommand class.
      */
-    private static final System.Logger LOGGER = System.getLogger(CreateCommand.class.getName());
-
-    /**
-     * Stores the base directory.
-     */
-    @CommandLine.Option(names = "--base-directory", description = "The base directory used for storage")
-    protected File baseDirectory = new File(System.getProperty("user.home") + "/.manorrock/sphynx");
-
-    /**
-     * Stores the name.
-     */
-    @CommandLine.Option(names = "--name", description = "The name of the job", required = true)
-    protected String name;
-
-    @Override
-    public Integer call() throws Exception {
-        File logsDirectory = new File(baseDirectory,
-                "jobs"
-                + File.separator
-                + name
-                + File.separator
-                + "logs");
-
-        if (!logsDirectory.exists()) {
-            LOGGER.log(ERROR, "Logs directory does not exist");
-            return 1;
+    @Test
+    public void testLogDeleteCommand() throws Exception {
+        Cli cli = new Cli();
+        cli.setArguments(new String[]{"create", "--name", "log-rotate-command-test"});
+        cli.run();
+        for (int i = 0; i < 15; i++) {
+            cli.setArguments(new String[]{"execute", "--name", "log-rotate-command-test"});
+            cli.run();
         }
-
-        File[] logFiles = logsDirectory.listFiles();
-        Arrays.sort(logFiles, Comparator.comparingLong(File::lastModified).reversed());
-        for(int i=0; i<10; i++) {
-            System.out.println("Deleting " + logFiles[i].getAbsolutePath());
-            logFiles[i].delete();
-        }
-
-        return 0;
+        File logDirectory = new File(System.getProperty("user.home"),
+                ".manorrock/sphynx/jobs/log-rotate-command-test/logs");
+        assertTrue(logDirectory.listFiles().length > 10);
+        cli.setArguments(new String[]{"log", "rotate", "--name", "log-rotate-command-test"});
+        cli.run();
+        assertTrue(logDirectory.listFiles().length < 10);
+        assertEquals(0, cli.getExitCode());
+        cli.setArguments(new String[]{"delete", "--name", "log-rotate-command-test"});
+        cli.run();
     }
 }
