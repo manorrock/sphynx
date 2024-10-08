@@ -27,12 +27,15 @@
  */
 package com.manorrock.sphynx.desktop;
 
+import com.manorrock.sphynx.shared.JobUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import static javafx.scene.control.Alert.AlertType.WARNING;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -116,9 +119,22 @@ public class JobListWindow extends BorderPane {
     @FXML
     public void onDelete(ActionEvent event) {
         if (!jobsTableView.getSelectionModel().isEmpty()) {
-            Job automation = (Job) jobsTableView
+            Job job = (Job) jobsTableView
                     .getSelectionModel().getSelectedItem();
-            jobsTableView.getItems().remove(automation);
+            jobsTableView.getItems().remove(job);
+            int status = JobUtils.deleteJob(baseDirectory, job.getName());
+            switch(status) {
+                case 1 -> { 
+                    Alert alert = new Alert(WARNING);
+                    alert.setContentText("Job directory does not exist\nUnable to delete job");
+                    alert.showAndWait();
+                }
+                case 2 -> {
+                    Alert alert = new Alert(WARNING);
+                    alert.setContentText("An I/O error occurred while deleting the job");
+                    alert.showAndWait();
+                }
+            }
         }
     }
 }
