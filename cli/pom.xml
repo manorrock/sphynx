@@ -19,6 +19,12 @@
             <artifactId>picocli</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.manorrock.sphynx</groupId>
+            <artifactId>sphynx-shared</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
