@@ -27,15 +27,13 @@
  */
 package com.manorrock.sphynx.cli;
 
+import com.manorrock.sphynx.shared.JobUtils;
 import java.io.File;
-import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
-import static java.lang.System.Logger.Level.TRACE;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
-import java.util.UUID;
 import java.util.concurrent.Callable;
 import picocli.CommandLine;
 
@@ -61,7 +59,7 @@ public class DeleteCommand implements Callable<Integer> {
     /**
      * Stores the name.
      */
-    @CommandLine.Option(names = "--name", description = "The name of the job")
+    @CommandLine.Option(names = "--name", description = "The name of the job", required = true)
     protected String name;
 
     @Override
@@ -69,29 +67,18 @@ public class DeleteCommand implements Callable<Integer> {
         /*
          * Step 1 - determine name.
          */
-        LOGGER.log(DEBUG, "Determining name of the job");
-        if (name == null || name.trim().equals("")) {
-            LOGGER.log(TRACE, "No name specified");
-            LOGGER.log(TRACE, "Generating name");
-            name = UUID.randomUUID().toString();
-        }
         LOGGER.log(INFO, "Using name: " + name);
 
         /*
          * Step 2 - delete directory structure recusively.
          */
-        File jobDirectory = new File(baseDirectory, "jobs" + File.separator + name);
-        if (!jobDirectory.exists()) {
-            LOGGER.log(ERROR, "Unable to delete job directory as it does not exist");
-            return 1;
-        } else {
-            Path jobPath = jobDirectory.toPath();
-            Files.walk(jobPath)
-                    .sorted(Comparator.reverseOrder())
-                    .map(Path::toFile)
-                    .forEach(File::delete);
-            LOGGER.log(INFO, "Deleted job: " + name);
+        int returnCode = JobUtils.deleteJob(baseDirectory, name);
+
+        switch (returnCode) {
+            case 1 -> {
+                LOGGER.log(ERROR, "Unable to delete job directory as it does not exist");
+            }
         }
-        return 0;
+        return returnCode;
     }
 }
