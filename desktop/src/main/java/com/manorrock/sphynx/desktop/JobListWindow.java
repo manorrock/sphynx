@@ -107,8 +107,19 @@ public class JobListWindow extends BorderPane {
     public void onAdd(ActionEvent event) {
         Job automation = new Job();
         automation.setId(System.currentTimeMillis());
-        automation.setName("Untitled - " + System.currentTimeMillis());
-        jobsTableView.getItems().add(automation);
+        String name = "untitled-" + System.currentTimeMillis();
+        automation.setName(name);
+        int status = JobUtils.createJob(baseDirectory, name);
+        switch(status) {
+            case 0 -> {
+                jobsTableView.getItems().add(automation);
+            }
+            default -> {
+                Alert alert = new Alert(WARNING);
+                alert.setContentText("Unable to add job");
+                alert.showAndWait();
+            }
+        }
     }
 
     /**
