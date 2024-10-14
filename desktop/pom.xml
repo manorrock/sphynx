@@ -5,10 +5,10 @@
     <parent>
         <groupId>com.manorrock.sphynx</groupId>
         <artifactId>project</artifactId>
-        <version>24.5.0-SNAPSHOT</version>
+        <version>24.10.0</version>
     </parent>
     <artifactId>desktop</artifactId>
-    <version>24.5.0-SNAPSHOT</version>
+    <version>24.10.0</version>
     <name>Manorrock Sphynx - Desktop</name>
     <dependencies>
         <dependency>
