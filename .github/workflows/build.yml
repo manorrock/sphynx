@@ -19,7 +19,7 @@ jobs:
         java-version: 21
     - name: Build with Maven
       run: mvn -B --ntp package
-  docker:
+  ghcr:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
