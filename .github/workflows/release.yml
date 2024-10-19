@@ -25,8 +25,13 @@ jobs:
       run: |
         cd server
         mvn -B -DskipTests=true -P docker install docker:build docker:push
+<<<<<<< Updated upstream
   macos:
     runs-on: macos-latest
+=======
+  windows:
+    runs-on: windows-latest
+>>>>>>> Stashed changes
     steps:
     - uses: actions/checkout@v2
     - name: Set up Java 21
@@ -34,9 +39,15 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: 21
+<<<<<<< Updated upstream
     - name: Set up Maven
       uses: stCarolas/setup-maven@v5
       with:
         maven-version: 3.9.6
     - name: Build with Maven
       run:  mvn -B -DskipTests -DskipITs --ntp -P macos package
+=======
+    - name: Build with Maven
+      run: mvn -B -DskipTests -DskipITs --ntp -P windows package
+   
+>>>>>>> Stashed changes
