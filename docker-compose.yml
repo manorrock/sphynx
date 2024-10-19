@@ -1,0 +1,6 @@
+services:
+  sphynx:
+    image: "ghcr.io/manorrock/sphynx:latest"
+    ports:
+      - "8080:8080"
+
