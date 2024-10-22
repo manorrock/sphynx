@@ -49,7 +49,7 @@ class LogIT {
     void testGet() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/rest/job/test/log/1234"))
+                .newBuilder(new URI("http://localhost:8080/sphynx/job/test/log/1234"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertEquals(404, response.statusCode());
@@ -59,7 +59,7 @@ class LogIT {
     void testList() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/rest/job/test/log"))
+                .newBuilder(new URI("http://localhost:8080/sphynx/job/test/log"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         System.out.println(response.body());

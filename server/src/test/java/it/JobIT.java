@@ -49,7 +49,7 @@ class JobIT {
     void testCreate() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/rest/job"))
+                .newBuilder(new URI("http://localhost:8080/sphynx/job"))
                 .header("Content-Type", "application/json")
                 .PUT(BodyPublishers.ofString("{}"))
                 .build();
@@ -62,7 +62,7 @@ class JobIT {
     void testList() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/rest/job"))
+                .newBuilder(new URI("http://localhost:8080/sphynx/job"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         System.out.println(response.body());
@@ -73,7 +73,7 @@ class JobIT {
     void testExecute() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/rest/job/test/execute"))
+                .newBuilder(new URI("http://localhost:8080/sphynx/job/test/execute"))
                 .POST(BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
