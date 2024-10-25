@@ -156,6 +156,7 @@
     <modules>
         <module>cli</module>
         <module>cli-macos-aarch64</module>
+        <module>cli-windows-amd64</module>
         <module>desktop</module>
         <module>shared</module>
         <module>server</module>
