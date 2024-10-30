@@ -69,7 +69,7 @@ jobs:
       with:
         maven-version: 3.9.6
     - name: Build with Maven
-      run:  mvn -B -DskipTests -DskipITs --ntp -P graalvm package
+      run:  mvn -B -DskipTests -DskipITs --ntp -P linux package
   windows:
     runs-on: windows-latest
     steps:
