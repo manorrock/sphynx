@@ -46,7 +46,7 @@ import org.junit.jupiter.api.Test;
 class LogIT {
 
     @Test
-    void testGet() throws Exception {
+    void testGetNonExistingLog() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
                 .newBuilder(new URI("http://localhost:8080/sphynx/job/test/log/1234"))
@@ -54,9 +54,9 @@ class LogIT {
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertEquals(404, response.statusCode());
     }
-    
+
     @Test
-    void testList() throws Exception {
+    void testListAvailableLogs() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
                 .newBuilder(new URI("http://localhost:8080/sphynx/job/test/log"))
