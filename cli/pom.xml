@@ -13,6 +13,9 @@
     <artifactId>sphynx-cli</artifactId>
     <packaging>jar</packaging>
     <name>Manorrock Sphynx - CLI</name>
+    <properties>
+        <native-image-maven-plugin.version>0.10.2</native-image-maven-plugin.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>info.picocli</groupId>
@@ -116,6 +119,34 @@
                             <verbose>true</verbose>
                         </configuration>
                     </plugin>                    
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>macos</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>${native-image-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>compile-no-fork</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <imageName>si</imageName>
+                            <buildArgs>-H:+ReportExceptionStackTraces --no-fallback</buildArgs>
+                            <mainClass>com.manorrock.sphynx.cli.Cli</mainClass>
+                            <skip>false</skip>
+                            <verbose>true</verbose>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
