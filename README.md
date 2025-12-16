@@ -1,6 +1,6 @@
 # Manorrock Sphynx Project
 
-_This project is no longer being maintained. If you want to reboot it please create your own fork!_se visit our [blog post](https://www.manorrock.com/blog/2025/04/14/manorrock_sustainability_initiative.html).
+_This project is no longer being maintained. If you want to reboot it please create your own fork!
 
 ---
 
